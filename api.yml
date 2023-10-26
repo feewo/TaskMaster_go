@@ -1,0 +1,51 @@
+server:
+  port: ${SERVER.PORT:8080}
+  timeout: ${SERVER.TIMEOUT:10}
+api:
+  Users:
+    method: GET
+    url: user
+  User:
+    method: GET
+    url: user/{id}
+  UserCreate:
+    method: POST
+    url: user
+  UserDelete:
+    method: DELETE
+    url: user/{id}
+  UserUpdate:
+    method: PUT
+    url: user/{id}
+  
+  # TaskCreate:
+  #   method: POST
+  #   url: task
+  # TaskDelete:
+  #   method: DELETE
+  #   url: task/{id}
+  # TaskUpdate:
+  #   method: PUT
+  #   url: task/{id}
+  # TaskGetAll:
+  #   methid: GET
+  #   url: task
+  # TaskGet:
+  #   methid: GET
+  #   url: task/{id}
+  # TaskPointCreate:
+  #   method: POST
+  #   url: task_point
+  # TaskPointDelete:
+  #   method: DELETE
+  #   url: task_point/{id}
+  # TaskPointUpdate:
+  #   method: PUT
+  #   url: task_point/{id}
+  # TaskPointGetAll:
+  #   methid: GET
+  #   url: task_point
+  # TaskPointGet:
+  #   methid: GET
+  #   url: task_point/{id}
+  
