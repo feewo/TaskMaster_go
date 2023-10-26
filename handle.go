@@ -62,7 +62,6 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		fun.Call(in)
 		return
 	}
-	w.Write([]byte("Привет!!!"))
 	// POST
 	// if r.Method == "POST" {
 	// 	switch pathArr[0] {

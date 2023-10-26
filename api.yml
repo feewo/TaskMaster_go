@@ -18,21 +18,21 @@ api:
     method: PUT
     url: user/{id}
   
-  # TaskCreate:
-  #   method: POST
-  #   url: task
-  # TaskDelete:
-  #   method: DELETE
-  #   url: task/{id}
-  # TaskUpdate:
-  #   method: PUT
-  #   url: task/{id}
-  # TaskGetAll:
-  #   methid: GET
-  #   url: task
-  # TaskGet:
-  #   methid: GET
-  #   url: task/{id}
+  TaskCreate:
+    method: POST
+    url: task
+  TaskDelete:
+    method: DELETE
+    url: task/{id}
+  TaskUpdate:
+    method: PUT
+    url: task/{id}
+  Tasks:
+    method: GET
+    url: task
+  Task:
+    method: GET
+    url: task/{id}
   # TaskPointCreate:
   #   method: POST
   #   url: task_point
@@ -42,10 +42,10 @@ api:
   # TaskPointUpdate:
   #   method: PUT
   #   url: task_point/{id}
-  # TaskPointGetAll:
-  #   methid: GET
+  # TaskPoints:
+  #   method: GET
   #   url: task_point
-  # TaskPointGet:
-  #   methid: GET
+  # TaskPoint:
+  #   method: GET
   #   url: task_point/{id}
   

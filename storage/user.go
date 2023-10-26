@@ -5,68 +5,68 @@ import (
 	"taskmaster/entity"
 )
 
-type ItemMx struct {
-	myx   sync.RWMutex
-	iter  uint32
-	users map[uint32]entity.User
+type UserMx struct {
+	myx      sync.RWMutex
+	iterUser uint32
+	users    map[uint32]entity.User
 }
 
-var itemMx ItemMx
+var userMx UserMx
 
 func init() {
-	itemMx = ItemMx{
+	userMx = UserMx{
 		users: make(map[uint32]entity.User),
 	}
 }
 
 var users []entity.User
-var iter uint32
+var iterUser uint32
 
 func init() {
 	users = make([]entity.User, 0)
-	iter = 0
+	iterUser = 0
 }
-func UserCreate(item entity.User) *entity.User {
-	itemMx.myx.Lock()
-	defer itemMx.myx.Unlock()
-	itemMx.iter++
-	item.Id = itemMx.iter
-	itemMx.users[itemMx.iter] = item
-	return &item
+func UserCreate(user entity.User) *entity.User {
+	userMx.myx.Lock()
+	defer userMx.myx.Unlock()
+	userMx.iterUser++
+	user.Id = userMx.iterUser
+	userMx.users[userMx.iterUser] = user
+	return &user
 }
 
 func UserGetAll() []entity.User {
-	itemMx.myx.RLock()
-	defer itemMx.myx.RUnlock()
-	lst := make([]entity.User, len(itemMx.users))
-	iter := 0
-	for key := range itemMx.users {
-		lst[iter] = itemMx.users[key]
-		iter++
+	userMx.myx.RLock()
+	defer userMx.myx.RUnlock()
+	lst := make([]entity.User, len(userMx.users))
+	iterUser := 0
+	for key := range userMx.users {
+		lst[iterUser] = userMx.users[key]
+		iterUser++
 	}
 	return lst
 }
 
 func UserGet(uid uint32) *entity.User {
-	itemMx.myx.RLock()
-	defer itemMx.myx.RUnlock()
-	if el, ok := itemMx.users[uid]; ok {
+	userMx.myx.RLock()
+	defer userMx.myx.RUnlock()
+	if el, ok := userMx.users[uid]; ok {
 		return &el
 	}
 	return nil
 }
 
 func UserDelete(id uint32) *entity.User {
-	itemMx.myx.Lock()
-	defer itemMx.myx.Unlock()
-	delete(itemMx.users, id)
+	userMx.myx.Lock()
+	defer userMx.myx.Unlock()
+	delete(userMx.users, id)
 	return nil
 }
 
-func UserUpdate(item entity.User, id uint32) *entity.User {
-	itemMx.myx.Lock()
-	defer itemMx.myx.Unlock()
-	item.Id = itemMx.iter
-	itemMx.users[itemMx.iter] = item
-	return &item
+func UserUpdate(user entity.User, id uint32) *entity.User {
+	userMx.myx.Lock()
+	defer userMx.myx.Unlock()
+	user.Id = userMx.iterUser
+	userMx.users[userMx.iterUser] = user
+	return &user
 }
