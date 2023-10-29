@@ -66,7 +66,7 @@ func UserDelete(id uint32) *entity.User {
 func UserUpdate(user entity.User, id uint32) *entity.User {
 	userMx.myx.Lock()
 	defer userMx.myx.Unlock()
-	user.Id = userMx.iterUser
-	userMx.users[userMx.iterUser] = user
+	user.Id = id
+	userMx.users[id] = user
 	return &user
 }

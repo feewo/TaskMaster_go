@@ -66,7 +66,7 @@ func TaskDelete(id uint32) *entity.Task {
 func TaskUpdate(task entity.Task, id uint32) *entity.Task {
 	taskMx.myx.Lock()
 	defer taskMx.myx.Unlock()
-	task.Id = taskMx.iterTask
-	taskMx.tasks[taskMx.iterTask] = task
+	task.Id = id
+	taskMx.tasks[id] = task
 	return &task
 }

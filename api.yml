@@ -33,19 +33,19 @@ api:
   Task:
     method: GET
     url: task/{id}
-  # TaskPointCreate:
-  #   method: POST
-  #   url: task_point
-  # TaskPointDelete:
-  #   method: DELETE
-  #   url: task_point/{id}
-  # TaskPointUpdate:
-  #   method: PUT
-  #   url: task_point/{id}
-  # TaskPoints:
-  #   method: GET
-  #   url: task_point
-  # TaskPoint:
-  #   method: GET
-  #   url: task_point/{id}
+  TaskPointCreate:
+    method: POST
+    url: task_point
+  TaskPointDelete:
+    method: DELETE
+    url: task_point/{id}
+  TaskPointUpdate:
+    method: PUT
+    url: task_point/{id}
+  TaskPoints:
+    method: GET
+    url: task_point
+  TaskPoint:
+    method: GET
+    url: task_point/{id}
   
