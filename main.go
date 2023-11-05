@@ -12,7 +12,7 @@ func main() {
 
 	// СЕРВЕР
 	m := http.NewServeMux()
-	m.Handle("/", http.HandlerFunc(handle)) // не работает, но выглядит примерно так :( (undefined: handle)
+	m.Handle("/", http.HandlerFunc(handle))
 	server := &http.Server{
 		Addr:         ":" + cfg.Server.Port,
 		Handler:      m,
