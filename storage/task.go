@@ -12,7 +12,7 @@ func TaskCreate(task entity.Task) *entity.Task {
 func TaskGetAll() []*entity.Task {
 	var tasks []*entity.Task
 	db.DB().Find(&tasks)
-	return make([]*entity.Task, 0)
+	return tasks
 }
 func TaskGet(id uint32) *entity.Task {
 	var task entity.Task
@@ -22,13 +22,12 @@ func TaskGet(id uint32) *entity.Task {
 
 func TaskDelete(id uint32) *entity.Task {
 	var task entity.Task
-	db.DB().Table(task.TableName()).Where("tid = ?", id).Find(&task)
-	db.DB().Delete(&task)
+	db.DB().Table(task.TableName()).Where("tid = ?", id).Delete(&task)
 	return &task
 }
 
 func TaskUpdate(task entity.Task, id uint32) *entity.Task {
-	db.DB().Save(&task)
+	db.DB().Table(task.TableName()).Where("tid = ?", id).Save(&task)
 	return &task
 }
 

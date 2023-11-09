@@ -12,23 +12,22 @@ func UserCreate(user entity.User) *entity.User {
 func UserGetAll() []*entity.User {
 	var users []*entity.User
 	db.DB().Find(&users)
-	return make([]*entity.User, 100)
+	return users
 }
 func UserGet(id uint32) *entity.User {
 	var user entity.User
-	db.DB().Table(user.TableName()).Where("tid = ?", id).Find(&user)
+	db.DB().Table(user.TableName()).Where("iid = ?", id).Find(&user)
 	return &user
 }
 
 func UserDelete(id uint32) *entity.User {
 	var user entity.User
-	db.DB().Table(user.TableName()).Where("tid = ?", id).Find(&user)
-	db.DB().Delete(&user)
+	db.DB().Table(user.TableName()).Where("iid = ?", id).Delete(&user)
 	return &user
 }
 
 func UserUpdate(user entity.User, id uint32) *entity.User {
-	db.DB().Save(&user)
+	db.DB().Table(user.TableName()).Where("iid = ?", id).Save(&user)
 	return &user
 }
 

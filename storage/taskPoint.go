@@ -12,7 +12,7 @@ func TaskPointCreate(taskpoint entity.TaskPoint) *entity.TaskPoint {
 func TaskPointGetAll() []*entity.TaskPoint {
 	var taskpoints []*entity.TaskPoint
 	db.DB().Find(&taskpoints)
-	return make([]*entity.TaskPoint, 0)
+	return taskpoints
 }
 func TaskPointGet(id uint32) *entity.TaskPoint {
 	var taskpoint entity.TaskPoint
@@ -22,13 +22,12 @@ func TaskPointGet(id uint32) *entity.TaskPoint {
 
 func TaskPointDelete(id uint32) *entity.TaskPoint {
 	var taskpoint entity.TaskPoint
-	db.DB().Table(taskpoint.TableName()).Where("tid = ?", id).Find(&taskpoint)
-	db.DB().Delete(&taskpoint)
+	db.DB().Table(taskpoint.TableName()).Where("pid = ?", id).Delete(&taskpoint)
 	return &taskpoint
 }
 
 func TaskPointUpdate(taskpoint entity.TaskPoint, id uint32) *entity.TaskPoint {
-	db.DB().Save(&taskpoint)
+	db.DB().Table(taskpoint.TableName()).Where("pid = ?", id).Save(&taskpoint)
 	return &taskpoint
 }
 
