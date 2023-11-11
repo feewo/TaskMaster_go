@@ -6,10 +6,28 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"taskmaster/db"
 	"taskmaster/engine"
 	"taskmaster/entity"
 	"taskmaster/storage"
+	"time"
+
+	"github.com/google/uuid"
 )
+
+func TokenGet(usr entity.User) entity.Token {
+	var lastToken entity.Token
+	db.DB().Table("token").Order("tokid DESC").Last(&lastToken)
+
+	lastTokenID := lastToken.Tokid
+	token := entity.Token{
+		Tokid:   lastTokenID + 1,
+		Iid:     usr.Iid,
+		Token:   uuid.NewString(),
+		Expired: time.Now().Add(1 * time.Hour),
+	}
+	return token
+}
 
 func (a *Api) UserCreate(ctx *engine.Context) {
 	decoder := json.NewDecoder(ctx.Request.Body)
@@ -66,4 +84,25 @@ func (a *Api) UserUpdate(ctx *engine.Context) {
 	}
 	idUint32 := uint32(idUint64)
 	ctx.Print(storage.UserUpdate(item, idUint32))
+}
+
+func (a *Api) UserAuth(ctx *engine.Context) {
+	decoder := json.NewDecoder(ctx.Request.Body)
+	var item entity.User
+	err := decoder.Decode(&item)
+
+	// проверка на ошибки
+	if err != nil {
+		ctx.Error(http.StatusBadRequest, err.Error())
+		return
+	}
+	// вывод item
+	var usr entity.User
+	db.DB().Table(usr.TableName()).Where("login = ?", item.Login, " and password = ?", item.Password).Find(&usr)
+	if usr.Iid == 0 {
+		ctx.Error(401, "Bad")
+		return
+	}
+
+	ctx.Print(storage.UserAuth(usr))
 }

@@ -28,9 +28,8 @@ func (c *Context) Print(data interface{}) {
 }
 
 // decoder
-// func ToStruct[t any](ctx Context) (T error) {
+// func ToStruct[t any](ctx Context) (dt T, err error) {
 // 	decoder := json.NewDecoder(ctx.Request.Body)
-// 	var dt T
-// 	err := decoder.Decode(&dt)
+// 	err = decoder.Decode(&dt)
 // 	return dt, err
 // }

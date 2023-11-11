@@ -6,14 +6,20 @@ import (
 	"strings"
 	"taskmaster/api"
 	"taskmaster/config"
+	"taskmaster/db"
 	"taskmaster/engine"
+	"taskmaster/entity"
 	_ "taskmaster/entity"
+	"time"
 )
 
 var hdl *api.Api
 var apiMap map[string]map[string]reflect.Value
 
+var ignoreList = make([]string, 0)
+
 func init() {
+	ignoreList = append(ignoreList, "token")
 	apiMap = make(map[string]map[string]reflect.Value)
 	cfg := config.Get()
 	maps := cfg.Api
@@ -57,11 +63,32 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		pathName += "/{id}"
 	}
 	if fun, ok := maps[pathName]; ok {
+		isIgnore := false
+		for _, s := range ignoreList {
+			if s == pathName {
+				isIgnore = true
+				break
+			}
+		}
+		if !isIgnore {
+			token, ok := ctx.Request.Header["Authentication"]
+			if !ok {
+				ctx.Error(401, "Bad")
+				return
+			}
+			var tokenDb entity.Token
+			db.DB().Table(tokenDb.TableName()).Where("token = ? and expired > ?", token, time.Now())
+			if tokenDb.Iid == 0 {
+				ctx.Error(401, "Bad")
+				return
+			}
+		}
 		in := make([]reflect.Value, 1)
 		in[0] = reflect.ValueOf(&ctx)
 		fun.Call(in)
 		return
 	}
+
 	// POST
 	// if r.Method == "POST" {
 	// 	switch pathArr[0] {
