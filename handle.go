@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
+	"os"
 	"reflect"
 	"strings"
 	"taskmaster/api"
@@ -9,10 +11,14 @@ import (
 	"taskmaster/db"
 	"taskmaster/engine"
 	"taskmaster/entity"
+<<<<<<< Updated upstream
 	_ "taskmaster/entity"
+=======
+>>>>>>> Stashed changes
 	"time"
 )
 
+var types map[string]bool
 var hdl *api.Api
 var apiMap map[string]map[string]reflect.Value
 
@@ -24,6 +30,12 @@ func init() {
 	cfg := config.Get()
 	maps := cfg.Api
 	hdl = &api.Api{}
+	types = make(map[string]bool)
+	types["ico"] = true
+	types["html"] = true
+	types["js"] = true
+	types["svg"] = true
+	types["png"] = true
 
 	services := reflect.ValueOf(hdl)
 	_struct := reflect.TypeOf(hdl)
@@ -48,8 +60,14 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	url := r.URL
 	path := url.Path[1:]
 	pathArr := strings.Split(path, "/")
-	if pathArr[0] == "" {
-		w.Write([]byte("Привет"))
+	// fmt.Println(reflect.TypeOf(path))
+	// if pathArr[0] == "" {
+	// 	sendFile("front/index.html", ctx)
+	// 	return
+	// }
+	if stat, ok := checkStatic(path); ok {
+		fmt.Println(stat, "ok")
+		sendFile(stat, ctx)
 		return
 	}
 
@@ -62,9 +80,14 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	if len(pathArr) > 1 {
 		pathName += "/{id}"
 	}
+
 	if fun, ok := maps[pathName]; ok {
 		isIgnore := false
 		for _, s := range ignoreList {
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 			if s == pathName {
 				isIgnore = true
 				break
@@ -77,11 +100,26 @@ func handle(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			var tokenDb entity.Token
+<<<<<<< Updated upstream
 			db.DB().Table(tokenDb.TableName()).Where("token = ? and expired > ?", token, time.Now())
+=======
+			var userDb entity.User
+
+			db.DB().Table(tokenDb.TableName()).Where("token = ? and expired > ?", token, time.Now()).Find(&tokenDb)
+
+>>>>>>> Stashed changes
 			if tokenDb.Iid == 0 {
 				ctx.Error(401, "Bad")
 				return
 			}
+<<<<<<< Updated upstream
+=======
+			db.DB().Table(userDb.TableName()).Where("iid = ?", tokenDb.Iid).Find(&userDb)
+			if (r.Method == "POST" || r.Method == "DELETE" || r.Method == "PUT") && userDb.Role == "user" {
+				ctx.Error(401, "Bad")
+				return
+			}
+>>>>>>> Stashed changes
 		}
 		in := make([]reflect.Value, 1)
 		in[0] = reflect.ValueOf(&ctx)
@@ -145,4 +183,31 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	// 	}
 	// 	return
 	// }
+}
+func sendFile(file string, ctx engine.Context) {
+	pwd, _ := os.Getwd()
+	fmt.Println(pwd)
+	http.ServeFile(ctx.Response, ctx.Request, pwd+"/")
+}
+
+func checkStatic(path string) (string, bool) {
+	fmt.Println(path)
+	typeFile := strings.Split(path, ".")
+	if len(typeFile) < 2 {
+		return "", false
+	}
+	fmt.Println(typeFile, types[typeFile[1]])
+	if _, ok := types[typeFile[1]]; ok {
+		switch typeFile[1] {
+		case "html":
+			return "front/" + path, true
+		case "css":
+			return "front/css/" + path, true
+		case "js":
+			return "front/js/" + path, true
+		case "png", "ico", "svg":
+			return "front/img/" + path, true
+		}
+	}
+	return "", false
 }
