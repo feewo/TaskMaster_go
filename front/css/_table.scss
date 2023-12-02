@@ -1,0 +1,22 @@
+.table {
+    font-size: 20px;
+    width: 100%;
+    text-align: center;
+    border-collapse: collapse;
+    border: 1px solid #000;
+    display: none;
+
+    &.active {
+        display: table;
+    }
+
+    &__cell,
+    &__head {
+        border: 1px solid #000;
+        padding: 15px;
+    }
+
+    &__head {
+        background-color: #c7e6c8;
+    }
+}

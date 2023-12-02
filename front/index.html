@@ -3,9 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css" />
     <title>Проверка</title>
 </head>
 <body>
-    Привет
+    <div class="auth">
+        <h2 class="auth__title">Авторизация</h2>
+
+        <form action="" class="auth__form" method="post" id="formLog">
+            <div class="auth__item">
+                <label for="" class="auth__label">Логин:</label>
+                <input type="text" class="auth__input" placeholder="Введите логин" id="logLogin" name="login" required>
+            </div>
+
+            <div class="auth__item">
+                <label for="" class="auth__label">Пароль:</label>
+                <input type="password" class="auth__input" placeholder="Введите пароль" id="logPass" name="password" required>
+            </div>
+
+            <button class="auth__btn" data-form="#formLog">Вход</button>
+        </form>
+    </div>
+
+    <div class="auth">
+        <h2 class="auth__title">Регистрация</h2>
+
+        <form action="" class="auth__form" method="" id="formReg">
+            <div class="auth__item">
+                <label for="" class="auth__label">Логин:</label>
+                <input type="text" class="auth__input" placeholder="Введите логин" id="regLogin" name="login" required>
+            </div>
+
+            <div class="auth__item">
+                <label for="" class="auth__label">Email:</label>
+                <input type="text" class="auth__input" placeholder="Введите email" id="regEmail" name="email" required>
+            </div>
+
+            <div class="auth__item">
+                <label for="" class="auth__label">Пароль:</label>
+                <input type="password" class="auth__input" placeholder="Введите пароль" id="regPass" name="password" required>
+            </div>
+
+            <button class="auth__btn" data-form="#formReg">Регистрация</button>
+        </form>
+    </div>
+
+    <button class="auth__btn exit__btn" id="exit">Выход</button>
+    <table class="table">
+        <tr class="table__row">
+            <th class="table__head">Id</th>
+            <th class="table__head">Логин</th>
+            <th class="table__head">Почта</th>
+            <th class="table__head">Роль</th>
+            <th class="table__head">Пароль</th>
+            <th class="table__head">Удаление</th>
+        </tr>
+
+        <tr class="table__row">
+            <form action="" class="table__form">
+                <td class="table__cell">
+                    <input type="number" class="auth__input table__input" value="1" disabled>
+                </td>
+                <td class="table__cell">
+                    <input type="text" class="auth__input table__input" value="PopoffRI" disabled>
+                </td>
+                <td class="table__cell">
+                    <input type="text" class="auth__input table__input" value="Popoff@bk.ru" disabled>
+                </td>
+                <td class="table__cell">
+                    <input type="text" class="auth__input table__input" value="Препод" disabled>
+                </td>
+                <td class="table__cell">
+                    <input type="password" class="auth__input table__input" value="культурология" disabled>
+                </td>
+                <td class="table__cell">
+                    <button class="table__btn auth__input">Удалить</button>
+                </td>
+            </form>
+        </tr>
+
+        <tr class="table__row">
+            <td class="table__cell">
+                <button class="table__btn auth__input">Изменить</button>
+            </td>
+            <td class="table__cell">
+                <button class="table__btn auth__input">Изменить</button>
+            </td>
+            <td class="table__cell">
+                <button class="table__btn auth__input">Изменить</button>
+            </td>
+            <td class="table__cell">
+                <button class="table__btn auth__input">Изменить</button>
+            </td>
+            <td class="table__cell">
+                <button class="table__btn auth__input">Изменить</button>
+            </td>
+        </tr>
+    </table>
+    <script src="js/app.js"></script>
 </body>
+
 </html>

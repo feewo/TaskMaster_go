@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="keywords" content="ЯГТУ ВУЗ проект проектная деятельность курс Ярославский государственный технический университет">
+		<title>ЯГТУ | Курс "Проектная деятельность"</title>
+		<link rel="stylesheet" href="css/style.css" />
+		<link rel="shortcut icon" type="image/x-icon" href="img/favicon-16.png"/>
+        <link rel="shortcut icon" type="image/x-icon" href="img/favicon-32.png"/>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet">
+		<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+	</head>
+	
+	<body>
+
+	<!-- Sprite -->
+	
+	<svg style="display:none;">
+		<symbol id="account"  viewBox="0 0 24 24">
+            <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+        </symbol>
+
+		<symbol id="arrow"  viewBox="0 0 39 112">
+           <path d="M4.96429 0.661362C4.51321 0.500025 4.01674 0.734912 3.85541 1.18599C3.69407 1.63708 3.92896 2.13354 4.38004 2.29488L4.96429 0.661362ZM25.2567 23.7072L26.1171 23.5966L25.2567 23.7072ZM10.1877 48.9993L10.2057 48.1321L10.1877 48.9993ZM1.0939 41.0324L1.96062 40.9974L1.0939 41.0324ZM8.12398 33.055L8.39512 33.8789L8.12398 33.055ZM30.5216 55.5207L31.3862 55.4503L30.5216 55.5207ZM15.0807 78.5088L15.056 77.6417L15.0807 78.5088ZM8.06486 72.7333L8.91134 72.5438L8.06486 72.7333ZM37.1786 90.4497L36.3162 90.356L37.1786 90.4497ZM23.7953 110.666L22.9565 110.445C22.8759 110.751 22.9683 111.076 23.1977 111.294C23.4271 111.512 23.7571 111.588 24.0586 111.492L23.7953 110.666ZM26.6715 103.151C26.7935 102.688 26.5168 102.213 26.0536 102.091C25.5903 101.969 25.1158 102.246 24.9938 102.709L26.6715 103.151ZM32.0623 108.942C32.5188 108.797 32.7709 108.309 32.6255 107.853C32.4801 107.396 31.9922 107.144 31.5357 107.289L32.0623 108.942ZM4.67216 1.47812C4.38004 2.29488 4.37983 2.29481 4.37969 2.29475C4.37973 2.29477 4.37966 2.29474 4.37975 2.29478C4.37994 2.29485 4.3804 2.29501 4.38115 2.29528C4.38264 2.29582 4.38524 2.29676 4.38894 2.2981C4.39633 2.3008 4.40811 2.30511 4.42414 2.31105C4.4562 2.32293 4.50525 2.34131 4.57022 2.36628C4.70019 2.41622 4.89379 2.49244 5.14249 2.5955C5.64001 2.80166 6.35729 3.11488 7.22615 3.53945C8.96562 4.38945 11.3034 5.68123 13.699 7.44734C18.507 10.992 23.4387 16.3632 24.3964 23.8177L26.1171 23.5966C25.0729 15.4684 19.7123 9.72516 14.7285 6.05094C12.2281 4.20762 9.79516 2.86389 7.98782 1.98074C7.08328 1.53874 6.33315 1.21097 5.80661 0.992788C5.54328 0.88367 5.33569 0.801883 5.19247 0.746855C5.12085 0.719337 5.06532 0.698501 5.02693 0.684278C5.00774 0.677166 4.99283 0.671708 4.98235 0.667892C4.97711 0.665983 4.97297 0.664486 4.96995 0.663398C4.96845 0.662855 4.96722 0.662414 4.96628 0.662073C4.9658 0.661903 4.96531 0.661726 4.96507 0.661642C4.96465 0.66149 4.96429 0.661362 4.67216 1.47812ZM24.3964 23.8177C25.1443 29.6393 23.8978 35.8261 21.2738 40.5089C18.643 45.2036 14.7362 48.2262 10.2057 48.1321L10.1697 49.8665C15.5854 49.9791 19.9844 46.3586 22.7872 41.357C25.5967 36.3434 26.9116 29.7808 26.1171 23.5966L24.3964 23.8177ZM10.2057 48.1321C8.87798 48.1045 6.82399 47.4953 5.0843 46.2608C3.36113 45.0379 2.05305 43.2833 1.96062 40.9974L0.227181 41.0675C0.347799 44.0507 2.06874 46.2481 4.08028 47.6756C6.0753 49.0913 8.4617 49.8311 10.1697 49.8665L10.2057 48.1321ZM1.96062 40.9974C1.87323 38.8358 2.76951 37.3157 4.0352 36.1964C5.32923 35.052 7.00541 34.3362 8.39512 33.8789L7.85284 32.231C6.37974 32.7158 4.44112 33.5215 2.88594 34.8968C1.30243 36.2971 0.115075 38.2947 0.227181 41.0675L1.96062 40.9974ZM8.39512 33.8789C13.9347 32.056 18.9372 34.3128 22.7674 38.6846C26.6109 43.0714 29.1601 49.4894 29.6571 55.5912L31.3862 55.4503C30.8622 49.017 28.1859 42.2365 24.0723 37.5414C19.9456 32.8312 14.2597 30.1227 7.85284 32.231L8.39512 33.8789ZM29.6571 55.5912C30.0833 60.8245 28.9539 66.3091 26.4405 70.4949C23.9376 74.6633 20.1008 77.498 15.056 77.6417L15.1054 79.3759C20.8708 79.2117 25.1935 75.9418 27.9279 71.3879C30.6519 66.8514 31.8378 60.9958 31.3862 55.4503L29.6571 55.5912ZM15.056 77.6417C13.4738 77.6868 12.1493 77.2686 11.1285 76.4501C10.1058 75.63 9.31561 74.3498 8.91134 72.5438L7.21838 72.9228C7.69063 75.0324 8.65427 76.6899 10.0432 77.8036C11.4342 78.9189 13.1793 79.4307 15.1054 79.3759L15.056 77.6417ZM8.91134 72.5438C8.54165 70.8924 8.91266 69.576 9.75031 68.4797C10.6143 67.3489 12.0097 66.4117 13.7338 65.6644L13.0439 64.0726C11.1801 64.8804 9.48638 65.9676 8.37177 67.4264C7.23084 68.9197 6.7338 70.7582 7.21838 72.9228L8.91134 72.5438ZM13.7338 65.6644C19.508 63.1617 25.3993 66.1529 29.8382 71.5904C34.2665 77.0149 36.9465 84.5528 36.3162 90.356L38.0409 90.5433C38.7333 84.168 35.8257 76.1815 31.1821 70.4933C26.5492 64.818 19.8842 61.1079 13.0439 64.0726L13.7338 65.6644ZM36.3162 90.356C35.827 94.8607 32.6343 99.7434 29.4313 103.587C27.8467 105.488 26.2923 107.097 25.1337 108.231C24.5549 108.798 24.076 109.244 23.7429 109.548C23.5764 109.701 23.4464 109.817 23.3587 109.895C23.3149 109.933 23.2817 109.963 23.2597 109.982C23.2487 109.991 23.2406 109.999 23.2353 110.003C23.2327 110.005 23.2308 110.007 23.2297 110.008C23.2291 110.008 23.2287 110.009 23.2285 110.009C23.2284 110.009 23.2284 110.009 23.2284 110.009C23.2284 110.009 23.2285 110.009 23.7953 110.666C24.3621 111.322 24.3623 111.322 24.3625 111.322C24.3627 111.322 24.3629 111.322 24.3632 111.321C24.3638 111.321 24.3645 111.32 24.3654 111.319C24.3673 111.318 24.3698 111.316 24.3732 111.313C24.3798 111.307 24.3894 111.299 24.4018 111.288C24.4266 111.266 24.4628 111.234 24.5097 111.193C24.6033 111.11 24.7396 110.988 24.9127 110.83C25.2588 110.514 25.7524 110.053 26.3471 109.471C27.5357 108.308 29.1325 106.655 30.764 104.698C33.9931 100.823 37.492 95.5974 38.0409 90.5433L36.3162 90.356ZM24.6341 110.887L26.6715 103.151L24.9938 102.709L22.9565 110.445L24.6341 110.887ZM24.0586 111.492L32.0623 108.942L31.5357 107.289L23.532 109.839L24.0586 111.492Z"/>
+        </symbol>
+
+		<symbol id="one" viewBox="0 0 256 256">
+			<path d="M144,32V224a12,12,0,0,1-24,0V54.417L90.6543,73.97168A11.99986,11.99986,0,1,1,77.3457,54l48-31.98584A11.99993,11.99993,0,0,1,144,32Z"/>
+		</symbol>
+
+		<symbol id="two" viewBox="0 0 256 256">
+			<path d="M188,223.98828a12,12,0,0,1-12,12H80.53906c-.17969.0083-.36035.0127-.541.0127a12.00426,12.00426,0,0,1-9.4336-19.41993L158.01074,99.89258A36.00778,36.00778,0,1,0,94.82422,65.99023,11.99951,11.99951,0,1,1,72.7207,56.64209,60.00755,60.00755,0,1,1,177.74707,113.5542c-.11035.1626-.22363.32275-.3418.47949l-73.4082,97.95459H176A12.0006,12.0006,0,0,1,188,223.98828Z"/>
+		</symbol>
+
+		<symbol id="three" viewBox="0 0 256 256">
+			<path d="M188,168.00488A67.99135,67.99135,0,0,1,71.92969,216.084a11.99975,11.99975,0,1,1,16.9707-16.96972,43.99392,43.99392,0,1,0,31.10742-75.10547,11.9992,11.9992,0,0,1-9.832-18.87891L152.94531,44H80a12,12,0,0,1,0-24h95.9873a11.99945,11.99945,0,0,1,9.832,18.87939l-45.02344,64.3501A68.10764,68.10764,0,0,1,188,168.00488Z"/>
+		</symbol>
+
+		<symbol id="four" viewBox="0 0 256 256">
+			<path d="M184,95.98828v128a12,12,0,1,1-24,0V172H76a12.00087,12.00087,0,0,1-11.31641-15.99365l47.99707-136a12.00043,12.00043,0,0,1,22.63282,7.9873L92.96,148H160V95.98828a12,12,0,0,1,24,0Z"/>
+		</symbol>
+
+		<symbol id="five" viewBox="0 0 256 256">
+			<path d="M167.99609,119.90137a68.1173,68.1173,0,0,1-96.46386,96.20019,12.0003,12.0003,0,0,1,16.93554-17.00635,44.4032,44.4032,0,0,0,62.59375,0,43.83148,43.83148,0,0,0,0-62.1875,44.4038,44.4038,0,0,0-62.59472.00049,12,12,0,0,1-20.31153-10.42871L83.8252,30.07471A12,12,0,0,1,95.66992,20H176a12,12,0,0,1,0,24H105.877l-9.7832,60.1875a68.59461,68.59461,0,0,1,71.90234,15.71387Z"/>
+		</symbol>
+
+		<symbol id="developming" viewBox="0 0 512 512">
+			<path d="M512,480v32H32H0v-32V0h32v480H512z M448,0L322.031,20.594l30.281,37.031l-266.438,218l20.25,24.75l266.469-218l30.281,37
+			L448,0z M413.219,182.563L384,146.844V448h64V90.531L413.219,182.563z M192,271.469V448h64V219.125L192,271.469z M101.609,345.406
+			L96,338.531V448h64V297.625L101.609,345.406z M288,192.938V448h64V140.563L288,192.938z"/>		
+		</symbol>
+
+		<symbol id="team" viewBox="0 0 64 64">
+			<path d="M37.4387,45.1386a1.1737,1.1737,0,0,1-.71-1.0786,1.1966,1.1966,0,0,1,.3718-.8779c.0725-.0691.1419-.1372.1939-.192a7.3474,7.3474,0,0,0,.9675-1.2707,7.3009,7.3009,0,0,0-7.637-10.9231,7.134,7.134,0,0,0-5.758,5.5937A7.3,7.3,0,0,0,26.88,43.1668a1.2386,1.2386,0,0,1,.3862.8793v.0061a1.1751,1.1751,0,0,1-.71,1.09,12.0152,12.0152,0,0,0-6.46,6.4014,15.2866,15.2866,0,0,0-1.274,6.2953v1.56A2.547,2.547,0,0,0,21.37,61.9459h21.261a2.5468,2.5468,0,0,0,2.5466-2.5468V57.8234a15.2521,15.2521,0,0,0-1.2761-6.292A12.0124,12.0124,0,0,0,37.4387,45.1386Z"/><path d="M23.66,43.5729a11.8205,11.8205,0,0,0-3.2026-1.9521,1.1744,1.1744,0,0,1-.71-1.0786,1.1968,1.1968,0,0,1,.3721-.878c.0722-.0692.1418-.1372.1938-.1921a7.341,7.341,0,0,0,.9673-1.27,7.3006,7.3006,0,0,0-7.6367-10.9232,7.1338,7.1338,0,0,0-5.7581,5.5937,7.3007,7.3007,0,0,0,2.013,6.7768,1.2369,1.2369,0,0,1,.3862.8792v.0063a1.1747,1.1747,0,0,1-.71,1.09,12.0156,12.0156,0,0,0-6.46,6.4013,15.2875,15.2875,0,0,0-1.2742,6.2953l0,1.5607a2.5465,2.5465,0,0,0,2.5466,2.5466H16.1228v-.5893a17.8839,17.8839,0,0,1,1.5127-7.4058A14.74,14.74,0,0,1,23.66,43.5729Z"/><path d="M60.8821,48.0135A12.0119,12.0119,0,0,0,54.42,41.6208a1.1745,1.1745,0,0,1-.71-1.0786,1.1973,1.1973,0,0,1,.3719-.878c.0725-.0692.1421-.1372.1938-.1921a7.3327,7.3327,0,0,0,.9676-1.27,7.3007,7.3007,0,0,0-7.6368-10.9232,7.1333,7.1333,0,0,0-5.758,5.5937,7.3,7.3,0,0,0,2.0129,6.7768,1.2373,1.2373,0,0,1,.3862.8792v.0063a1.1745,1.1745,0,0,1-.71,1.09,11.8293,11.8293,0,0,0-3.1953,1.9487,14.7374,14.7374,0,0,1,6.0188,6.8459,17.8408,17.8408,0,0,1,1.5161,7.405v.6043H59.6116a2.5468,2.5468,0,0,0,2.5468-2.5466V54.3056A15.25,15.25,0,0,0,60.8821,48.0135Z"/><path d="M19.5246,16.9623l2.4324.4565a1.3226,1.3226,0,0,1,1.0088.85,9.47,9.47,0,0,0,.3821.9247,1.3226,1.3226,0,0,1-.1128,1.3128l-1.3967,2.0418a.86.86,0,0,0,.1018,1.0942l1.4843,1.4844a.86.86,0,0,0,1.0943.1018l2.0417-1.3967a1.3224,1.3224,0,0,1,1.3128-.1127,9.5357,9.5357,0,0,0,.9248.382,1.3218,1.3218,0,0,1,.85,1.0088l.4565,2.4324a.86.86,0,0,0,.8457.7018H33.05a.86.86,0,0,0,.8458-.7018l.4565-2.4324a1.3222,1.3222,0,0,1,.85-1.0088,9.5216,9.5216,0,0,0,.9248-.3821,1.3224,1.3224,0,0,1,1.3127.1128l2.0418,1.3967a.8607.8607,0,0,0,1.0945-.1018L42.06,23.6425a.86.86,0,0,0,.1018-1.0942l-1.3967-2.0418a1.3224,1.3224,0,0,1-.1128-1.3127,9.482,9.482,0,0,0,.3821-.9248,1.3226,1.3226,0,0,1,1.0088-.85l2.4323-.4565a.86.86,0,0,0,.7019-.8457V14.0175a.86.86,0,0,0-.7019-.8457l-2.4323-.4564a1.3226,1.3226,0,0,1-1.0088-.85,9.4615,9.4615,0,0,0-.3821-.9248,1.3226,1.3226,0,0,1,.1128-1.3128l1.3967-2.0418A.86.86,0,0,0,42.06,6.4915L40.5757,5.0073a.86.86,0,0,0-1.0945-.1018L37.4394,6.3022a1.3222,1.3222,0,0,1-1.3127.1127,9.521,9.521,0,0,0-.9248-.382,1.3223,1.3223,0,0,1-.85-1.0088l-.4565-2.4326A.8606.8606,0,0,0,33.05,1.89H30.95a.86.86,0,0,0-.8457.7017l-.4563,2.4326a1.3229,1.3229,0,0,1-.85,1.0088,9.4857,9.4857,0,0,0-.9248.382,1.3224,1.3224,0,0,1-1.3128-.1127L24.5188,4.9055a.86.86,0,0,0-1.0943.1016L21.94,6.4914a.86.86,0,0,0-.1018,1.0944l1.3967,2.0418a1.3226,1.3226,0,0,1,.1128,1.3128,9.4615,9.4615,0,0,0-.3821.9248,1.3223,1.3223,0,0,1-1.0088.85l-2.4324.4565a.8606.8606,0,0,0-.7019.8457v2.0991A.86.86,0,0,0,19.5246,16.9623ZM32,10.183a4.884,4.884,0,1,1-4.884,4.8841A4.8842,4.8842,0,0,1,32,10.183Z"/>
+		</symbol>
+		
+		<symbol id="brain" viewBox="0 0 56 60">
+			<path d="M22,27 C22,27.551 22.448,28 23,28 C23.552,28 24,27.551 24,27 C24,26.449 23.552,26 23,26 C22.448,26 22,26.449 22,27 L22,27 Z M24,45 C24,44.449 23.552,44 23,44 C22.448,44 22,44.449 22,45 C22,45.551 22.448,46 23,46 C23.552,46 24,45.551 24,45 L24,45 Z M16,27 C16,26.449 15.552,26 15,26 C14.448,26 14,26.449 14,27 C14,27.551 14.448,28 15,28 C15.552,28 16,27.551 16,27 L16,27 Z M16,39 C16,38.449 15.552,38 15,38 C14.448,38 14,38.449 14,39 C14,39.551 14.448,40 15,40 C15.552,40 16,39.551 16,39 L16,39 Z M22,17 C22,17.551 22.448,18 23,18 C23.552,18 24,17.551 24,17 C24,16.449 23.552,16 23,16 C22.448,16 22,16.449 22,17 L22,17 Z M16,18 L16,24.184 C16.848,24.486 17.514,25.153 17.815,26 L20.185,26 C20.599,24.838 21.698,24 23,24 C24.654,24 26,25.346 26,27 C26,28.302 25.161,29.401 24,29.816 L24,42.184 C25.161,42.599 26,43.698 26,45 C26,46.302 25.161,47.401 24,47.816 L24,51 C24,51.552 23.553,52 23,52 C22.447,52 22,51.552 22,51 L22,47.815 C20.979,47.452 20.218,46.558 20.047,45.46 L16.293,41.707 C16.29,41.705 16.29,41.701 16.287,41.698 C15.896,41.886 15.463,42 15,42 C13.346,42 12,40.654 12,39 C12,37.346 13.346,36 15,36 C16.654,36 18,37.346 18,39 C18,39.462 17.886,39.896 17.698,40.287 C17.701,40.29 17.704,40.291 17.707,40.293 L20.614,43.201 C20.965,42.737 21.443,42.383 22,42.184 L22,29.815 C21.152,29.514 20.486,28.847 20.185,28 L17.815,28 C17.401,29.162 16.302,30 15,30 C13.346,30 12,28.654 12,27 C12,25.698 12.839,24.599 14,24.184 L14,17 C14,16.448 14.447,16 15,16 L20.185,16 C20.486,15.153 21.152,14.486 22,14.184 L22,11 C22,10.448 22.447,10 23,10 C23.553,10 24,10.448 24,11 L24,14.184 C25.161,14.599 26,15.698 26,17 C26,18.654 24.654,20 23,20 C21.698,20 20.599,19.162 20.185,18 L16,18 Z M55.633,37.245 C57.122,35.936 58,34.042 58,32 C58,29.86 57.049,27.894 55.415,26.574 C55.8,25.771 56,24.896 56,24 C56,21.936 54.917,20.035 53.208,18.95 C53.724,18.051 54,17.037 54,16 C54,13.42 52.361,11.177 49.989,10.349 C49.996,10.232 50,10.116 50,10 C50,6.691 47.309,4 44,4 C43.193,4 42.407,4.164 41.673,4.48 C40.813,1.876 38.34,0 35.5,0 C31.292,0 29.421,3.796 29.02,5.804 C29.013,5.837 29.022,5.869 29.02,5.903 C29.017,5.937 29,5.965 29,6 L29,52.94 C28.774,55.779 26.363,58 23.5,58 C20.647,58 18.243,55.771 18.026,52.924 C17.986,52.403 17.522,52 17,52 C16.688,52 16.394,52.146 16.204,52.394 C15.428,53.415 14.26,54 13,54 C10.794,54 9,52.206 9,50 C9,49.092 9.316,48.224 9.916,47.489 C10.186,47.158 10.216,46.691 9.989,46.328 C9.763,45.965 9.335,45.785 8.913,45.884 C8.578,45.962 8.279,46 8,46 C5.794,46 4,44.206 4,42 C4,40.351 5.047,38.851 6.604,38.267 C6.975,38.128 7.229,37.784 7.252,37.39 C7.275,36.995 7.063,36.623 6.713,36.442 C5.039,35.579 4,33.876 4,32 C4,30.236 4.907,28.636 6.427,27.72 C6.664,27.577 6.831,27.342 6.889,27.071 C6.946,26.799 6.888,26.517 6.729,26.29 C6.252,25.609 6,24.818 6,24 C6,22.339 7.058,20.836 8.631,20.259 C8.942,20.145 9.177,19.884 9.258,19.563 C9.338,19.241 9.253,18.9 9.032,18.653 C8.366,17.91 8,16.968 8,16 C8,14.062 9.389,12.411 11.301,12.073 C11.569,12.025 11.808,11.87 11.959,11.643 C12.11,11.416 12.162,11.137 12.104,10.871 C12.034,10.559 12,10.274 12,10 C12,7.794 13.794,6 16,6 C16.866,6 17.701,6.289 18.416,6.836 C18.707,7.058 19.096,7.104 19.429,6.956 C19.764,6.807 19.99,6.488 20.021,6.124 C20.211,3.812 22.179,2 24.5,2 C25.614,2 26.535,2.358 27.315,3.094 C27.718,3.473 28.351,3.454 28.729,3.052 C29.108,2.65 29.09,2.018 28.688,1.639 C27.535,0.551 26.126,0 24.5,0 C21.66,0 19.187,1.876 18.327,4.48 C17.593,4.164 16.807,4 16,4 C12.691,4 10,6.691 10,10 C10,10.116 10.004,10.232 10.011,10.349 C7.639,11.177 6,13.42 6,16 C6,17.037 6.276,18.051 6.792,18.95 C5.083,20.035 4,21.936 4,24 C4,24.896 4.2,25.771 4.585,26.574 C2.951,27.894 2,29.86 2,32 C2,34.042 2.878,35.936 4.367,37.245 C2.906,38.362 2,40.116 2,42 C2,45.093 4.353,47.647 7.363,47.966 C7.123,48.614 7,49.298 7,50 C7,53.309 9.691,56 13,56 C14.242,56 15.424,55.623 16.416,54.932 C17.436,57.886 20.255,60 23.5,60 C27.408,60 30.701,56.958 30.997,53.076 C30.998,53.063 30.992,53.051 30.992,53.038 C30.993,53.024 31,53.014 31,53 L31,6.11 C31.148,5.496 32.135,2 35.5,2 C37.821,2 39.789,3.812 39.979,6.124 C40.01,6.488 40.236,6.807 40.571,6.956 C40.904,7.104 41.293,7.058 41.584,6.836 C42.299,6.289 43.134,6 44,6 C46.206,6 48,7.794 48,10 C48,10.274 47.966,10.559 47.896,10.871 C47.838,11.137 47.89,11.416 48.041,11.643 C48.192,11.87 48.431,12.025 48.699,12.073 C50.611,12.411 52,14.062 52,16 C52,16.968 51.634,17.91 50.968,18.653 C50.747,18.9 50.662,19.241 50.742,19.563 C50.823,19.884 51.058,20.145 51.369,20.259 C52.942,20.836 54,22.339 54,24 C54,24.818 53.748,25.609 53.271,26.29 C53.112,26.517 53.054,26.799 53.111,27.071 C53.169,27.342 53.336,27.577 53.573,27.72 C55.093,28.636 56,30.236 56,32 C56,33.876 54.961,35.579 53.287,36.442 C52.937,36.623 52.725,36.995 52.748,37.39 C52.771,37.784 53.025,38.128 53.396,38.267 C54.953,38.851 56,40.351 56,42 C56,44.206 54.206,46 52,46 C51.721,46 51.422,45.962 51.087,45.884 C50.667,45.785 50.238,45.965 50.011,46.328 C49.784,46.691 49.814,47.158 50.084,47.489 C50.684,48.224 51,49.092 51,50 C51,52.206 49.206,54 47,54 C45.736,54 44.57,53.408 43.802,52.375 C43.544,52.03 43.095,51.889 42.686,52.023 C42.538,52.072 42.408,52.153 42.303,52.256 C42.117,52.422 41.994,52.658 41.974,52.924 C41.757,55.771 39.353,58 36.5,58 C35.243,58 34.057,57.587 33.07,56.806 C32.635,56.463 32.008,56.537 31.665,56.969 C31.322,57.402 31.396,58.031 31.828,58.374 C33.153,59.422 34.813,60 36.5,60 C39.747,60 42.568,57.882 43.586,54.925 C44.575,55.621 45.755,56 47,56 C50.309,56 53,53.309 53,50 C53,49.298 52.877,48.614 52.637,47.966 C55.647,47.647 58,45.093 58,42 C58,40.116 57.094,38.362 55.633,37.245 L55.633,37.245 Z M38,45 C38,45.552 38.447,46 39,46 C40.458,46 42,47.542 42,49 C42,49.552 42.447,50 43,50 C43.553,50 44,49.552 44,49 C44,46.43 41.57,44 39,44 C38.447,44 38,44.448 38,45 L38,45 Z M47,18 C45.542,18 44,16.458 44,15 C44,14.448 43.553,14 43,14 C42.447,14 42,14.448 42,15 C42,17.57 44.43,20 47,20 C47.553,20 48,19.552 48,19 C48,18.448 47.553,18 47,18 L47,18 Z M35,40 C35.553,40 36,39.552 36,39 C36,37.542 37.542,36 39,36 C39.553,36 40,35.552 40,35 C40,34.448 39.553,34 39,34 C36.43,34 34,36.43 34,39 C34,39.552 34.447,40 35,40 L35,40 Z M39,28 C39.553,28 40,27.552 40,27 C40,26.448 39.553,26 39,26 C37.542,26 36,24.458 36,23 C36,22.448 35.553,22 35,22 C34.447,22 34,22.448 34,23 C34,25.57 36.43,28 39,28 L39,28 Z M49,24 C48.447,24 48,24.448 48,25 C48,26.458 46.458,28 45,28 C44.447,28 44,28.448 44,29 C44,29.552 44.447,30 45,30 C47.57,30 50,27.57 50,25 C50,24.448 49.553,24 49,24 L49,24 Z M45,36 C44.447,36 44,36.448 44,37 C44,37.552 44.447,38 45,38 C46.458,38 48,39.542 48,41 C48,41.552 48.447,42 49,42 C49.553,42 50,41.552 50,41 C50,38.43 47.57,36 45,36 L45,36 Z M34,14 C34,11.43 36.43,9 39,9 C39.553,9 40,9.448 40,10 C40,10.552 39.553,11 39,11 C37.542,11 36,12.542 36,14 C36,14.552 35.553,15 35,15 C34.447,15 34,14.552 34,14 L34,14 Z"/>
+		</symbol>
+
+		<symbol id="programming"  viewBox="0 0 612.001 612.001">
+			<path d="M599.751,276.341L489.037,165.537c-7.924-7.924-18.451-12.288-29.65-12.288c-11.179,0-21.699,4.352-29.627,12.261
+			c-16.334,16.33-16.342,42.932-0.008,59.296l81.083,81.165l-81.079,81.109c-7.928,7.932-12.287,18.475-12.279,29.688
+			c0.007,11.191,4.37,21.707,12.283,29.594c7.92,7.92,18.444,12.279,29.639,12.279c11.202,0,21.729-4.359,29.639-12.279
+			l110.714-110.752C616.085,319.269,616.085,292.679,599.751,276.341z M589.092,324.962L478.378,435.714
+			c-5.068,5.072-11.809,7.865-18.979,7.865c-7.17,0-13.911-2.793-18.986-7.873c-5.068-5.053-7.856-11.777-7.864-18.945
+			c-0.008-7.178,2.788-13.934,7.867-19.016l86.399-86.438c2.943-2.943,2.943-7.713,0.004-10.652l-86.399-86.49
+			c-10.463-10.486-10.467-27.532-0.011-37.984c5.079-5.064,11.82-7.853,18.979-7.853c7.17,0,13.915,2.796,18.99,7.871
+			l110.714,110.805C599.552,297.465,599.552,314.492,589.092,324.962z"/>
+			<path d="M194.525,416.773c0.007-11.209-4.348-21.748-12.28-29.688l-81.075-81.109l81.09-81.173
+			c16.323-16.364,16.312-42.962-0.034-59.304c-7.92-7.897-18.437-12.246-29.612-12.246c-11.198,0-21.73,4.363-29.654,12.288
+			L12.25,276.334c-16.334,16.345-16.334,42.939,0.004,59.281l110.703,110.74c7.917,7.928,18.448,12.291,29.646,12.291
+			s21.722-4.355,29.62-12.264C190.147,438.484,194.518,427.968,194.525,416.773z M171.571,435.718
+			c-5.06,5.068-11.797,7.857-18.968,7.857s-13.915-2.793-18.987-7.871L22.914,324.962c-10.464-10.467-10.464-27.501,0-37.969
+			L133.62,176.196c5.079-5.075,11.824-7.871,18.994-7.871c7.159,0,13.896,2.785,18.964,7.837
+			c10.467,10.463,10.471,27.51,0.015,37.992l-86.407,86.494c-2.939,2.939-2.939,7.708,0.004,10.652l86.399,86.434
+			c5.079,5.086,7.875,11.842,7.867,19.021C179.446,423.925,176.654,430.654,171.571,435.718z"/>
+			<path d="M410.932,23.764c-4.726-1.76-9.657-2.653-14.665-2.653c-17.435,0-33.203,10.987-39.244,27.333l-180.595,485.89
+			c-3.918,10.502-3.508,21.9,1.165,32.104c4.668,10.191,13.014,17.939,23.482,21.801c4.725,1.76,9.653,2.652,14.646,2.652
+			c17.416,0,33.207-10.982,39.304-27.336L435.642,77.608C443.652,55.919,432.56,31.763,410.932,23.764z M421.504,72.37
+			L240.897,558.294c-3.907,10.479-14.024,17.521-25.177,17.521c-3.191,0-6.349-0.574-9.401-1.711
+			c-6.699-2.477-12.035-7.432-15.022-13.949c-2.992-6.529-3.256-13.828-0.739-20.562L371.156,53.681
+			c3.866-10.467,13.957-17.499,25.11-17.499c3.206,0,6.363,0.573,9.416,1.711C419.537,43.014,426.636,58.489,421.504,72.37z"/>
+		</symbol>
+
+		<symbol id="close"  viewBox="0 0 24 24">
+			<g id="Layer_2" data-name="Layer 2"><g id="close"><g id="close-2" data-name="close"><rect class="cls-1" transform="translate(24 24) rotate(180)"/><path class="cls-2" d="M13.41,12l4.3-4.29a1,1,0,1,0-1.42-1.42L12,10.59,7.71,6.29A1,1,0,0,0,6.29,7.71L10.59,12l-4.3,4.29a1,1,0,0,0,0,1.42,1,1,0,0,0,1.42,0L12,13.41l4.29,4.3a1,1,0,0,0,1.42,0,1,1,0,0,0,0-1.42Z"/></g></g></g>
+		</symbol>
+	</svg>
+	
+	<!-- Code -->
+	
+	<div class="page">
+
+		<!-- Header -->
+
+		<div class="header__fake"></div>
+
+		<header class="header" id="header" data-aos="fade-down">
+			<div class="container">
+				<div class="header__inner">
+					<div class="header__left">
+						<a href="index.html" class="header__logo">
+							<img src="img/header_logo.png" alt="logo" class="header__img">
+						</a>
+
+						<nav class="nav" id="nav">
+							<div class="nav__inner">
+								<a href="projectlist.html" class="nav__item">Список проектов</a>
+								<a href="createproject.html" class="nav__item">Создать проект</a>
+								<a href="teamlist.html" class="nav__item">Список команд</a>
+								<!-- <a href="accountemployer.html" class="nav__item nav__item--mobile">Личный кабинет</a> -->
+								<button class="nav__item nav__item--login nav__item--mobile" data-modal="#login">Вход</button>
+							</div>
+						</nav>
+
+						<button type="button" class="burger" id="burger">
+							<div class="burger__item"></div>
+						</button>
+					</div>
+
+					<div class="header__right"> 
+						<button class="nav__item nav__item--login nav__item--tablet" data-modal="#login">Вход</button>
+
+						<!-- <a href="accountemployer" class="header__account" id="headerAccount">
+							<svg class="header__icon">
+                                <use xlink:href="#account"></use>
+                            </svg>
+						</a> -->
+					</div>
+				</div>
+			</div>
+		</header>
+
+		<!-- Intro -->
+
+		<section class="section section--first">
+			<div class="container">
+				<h2 class="section__title">ЯГТУ курс <span class="section__blue">“Проектная деятельность”</span></h2>
+			</div>
+		</section>
+
+		<!-- Steps -->
+
+		<section class="section">
+			<div class="container">
+				<h2 class="section__title" data-aos="fade-right"><span class="section__orange">Этапы</span> разработки проекта</h2>
+				
+				<div class="steps">
+					<div class="steps__inner">
+						<div class="steps__item steps__item--show" data-aos="fade-right">
+							<div class="steps__left">
+								<div class="steps__circle">
+									<svg class="steps__icon">
+										<use xlink:href="#one"></use>
+									</svg>
+								</div>
+							</div>
+	
+							<div class="steps__right">
+								<div class="steps__title">Выбор проекта</div>
+								<div class="steps__text">
+									В начале семестра студенты выбирают из размещенного списка 
+									понравившийся им проект и записываются на него.
+								</div>
+							</div>
+							
+							<div class="steps__position steps__position--right">
+								<div data-aos="zoom-in-right" data-aos-delay="400">
+									<svg class="steps__arrow steps__arrow--right">
+										<use xlink:href="#arrow"></use>
+									</svg>
+								</div>
+							</div>
+						</div>
+						<div class="steps__item"></div>
+					</div>
+
+					<div class="steps__inner">
+						<div class="steps__item"></div>
+						<div class="steps__item steps__item--show" data-aos="fade-left">
+							<div class="steps__left">
+								<div class="steps__circle">
+									<svg class="steps__icon">
+										<use xlink:href="#two"></use>
+									</svg>
+								</div>
+							</div>
+	
+							<div class="steps__right">
+								<div class="steps__title">Уточнение подробностей</div>
+								<div class="steps__text">
+									Студенты распределяют между собой роли и обязанности, прописывают план выполнения работы.
+								</div>
+							</div>
+							
+							<div class="steps__position steps__position--left">
+								<div data-aos="zoom-in-left" data-aos-delay="400">
+									<svg class="steps__arrow steps__arrow--left">
+										<use xlink:href="#arrow"></use>
+									</svg>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="steps__inner">
+						<div class="steps__item steps__item--show" data-aos="fade-right">
+							<div class="steps__left">
+								<div class="steps__circle">
+									<svg class="steps__icon">
+										<use xlink:href="#three"></use>
+									</svg>
+								</div>
+							</div>
+	
+							<div class="steps__right">
+								<div class="steps__title">Распределение обязанностей</div>
+								<div class="steps__text">
+									Проводится собрание, на котором студенты узнают подробности того, чем они 
+									будут заниматься в течение семестра. Те, кто передумал работать над 
+									конкретной задачей, отправляются искать себе другую.
+								</div>
+							</div>
+							
+							<div class="steps__position steps__position--right">
+								<div data-aos="zoom-in-right" data-aos-delay="400">
+									<svg class="steps__arrow steps__arrow--right">
+										<use xlink:href="#arrow"></use>
+									</svg>
+								</div>
+							</div>
+						</div>
+						<div class="steps__item"></div>
+					</div>
+
+					<div class="steps__inner">
+						<div class="steps__item"></div>
+						<div class="steps__item steps__item--show" data-aos="fade-left">
+							<div class="steps__left">
+								<div class="steps__circle">
+									<svg class="steps__icon">
+										<use xlink:href="#four"></use>
+									</svg>
+								</div>
+							</div>
+	
+							<div class="steps__right">
+								<div class="steps__title">Решение задачи</div>
+								<div class="steps__text">
+									В течение семестра студенты занимаются решением выбранной ими задачи.
+								</div>
+							</div>
+							
+							<div class="steps__position steps__position--left">
+								<div data-aos="zoom-in-left" data-aos-delay="400">
+									<svg class="steps__arrow steps__arrow--left">
+										<use xlink:href="#arrow"></use>
+									</svg>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="steps__inner">
+						<div class="steps__item steps__item--show" data-aos="fade-right">
+							<div class="steps__left">
+								<div class="steps__circle">
+									<svg class="steps__icon">
+										<use xlink:href="#five"></use>
+									</svg>
+								</div>
+							</div>
+	
+							<div class="steps__right">
+								<div class="steps__title">Защита</div>
+								<div class="steps__text">
+									В конце семестра студенты сдают итоговую документацию и показывают готовый проект.
+								</div>
+							</div>
+						</div>
+						<div class="steps__item"></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Students -->
+
+		<section class="section">
+			<div class="container">
+				<h2 class="section__title" data-aos="fade-right">Чему <span class="section__orange">студенты</span> научатся в результате данного курса</h2>
+			
+				<div class="students">
+					<div class="students__item" data-aos="zoom-in">
+						<div class="students__circle">
+							<svg class="students__icon">
+								<use xlink:href="#brain"></use>
+							</svg>
+						</div>
+
+						<div class="students__title">Системное и критическое мышление</div>
+					</div>
+
+					<div class="students__item" data-aos="zoom-in" data-aos-delay="300">
+						<div class="students__circle">
+							<svg class="students__icon">
+								<use xlink:href="#programming"></use>
+							</svg>
+						</div>
+
+						<div class="students__title">Разработка и реализация проектов</div>
+					</div>
+
+					<div class="students__item" data-aos="zoom-in" data-aos-delay="600">
+						<div class="students__circle">
+							<svg class="students__icon">
+								<use xlink:href="#team"></use>
+							</svg>
+						</div>
+
+						<div class="students__title">Командная работа и коммуникация</div>
+					</div>
+
+					<div class="students__item" data-aos="zoom-in" data-aos-delay="900">
+						<div class="students__circle">
+							<svg class="students__icon">
+								<use xlink:href="#developming"></use>
+							</svg>
+						</div>
+
+						<div class="students__title">Самоорганизация и саморазвитие</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Modal -->
+
+		<div class="modal" id="login">
+			<div class="modal__content">
+				<button class="modal__close">
+					<svg class="modal__close-icon">
+						<use xlink:href="#close"></use>
+					</svg>
+				</button>
+
+				<h3 class="modal__title">Вход</h3>
+
+				<form method="post" action="" class="form">
+					<div class="form__item">
+						<label for="modalLoginLogin" class="form__label">Логин:</label>
+						<input maxlength="255" type="text" class="form__input" id="modalLoginLogin" name="modalLoginLogin" placeholder="Введите логин">
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__item">
+						<label for="modalLoginPass" class="form__label">Пароль:</label>
+						<input maxlength="255" type="password" class="form__input" id="modalLoginPass" name="modalLoginPass" placeholder="Введите пароль">
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__btns">
+						<div class="form__btn active">Вход</div>
+						<input data-ready="" type="submit" class="form__btn" value="Готово">
+						<button data-modal="#choise" class="form__btn">Регистрация</button>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div class="modal" id="choise">
+			<div class="modal__content">
+				<button class="modal__close">
+					<svg class="modal__close-icon">
+						<use xlink:href="#close"></use>
+					</svg>
+				</button>
+
+				<h3 class="modal__title">Регистрация</h3>
+
+				<div class="form__btns form__btns--choise">
+					<button class="form__btn" data-modal="#regStudent">Студент</button>
+					<button class="form__btn" data-modal="#regEmployer">Заказчик</button>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal" id="regStudent">
+			<div class="modal__content">
+				<button class="modal__close">
+					<svg class="modal__close-icon">
+						<use xlink:href="#close"></use>
+					</svg>
+				</button>
+
+				<h3 class="modal__title">Регистрация студента</h3>
+
+				<form method="post" action="" class="form">
+					<div class="form__item">
+						<label for="modalStudentSurname" class="form__label">Фамилия:</label>
+						<input maxlength="30" type="text" class="form__input" id="modalStudentSurname" name="modalStudentSurname" placeholder="Введите вашу фамилию">
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__item">
+						<label for="modalStudentName" class="form__label">Имя:</label>
+						<input maxlength="20" type="text" class="form__input" id="modalStudentName" name="modalStudentName" placeholder="Введите ваше имя">
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__item">
+						<label for="modalStudentPatr" class="form__label">Отчество:</label>
+						<input maxlength="30" type="text" class="form__input" id="modalStudentPatr" name="modalStudentPatr" placeholder="Введите ваше отчество">
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+                    <div class="form__item form__item--tablet" id="formTablet">
+						<label for="modalGroup" class="form__label">Институт:</label>
+						<li class="filter filter--form">
+							<input type="text" readonly="readonly" class="form__input filter__input" id="formFaculty" name="modalRegFaculty" placeholder="Выберите свой институт">
+	
+							<div class="filter__inner">
+								<ul class="filter-sub">
+									<label class="filter-sub__item" for="radio-faculty-1">
+										<input type="radio" name="faculty" value="1" id="radio-faculty-1" class="filter__radio">
+										<span class="filter-sub__link">Архитектуры и дизайна</span>
+									</label>
+	
+									<label class="filter-sub__item" for="radio-faculty-2">
+										<input type="radio" name="faculty" value="2" id="radio-faculty-2" class="filter__radio">
+										<span class="filter-sub__link">Инженерии и машиностроения</span>
+									</label>
+	
+									<label class="filter-sub__item" for="radio-faculty-3">
+										<input type="radio" name="faculty" value="3" id="radio-faculty-3" class="filter__radio">
+										<span class="filter-sub__link">Инженеров строительства и транспорта</span>
+									</label>
+
+									<label class="filter-sub__item" for="radio-faculty-4">
+										<input type="radio" name="faculty" value="4" id="radio-faculty-4" class="filter__radio">
+										<span class="filter-sub__link">Химии и химической технологии</span>
+									</label>
+
+									<label class="filter-sub__item" for="radio-faculty-5">
+										<input type="radio" name="faculty" value="5" id="radio-faculty-5" class="filter__radio">
+										<span class="filter-sub__link">Цифровых систем</span>
+									</label>
+
+									<label class="filter-sub__item" for="radio-faculty-6">
+										<input type="radio" name="faculty" value="6" id="radio-faculty-6" class="filter__radio">
+										<span class="filter-sub__link">Экономики и менеджмента</span>
+									</label>
+								</ul>
+							</div>
+						</li>
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__item form__item--mobile" id="formMobile">
+						<label for="formGroupMobile" class="form__label">Институт:</label>
+						<li class="filter filter--form">
+							<input type="text" readonly="readonly" class="form__input filter__input" id="formFacultyMobile" name="modalRegFacultyMobile" placeholder="Выберите свой институт">
+	
+							<div class="filter__inner">
+								<ul class="filter-sub">
+									<label class="filter-sub__item" for="radio-mobile-1">
+										<input type="radio" name="facultyMobile" value="1" id="radio-mobile-1" class="filter__radio">
+										<span class="filter-sub__link">ИАД</span>
+									</label>
+	
+									<label class="filter-sub__item" for="radio-mobile-2">
+										<input type="radio" name="facultyMobile" value="2" id="radio-mobile-2" class="filter__radio">
+										<span class="filter-sub__link">ИИМ</span>
+									</label>
+	
+									<label class="filter-sub__item" for="radio-mobile-3">
+										<input type="radio" name="facultyMobile" value="3" id="radio-mobile-3" class="filter__radio">
+										<span class="filter-sub__link">ИИСИТ</span>
+									</label>
+
+									<label class="filter-sub__item" for="radio-mobile-4">
+										<input type="radio" name="facultyMobile" value="4" id="radio-mobile-4" class="filter__radio">
+										<span class="filter-sub__link">ИХХТ</span>
+									</label>
+
+									<label class="filter-sub__item" for="radio-mobile-5">
+										<input type="radio" name="facultyMobile" value="5" id="radio-mobile-5" class="filter__radio">
+										<span class="filter-sub__link">ИЦС</span>
+									</label>
+
+									<label class="filter-sub__item" for="radio-mobile-6">
+										<input type="radio" name="facultyMobile" value="6" id="radio-mobile-6" class="filter__radio">
+										<span class="filter-sub__link">ИЭИМ</span>
+									</label>
+								</ul>
+							</div>
+						</li>
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__item">
+						<label for="modalGroup" class="form__label">Группа:</label>
+						<li class="filter filter--form">
+							<input type="text" readonly="readonly" class="form__input filter__input" id="formGroup" name="modalRegGroup" placeholder="Выберите свою группу">
+	
+							<div class="filter__inner">
+								<ul class="filter-sub">
+									<label class="filter-sub__item" for="radio-group-1">
+										<input type="radio" name="group" value="1" id="radio-group-1" class="filter__radio">
+										<span class="filter-sub__link">ЦПИ-11</span>
+									</label>
+	
+									<label class="filter-sub__item" for="radio-group-2">
+										<input type="radio" name="group" value="2" id="radio-group-2" class="filter__radio">
+										<span class="filter-sub__link">ЦИС-17</span>
+									</label>
+	
+									<label class="filter-sub__item" for="radio-group-3">
+										<input type="radio" name="group" value="3" id="radio-group-3" class="filter__radio">
+										<span class="filter-sub__link">ЦИС-18</span>
+									</label>
+
+									<label class="filter-sub__item" for="radio-group-4">
+										<input type="radio" name="group" value="4" id="radio-group-4" class="filter__radio">
+										<span class="filter-sub__link">ЦПС-10</span>
+									</label>
+								</ul>
+							</div>
+						</li>
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__item">
+						<label for="modalStudentLogin" class="form__label">Логин:</label>
+						<input maxlength="30" type="text" class="form__input" id="modalStudentLogin" name="modalRegLogin" placeholder="Введите логин">
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__item">
+						<label for="modalStudentPass" class="form__label">Пароль:</label>
+						<input maxlength="30" type="password" class="form__input" id="modalStudentPass" name="modalRegPass" placeholder="Введите пароль">
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__item">
+						<label for="modalStudentProof" class="form__label">Подтверждение пароля:</label>
+						<input maxlength="30" type="password" class="form__input" id="modalStudentProof" name="modalStudentProof" placeholder="Введите пароль ещё раз">
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__btns">
+						<button class="form__btn" data-modal="#login">Вход</button>
+						<input data-ready="" type="submit" class="form__btn" value="Готово">
+						<div class="form__btn active">Регистрация</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div class="modal" id="regEmployer">
+			<div class="modal__content">
+				<button class="modal__close">
+					<svg class="modal__close-icon">
+						<use xlink:href="#close"></use>
+					</svg>
+				</button>
+
+				<h3 class="modal__title">Регистрация заказчика</h3>
+
+				<form method="post" action="" class="form">
+					<div class="form__item">
+						<label for="modalEmplSurname" class="form__label">Фамилия:</label>
+						<input maxlength="255" type="text" class="form__input" id="modalEmplSurname" name="modalEmplSurname" placeholder="Введите вашу фамилию">
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__item">
+						<label for="modalEmplName" class="form__label">Имя:</label>
+						<input maxlength="255" type="text" class="form__input" id="modalEmplName" name="modalEmplName" placeholder="Введите ваше имя">
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__item">
+						<label for="modalEmplPatr" class="form__label">Отчество:</label>
+						<input maxlength="255" type="text" class="form__input" id="modalEmplPatr" name="modalEmplPatr" placeholder="Введите ваше отчество">
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__item">
+						<label for="modalEmplContact" class="form__label">Контакты:</label>
+						<input maxlength="255" type="text" class="form__input" id="modalEmplContact" name="modalEmplContact" placeholder="Введите ваши контакты (телефон / почта / вк ...)">
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__item">
+						<label for="modalEmplLogin" class="form__label">Логин:</label>
+						<input maxlength="255" type="text" class="form__input" id="modalEmplLogin" name="modalEmplLogin" placeholder="Введите логин">
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__item">
+						<label for="modalEmplPass" class="form__label">Пароль:</label>
+						<input maxlength="255" type="password" class="form__input" id="modalEmplPass" name="modalEmplPass" placeholder="Введите пароль">
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__item">
+						<label for="modalEmplProof" class="form__label">Подтверждение пароля:</label>
+						<input maxlength="255" type="password" class="form__input" id="modalEmplProof" name="modalEmplProof" placeholder="Введите пароль ещё раз">
+						<div class="form__error">Заполните поле!</div>
+					</div>
+
+					<div class="form__btns">
+						<button class="form__btn" data-modal="#login">Вход</button>
+						<input data-ready="" type="submit" class="form__btn" value="Готово">
+						<div class="form__btn active">Регистрация</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+    </div>
+	
+	<!-- Script -->
+	
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+	<script src="js/index.js"></script>
+
+	</body>
+</html>

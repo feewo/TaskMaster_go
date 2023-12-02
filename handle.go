@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"os"
 	"reflect"
 	"strings"
 	"taskmaster/api"
@@ -56,13 +55,23 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	url := r.URL
 	path := url.Path[1:]
 	pathArr := strings.Split(path, "/")
+
+	if pathArr[0] == "" || pathArr[0] == "index.html" {
+		http.ServeFile(w, r, "./front/index.html")
+	}
+	if pathArr[0] == "css" {
+		http.ServeFile(w, r, "./front/css/style.css")
+	}
+	if pathArr[0] == "js" {
+		http.ServeFile(w, r, "./front/js/app.js")
+	}
 	// вот тут начинаются проблемы
 	// не открывается HTML файл
-	if stat, ok := checkStatic(path); ok {
-		fmt.Println(stat, "ok")
-		sendFile(stat, ctx)
-		return
-	}
+	// if stat, ok := checkStatic(path); ok {
+	// 	fmt.Println(stat, "ok")
+	// 	sendFile(stat, ctx)
+	// 	return
+	// }
 	maps, ok := apiMap[r.Method]
 	if !ok {
 		w.Write([]byte("Нет метода"))
@@ -77,6 +86,10 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		isIgnore := false
 		for _, s := range ignoreList {
 			if s == pathName {
+				isIgnore = true
+				break
+			}
+			if pathName == "user" && r.Method == "POST" {
 				isIgnore = true
 				break
 			}
@@ -112,8 +125,8 @@ func handle(w http.ResponseWriter, r *http.Request) {
 
 // эта функция работает плохо
 func sendFile(file string, ctx engine.Context) {
-	pwd, _ := os.Getwd()
-	fmt.Println(pwd + "/" + file)
+	// pwd, _ := os.Getwd()
+	fmt.Println(file)
 	// проблема в этой команде, она просто не работает с:
 	http.ServeFile(ctx.Response, ctx.Request, file)
 }
@@ -129,7 +142,7 @@ func checkStatic(path string) (string, bool) {
 	if _, ok := types[typeFile[1]]; ok {
 		switch typeFile[1] {
 		case "html":
-			return "front/" + path, true
+			return "../front/" + path, true
 		case "css":
 			return "front/css/" + path, true
 		case "js":

@@ -1,0 +1,60 @@
+@import "_auth";
+@import "_table";
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+	font-size: 16px;
+	color: #0f0f0f;
+	margin: 0;
+	background-color: #e6e6e6;
+	-webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+	margin: 0;
+}
+
+button {
+	background: none;
+	border: none;
+	font-size: inherit;
+	cursor: pointer;
+	font-family: inherit;
+}
+
+input,
+textarea {
+	font-family: inherit;
+	border: none;
+
+	&:focus {
+		outline: none;
+	}
+
+	&:hover {
+		outline: none;
+	}
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.exit__btn {
+	width: auto;
+	float: right;
+	margin-bottom: 10px;
+	margin-right: 10px;
+	display: none;
+
+	&.active {
+		display: block;
+	}
+}

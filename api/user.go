@@ -38,6 +38,10 @@ func (a *Api) UserCreate(ctx *engine.Context) {
 		ctx.Error(http.StatusBadRequest, err.Error())
 		return
 	}
+	var lastUser entity.User
+	db.DB().Table("user").Order("iid DESC").Last(&lastUser)
+	item.Iid = lastUser.Iid + 1
+	item.Role = "user"
 	ctx.Print(storage.UserCreate(item))
 }
 
