@@ -1,9 +1,12 @@
 // API
 
 const rootUrl = "http://localhost:8080";
+const exit = document.querySelector('#exit');
+const table = document.querySelector('.table');
+const auth = document.querySelectorAll('.auth');
 
 async function getData(url) {
-    const response = await fetch(url, {
+    const response = await fetch('localhost/user', {
         method: 'GET',
         headers: {
             'Authorization': document.cookie.match(/login=(.+?)(;|$)/)[1]
@@ -69,9 +72,7 @@ async function putData(url, data) {
 
 document.addEventListener('DOMContentLoaded', () => {
     var cookieLogin = document.cookie.match(/login=(.+?)(;|$)/);
-    const exit = document.querySelector('#exit');
-    const table = document.querySelector('.table');
-    const auth = document.querySelectorAll('.auth');
+    
 
     if (cookieLogin) {
         exit.classList.add('active');
@@ -89,19 +90,21 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 // Form
-const fromBtns = document.querySelectorAll('[data-form]');
+// const fromBtns = document.querySelectorAll('[data-form]');
+const forms = document.querySelectorAll('.auth__form');
 
-fromBtns.forEach(formBtn => {
-    formBtn.addEventListener('click', (event) => {
+forms.forEach(form => {
+    form.addEventListener('submit', (event) => {
         event.preventDefault();
-        const formId  = formBtn.dataset.form;
-        const form = document.querySelector(formId);
+        console.log(form.id)
+
+        const formId  = form.id;
         
         switch (formId) {
-            case "#formReg":
+            case "formReg":
                 registration(form);
                 break;
-            case "#formLog":
+            case "formLog":
                 login(form);
                 break;
         }
@@ -117,7 +120,18 @@ function getForm(form) {
 
 // Registration
 const registration = (form) => {
-    postData(`${rootUrl}/user`, getForm(form));
+    postData(`${rootUrl}/user`, getForm(form))
+    .then((result) => {
+        formReg = document.querySelector('#formReg')
+        formReg.innerHTML +="<div class='success'>Успешно! Бегите авторизовываться :)</div>"
+    })
+    .catch((error) => {
+        formReg = document.querySelector('#formReg')
+        formReg.innerHTML +="<div class='error'>Неправильные данные</div>"
+        if (error.message) {
+            console.log(error);
+        }
+    });
 }
 
 // Login
@@ -126,8 +140,15 @@ const login = (form) => {
     .then((result) => {
         document.cookie = `login=${window.result["Token"]}`;
         cookieLogin = document.cookie.match(/login=(.+?)(;|$)/);
+        exit.classList.add('active');
+        table.classList.add('active');
+        auth.forEach(item => {
+            item.classList.remove('active');
+        })
     })
     .catch((error) => {
+        formLog = document.querySelector('#formLog')
+        formLog.innerHTML +="<div class='error'>Неправильные данные</div>"
         if (error.message) {
             console.log(error);
         }
@@ -135,8 +156,15 @@ const login = (form) => {
 }
 
 // Exit
-const exit = document.querySelector('#exit');
 exit.addEventListener('click', () => {
+    deleteData(`${rootUrl}/token`)
+    .then((result) => {
+        exit.classList.remove('active');
+        table.classList.remove('active');
+        auth.forEach(item => {
+            item.classList.add('active');
+        })
+    })
     cleanCookie();
 })
 

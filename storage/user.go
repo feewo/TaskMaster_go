@@ -49,6 +49,12 @@ func UserAuth(usr entity.User) *entity.Token {
 	return &token
 }
 
+func UserAuthDelete(token []string) *entity.Token {
+	var TableToken entity.Token
+	db.DB().Table(TableToken.TableName()).Where("token = ?", token).Delete(&TableToken)
+	return &TableToken
+}
+
 // type UserMx struct {
 // 	myx      sync.RWMutex
 // 	iterUser uint32

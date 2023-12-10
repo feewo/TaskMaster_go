@@ -5,6 +5,9 @@ api:
   UserAuth:
     method: POST
     url: token
+  UserAuthDelete:
+    method: DELETE
+    url: token
   Users:
     method: GET
     url: user

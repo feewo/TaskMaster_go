@@ -58,3 +58,12 @@ input::-webkit-inner-spin-button {
 		display: block;
 	}
 }
+
+.error {
+	color: red;
+	padding-top: 5px;
+}
+.success {
+	color: #053b08;
+	padding-top: 5px;
+}

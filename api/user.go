@@ -102,11 +102,21 @@ func (a *Api) UserAuth(ctx *engine.Context) {
 	}
 	// вывод item
 	var usr entity.User
-	db.DB().Table(usr.TableName()).Where("login = ?", item.Login, " and password = ?", item.Password).Find(&usr)
+	db.DB().Table(usr.TableName()).Where("login = ? AND password = ?", item.Login, item.Password).Find(&usr)
+	fmt.Println(item)
 	if usr.Iid == 0 {
-		ctx.Error(401, "Bad")
+		ctx.Error(401, "Unauthorized")
 		return
 	}
 
 	ctx.Print(storage.UserAuth(usr))
+}
+func (a *Api) UserAuthDelete(ctx *engine.Context) {
+
+	token, ok := ctx.Request.Header["Authorization"]
+	if !ok {
+		ctx.Error(401, "Bad")
+		return
+	}
+	ctx.Print(storage.UserAuthDelete(token))
 }

@@ -65,13 +65,6 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	if pathArr[0] == "js" {
 		http.ServeFile(w, r, "./front/js/app.js")
 	}
-	// вот тут начинаются проблемы
-	// не открывается HTML файл
-	// if stat, ok := checkStatic(path); ok {
-	// 	fmt.Println(stat, "ok")
-	// 	sendFile(stat, ctx)
-	// 	return
-	// }
 	maps, ok := apiMap[r.Method]
 	if !ok {
 		w.Write([]byte("Нет метода"))
@@ -95,13 +88,14 @@ func handle(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		if !isIgnore {
-			token, ok := ctx.Request.Header["Authentication"]
+			token, ok := ctx.Request.Header["Authorization"]
+			fmt.Println(token)
 			if !ok {
 				ctx.Error(401, "Bad")
 				return
 			}
+			fmt.Println(token)
 			var tokenDb entity.Token
-			db.DB().Table(tokenDb.TableName()).Where("token = ? and expired > ?", token, time.Now())
 			var userDb entity.User
 
 			db.DB().Table(tokenDb.TableName()).Where("token = ? and expired > ?", token, time.Now()).Find(&tokenDb)
