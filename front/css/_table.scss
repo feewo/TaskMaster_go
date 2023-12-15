@@ -10,13 +10,74 @@
         display: table;
     }
 
+    &__title {
+        margin-bottom: 10px;
+        padding-left: 10px;
+        font-size: 26px;
+        line-height: 39px;
+        font-weight: 700;
+        text-align: left;
+    }
+    &__add {
+        font-size: 16px;
+        display: none;
+        label {
+            padding-left: 10px;
+        }
+        &-btn {
+            font-size: 16px;
+            padding: 5px 10px 5px 10px;
+            width: unset;
+        }
+        &_active {
+            display: block;
+        }
+    }
     &__cell,
     &__head {
         border: 1px solid #000;
         padding: 15px;
+        font-size: 20px;
+        border-radius: 15px;
+        transition: background-color .2s linear;
     }
 
     &__head {
         background-color: #c7e6c8;
     }
+
+    &__btn {
+        display: none;
+        margin: 10px auto 0 auto;
+        &_active {
+            display: block;
+        }
+    }
+
+    &__error {
+        color: red;
+        display: none;
+        margin-top: 10px;
+        font-size: 20px;
+        line-height: 30px;
+        &_active {
+            display: block;
+        }
+        &-auth-user {
+            &_active {
+                display: block;
+            }
+        }
+        &-auth-task {
+            &_active {
+                display: block;
+            }
+        }
+        &-auth-task-point {
+            &_active {
+                display: block;
+            }
+        }
+    }
 }
+

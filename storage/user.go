@@ -30,8 +30,15 @@ func UserDelete(id uint32) *entity.User {
 }
 
 func UserUpdate(user entity.User, id uint32) *entity.User {
-	db.DB().Table(user.TableName()).Where("iid = ?", id).Save(&user)
-	return &user
+	db.DB().Table(user.TableName()).Where("iid = ?", id).Updates(user)
+	updatedUser := &entity.User{}
+	if user.Iid == 0 {
+		db.DB().Table(user.TableName()).Where("iid = ?", id).First(updatedUser)
+	} else {
+		db.DB().Table(user.TableName()).Where("iid = ?", user.Iid).First(updatedUser)
+	}
+
+	return updatedUser
 }
 
 func UserAuth(usr entity.User) *entity.Token {

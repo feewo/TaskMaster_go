@@ -82,31 +82,28 @@ func handle(w http.ResponseWriter, r *http.Request) {
 				isIgnore = true
 				break
 			}
-			if pathName == "user" && r.Method == "POST" {
-				isIgnore = true
-				break
-			}
+		}
+		if pathName == "user" && r.Method == "POST" {
+			isIgnore = true
 		}
 		if !isIgnore {
 			token, ok := ctx.Request.Header["Authorization"]
-			fmt.Println(token)
 			if !ok {
 				ctx.Error(401, "Bad")
 				return
 			}
-			fmt.Println(token)
 			var tokenDb entity.Token
 			var userDb entity.User
 
 			db.DB().Table(tokenDb.TableName()).Where("token = ? and expired > ?", token, time.Now()).Find(&tokenDb)
-
+			fmt.Println(userDb.Role)
 			if tokenDb.Iid == 0 {
 				ctx.Error(401, "Bad")
 				return
 			}
 			db.DB().Table(userDb.TableName()).Where("iid = ?", tokenDb.Iid).Find(&userDb)
-			if (r.Method == "POST" || r.Method == "DELETE" || r.Method == "PUT") && userDb.Role == "user" {
-				ctx.Error(401, "Bad")
+			if (r.Method == "POST" || r.Method == "DELETE" || r.Method == "PUT") && userDb.Role != "admin" {
+				ctx.Error(403, "Forbidden")
 				return
 			}
 		}

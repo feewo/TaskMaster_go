@@ -41,7 +41,9 @@ func (a *Api) UserCreate(ctx *engine.Context) {
 	var lastUser entity.User
 	db.DB().Table("user").Order("iid DESC").Last(&lastUser)
 	item.Iid = lastUser.Iid + 1
-	item.Role = "user"
+	if item.Role == "" {
+		item.Role = "user"
+	}
 	ctx.Print(storage.UserCreate(item))
 }
 

@@ -26,9 +26,16 @@ func TaskPointDelete(id uint32) *entity.TaskPoint {
 	return &taskpoint
 }
 
-func TaskPointUpdate(taskpoint entity.TaskPoint, id uint32) *entity.TaskPoint {
-	db.DB().Table(taskpoint.TableName()).Where("pid = ?", id).Save(&taskpoint)
-	return &taskpoint
+func TaskPointUpdate(taskPointMap map[string]interface{}, id uint32) *entity.TaskPoint {
+	db.DB().Table("taskpoint").Where("pid = ?", id).Updates(taskPointMap)
+
+	updatedTaskPoint := &entity.TaskPoint{}
+	if pid, ok := taskPointMap["Pid"]; ok {
+		db.DB().Table("taskpoint").Where("pid = ?", pid).First(updatedTaskPoint)
+	} else {
+		db.DB().Table("taskpoint").Where("pid = ?", id).First(updatedTaskPoint)
+	}
+	return updatedTaskPoint
 }
 
 // type TaskPointMx struct {

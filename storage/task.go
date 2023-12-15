@@ -26,9 +26,15 @@ func TaskDelete(id uint32) *entity.Task {
 	return &task
 }
 
-func TaskUpdate(task entity.Task, id uint32) *entity.Task {
-	db.DB().Table(task.TableName()).Where("tid = ?", id).Save(&task)
-	return &task
+func TaskUpdate(taskMap map[string]interface{}, id uint32) *entity.Task {
+	db.DB().Table("task").Where("tid = ?", id).Updates(taskMap)
+	updatedTask := &entity.Task{}
+	if tid, ok := taskMap["Tid"]; ok {
+		db.DB().Table("task").Where("tid = ?", tid).First(updatedTask)
+	} else {
+		db.DB().Table("task").Where("tid = ?", id).First(updatedTask)
+	}
+	return updatedTask
 }
 
 // type TaskMx struct {

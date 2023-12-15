@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css" />
-    <title>Проверка</title>
+    <title>TaskMaster</title>
 </head>
 <body>
     <div class="auth">
@@ -49,57 +49,62 @@
     </div>
 
     <button class="auth__btn exit__btn" id="exit">Выход</button>
-    <table class="table">
-        <tr class="table__row">
-            <th class="table__head">Id</th>
-            <th class="table__head">Логин</th>
-            <th class="table__head">Почта</th>
-            <th class="table__head">Роль</th>
-            <th class="table__head">Пароль</th>
-            <th class="table__head">Удаление</th>
-        </tr>
+    <form class="table__add add__user">
+        <label for="login-user">Логин</label>
+        <input type="text" id="login-user" name="Login" required>
 
-        <tr class="table__row">
-            <form action="" class="table__form">
-                <td class="table__cell">
-                    <input type="number" class="auth__input table__input" value="1" disabled>
-                </td>
-                <td class="table__cell">
-                    <input type="text" class="auth__input table__input" value="PopoffRI" disabled>
-                </td>
-                <td class="table__cell">
-                    <input type="text" class="auth__input table__input" value="Popoff@bk.ru" disabled>
-                </td>
-                <td class="table__cell">
-                    <input type="text" class="auth__input table__input" value="Препод" disabled>
-                </td>
-                <td class="table__cell">
-                    <input type="password" class="auth__input table__input" value="культурология" disabled>
-                </td>
-                <td class="table__cell">
-                    <button class="table__btn auth__input">Удалить</button>
-                </td>
-            </form>
-        </tr>
+        <label for="email-user">Почта</label>
+        <input type="email" id="email-user" name="Email" required>
 
-        <tr class="table__row">
-            <td class="table__cell">
-                <button class="table__btn auth__input">Изменить</button>
-            </td>
-            <td class="table__cell">
-                <button class="table__btn auth__input">Изменить</button>
-            </td>
-            <td class="table__cell">
-                <button class="table__btn auth__input">Изменить</button>
-            </td>
-            <td class="table__cell">
-                <button class="table__btn auth__input">Изменить</button>
-            </td>
-            <td class="table__cell">
-                <button class="table__btn auth__input">Изменить</button>
-            </td>
-        </tr>
+        <label for="role-user">Роль</label>
+        <input type="text" id="role-user" name="Role" required>
+
+        <label for="password-user">Пароль</label>
+        <input type="password" id="password-user" name="Password" required>
+
+        <button class="auth__btn table__add-btn">Создать</button>
+    </form>
+    <table class="table user__table">
+        <caption class="table__title">Пользователи</caption>
     </table>
+    <p class="table__error table__error-user">Ошибка при загрузке данных.</p>
+    <p class="table__error table__error-auth-user">Нет доступа.</p>
+
+    <form class="table__add add__task">
+        <label for="title-task">Название</label>
+        <input type="text" id="title-task" name="Title" required>
+
+        <label for="ready-task">Статус</label>
+        <input type="checkbox" id="ready-task" name="Ready">
+
+        <label for="iid-task">Iid</label>
+        <input type="number" id="iid-task" name="Iid" required>
+
+        <button class="auth__btn table__add-btn">Создать</button>
+    </form>
+    <table class="table task__table">
+        <caption class="table__title">Задачи</caption>
+    </table>
+    <p class="table__error table__error-task">Ошибка при загрузке данных.</p>
+    <p class="table__error table__error-auth-task">Нет доступа.</p>
+
+    <form class="table__add add__task-point">
+        <label for="title-task-point">Название</label>
+        <input type="text" id="title-task-point" name="Title" required>
+
+        <label for="ready-task-point">Статус</label>
+        <input type="checkbox" id="ready-task-point" name="Ready">
+
+        <label for="tid-task-point">Tid</label>
+        <input type="number" id="tid-task-point" name="Tid" required>
+
+        <button class="auth__btn table__add-btn">Создать</button>
+    </form>
+    <table class="table task-point__table">
+        <caption class="table__title">Подзадачи</caption>
+    </table>
+    <p class="table__error table__error-task-point">Ошибка при загрузке данных.</p>
+    <p class="table__error table__error-auth-task-point">Нет доступа.</p>
     <script src="js/app.js"></script>
 </body>
 
