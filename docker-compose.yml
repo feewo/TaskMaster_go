@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  taskmaster_go:
+    build: ./
+    command: go run .
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/usr/src/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+  db:
+    restart: always
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+    - postgres-db:/var/lib/postgresql/data
+volumes:
+  postgres-db:
+

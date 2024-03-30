@@ -3,7 +3,7 @@ package entity
 import "taskmaster/db"
 
 type User struct {
-	Iid      uint32 `json: "iid" gorm:"primaryKey"`
+	Iid      uint32 `json: "iid" sql:"AUTO_INCREMENT" gorm:"primaryKey"`
 	Login    string `json: "login" gorm:"uniqueIndex:idx_user_login.1`
 	Email    string `json: "email"`
 	Role     string `json: "role"`
@@ -11,7 +11,7 @@ type User struct {
 }
 
 func (i User) TableName() string {
-	return "user"
+	return "users"
 }
 
 func MigrateUser() {

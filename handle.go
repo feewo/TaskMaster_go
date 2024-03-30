@@ -52,6 +52,8 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		Response: w,
 		Request:  r,
 	}
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	url := r.URL
 	path := url.Path[1:]
 	pathArr := strings.Split(path, "/")

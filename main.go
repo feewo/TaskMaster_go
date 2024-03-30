@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"taskmaster/config"
+	"taskmaster/db"
 	"time"
 )
 
@@ -19,6 +20,7 @@ func main() {
 		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}
+	db.Migrate()
 	fmt.Println("Listen port" + cfg.Server.Port)
 	server.ListenAndServe()
 }
