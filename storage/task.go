@@ -20,19 +20,19 @@ func TaskGet(id uint32) *entity.Task {
 	return &task
 }
 
-func TaskDelete(id uint32) *entity.Task {
+func TaskDelete(id uint) *entity.Task {
 	var task entity.Task
 	db.DB().Table(task.TableName()).Where("tid = ?", id).Delete(&task)
 	return &task
 }
 
-func TaskUpdate(taskMap map[string]interface{}, id uint32) *entity.Task {
-	db.DB().Table("task").Where("tid = ?", id).Updates(taskMap)
+func TaskUpdate(task entity.Task, id uint) *entity.Task {
+	db.DB().Table(task.TableName()).Where("ID = ?", id).Updates(task)
 	updatedTask := &entity.Task{}
-	if tid, ok := taskMap["Tid"]; ok {
-		db.DB().Table("task").Where("tid = ?", tid).First(updatedTask)
+	if updatedTask.ID == 0 {
+		db.DB().Table(task.TableName()).Where("ID = ?", id).First(updatedTask)
 	} else {
-		db.DB().Table("task").Where("tid = ?", id).First(updatedTask)
+		db.DB().Table(task.TableName()).Where("ID = ?", task.ID).First(updatedTask)
 	}
 	return updatedTask
 }

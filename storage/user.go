@@ -19,36 +19,30 @@ func UserGetAll() []*entity.User {
 }
 func UserGet(id uint32) *entity.User {
 	var user entity.User
-	db.DB().Table(user.TableName()).Where("iid = ?", id).Find(&user)
+	db.DB().Table(user.TableName()).Where("ID = ?", id).Find(&user)
 	return &user
 }
 
 func UserDelete(id uint32) *entity.User {
 	var user entity.User
-	db.DB().Table(user.TableName()).Where("iid = ?", id).Delete(&user)
+	db.DB().Table(user.TableName()).Where("ID = ?", id).Delete(&user)
 	return &user
 }
 
 func UserUpdate(user entity.User, id uint32) *entity.User {
-	db.DB().Table(user.TableName()).Where("iid = ?", id).Updates(user)
+	db.DB().Table(user.TableName()).Where("ID = ?", id).Updates(user)
 	updatedUser := &entity.User{}
-	if user.Iid == 0 {
-		db.DB().Table(user.TableName()).Where("iid = ?", id).First(updatedUser)
+	if user.ID == 0 {
+		db.DB().Table(user.TableName()).Where("ID = ?", id).First(updatedUser)
 	} else {
-		db.DB().Table(user.TableName()).Where("iid = ?", user.Iid).First(updatedUser)
+		db.DB().Table(user.TableName()).Where("ID = ?", user.ID).First(updatedUser)
 	}
-
 	return updatedUser
 }
 
 func UserAuth(usr entity.User) *entity.Token {
-	var lastToken entity.Token
-	db.DB().Table("token").Order("tokid DESC").Last(&lastToken)
-
-	lastTokenID := lastToken.Tokid
 	token := entity.Token{
-		Tokid:   lastTokenID + 1,
-		Iid:     usr.Iid,
+		UserID:  usr.ID,
 		Token:   uuid.NewString(),
 		Expired: time.Now().Add(1 * time.Hour),
 	}

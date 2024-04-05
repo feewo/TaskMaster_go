@@ -16,24 +16,31 @@ func TaskPointGetAll() []*entity.TaskPoint {
 }
 func TaskPointGet(id uint32) *entity.TaskPoint {
 	var taskpoint entity.TaskPoint
-	db.DB().Table(taskpoint.TableName()).Where("pid = ?", id).Find(&taskpoint)
+	db.DB().Table(taskpoint.TableName()).Where("ID = ?", id).Find(&taskpoint)
 	return &taskpoint
 }
 
 func TaskPointDelete(id uint32) *entity.TaskPoint {
 	var taskpoint entity.TaskPoint
-	db.DB().Table(taskpoint.TableName()).Where("pid = ?", id).Delete(&taskpoint)
+	db.DB().Table(taskpoint.TableName()).Where("ID = ?", id).Delete(&taskpoint)
 	return &taskpoint
 }
 
-func TaskPointUpdate(taskPointMap map[string]interface{}, id uint32) *entity.TaskPoint {
-	db.DB().Table("taskpoint").Where("pid = ?", id).Updates(taskPointMap)
-
+func TaskPointUpdate(taskPoint entity.TaskPoint, id uint) *entity.TaskPoint {
+	// db.DB().Table("taskpoints").Where("ID = ?", id).Updates(taskPointMap)
+	// updatedTaskPoint := &entity.TaskPoint{}
+	// if pid, ok := taskPointMap["ID"]; ok {
+	// 	db.DB().Table("taskpoint").Where("ID = ?", pid).First(updatedTaskPoint)
+	// } else {
+	// 	db.DB().Table("taskpoint").Where("ID = ?", id).First(updatedTaskPoint)
+	// }
+	// return updatedTaskPoint
+	db.DB().Table(taskPoint.TableName()).Where("ID = ?", id).Updates(taskPoint)
 	updatedTaskPoint := &entity.TaskPoint{}
-	if pid, ok := taskPointMap["Pid"]; ok {
-		db.DB().Table("taskpoint").Where("pid = ?", pid).First(updatedTaskPoint)
+	if updatedTaskPoint.ID == 0 {
+		db.DB().Table(taskPoint.TableName()).Where("ID = ?", id).First(updatedTaskPoint)
 	} else {
-		db.DB().Table("taskpoint").Where("pid = ?", id).First(updatedTaskPoint)
+		db.DB().Table(taskPoint.TableName()).Where("ID = ?", taskPoint.ID).First(updatedTaskPoint)
 	}
 	return updatedTaskPoint
 }

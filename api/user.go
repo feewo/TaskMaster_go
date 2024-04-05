@@ -10,24 +10,21 @@ import (
 	"taskmaster/engine"
 	"taskmaster/entity"
 	"taskmaster/storage"
-	"time"
-
-	"github.com/google/uuid"
 )
 
-func TokenGet(usr entity.User) entity.Token {
-	var lastToken entity.Token
-	db.DB().Table("token").Order("tokid DESC").Last(&lastToken)
+// func TokenGet(usr entity.User) entity.Token {
+// 	var lastToken entity.Token
+// 	db.DB().Table("token").Order("tokid DESC").Last(&lastToken)
 
-	lastTokenID := lastToken.Tokid
-	token := entity.Token{
-		Tokid:   lastTokenID + 1,
-		Iid:     usr.Iid,
-		Token:   uuid.NewString(),
-		Expired: time.Now().Add(1 * time.Hour),
-	}
-	return token
-}
+// 	lastTokenID := lastToken.Tokid
+// 	token := entity.Token{
+// 		Tokid:   lastTokenID + 1,
+// 		Iid:     usr.Iid,
+// 		Token:   uuid.NewString(),
+// 		Expired: time.Now().Add(1 * time.Hour),
+// 	}
+// 	return token
+// }
 
 func (a *Api) UserCreate(ctx *engine.Context) {
 	decoder := json.NewDecoder(ctx.Request.Body)
@@ -38,9 +35,6 @@ func (a *Api) UserCreate(ctx *engine.Context) {
 		ctx.Error(http.StatusBadRequest, err.Error())
 		return
 	}
-	var lastUser entity.User
-	db.DB().Table("user").Order("iid DESC").Last(&lastUser)
-	item.Iid = lastUser.Iid + 1
 	if item.Role == "" {
 		item.Role = "user"
 	}
@@ -65,6 +59,7 @@ func (a *Api) UserDelete(ctx *engine.Context) {
 	path := ctx.Request.URL.Path[1:]
 	pathArr := strings.Split(path, "/")
 	id := pathArr[1]
+	fmt.Println(path)
 	idUint64, err := strconv.ParseUint(id, 10, 32)
 	if err != nil {
 		fmt.Println("Ошибка при образовании строки в int", err)
@@ -87,6 +82,7 @@ func (a *Api) UserUpdate(ctx *engine.Context) {
 	idUint64, err := strconv.ParseUint(id, 10, 32)
 	if err != nil {
 		fmt.Println("Ошибка при образовании строки в int", err)
+		ctx.Error(422, "Unprocessable Entity")
 	}
 	idUint32 := uint32(idUint64)
 	ctx.Print(storage.UserUpdate(item, idUint32))
@@ -106,7 +102,7 @@ func (a *Api) UserAuth(ctx *engine.Context) {
 	var usr entity.User
 	db.DB().Table(usr.TableName()).Where("login = ? AND password = ?", item.Login, item.Password).Find(&usr)
 	fmt.Println(item)
-	if usr.Iid == 0 {
+	if usr.ID == 0 {
 		ctx.Error(401, "Unauthorized")
 		return
 	}

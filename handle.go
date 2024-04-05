@@ -99,11 +99,11 @@ func handle(w http.ResponseWriter, r *http.Request) {
 
 			db.DB().Table(tokenDb.TableName()).Where("token = ? and expired > ?", token, time.Now()).Find(&tokenDb)
 			fmt.Println(userDb.Role)
-			if tokenDb.Iid == 0 {
+			if tokenDb.UserID == 0 {
 				ctx.Error(401, "Bad")
 				return
 			}
-			db.DB().Table(userDb.TableName()).Where("iid = ?", tokenDb.Iid).Find(&userDb)
+			db.DB().Table(userDb.TableName()).Where("ID = ?", tokenDb.UserID).Find(&userDb)
 			if (r.Method == "POST" || r.Method == "DELETE" || r.Method == "PUT") && userDb.Role != "admin" {
 				ctx.Error(403, "Forbidden")
 				return

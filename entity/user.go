@@ -1,10 +1,14 @@
 package entity
 
-import "taskmaster/db"
+import (
+	"taskmaster/db"
+
+	"gorm.io/gorm"
+)
 
 type User struct {
-	Iid      uint32 `json: "iid" sql:"AUTO_INCREMENT" gorm:"primaryKey"`
-	Login    string `json: "login" gorm:"uniqueIndex:idx_user_login.1`
+	gorm.Model
+	Login    string `json: "login" gorm:"unique"`
 	Email    string `json: "email"`
 	Role     string `json: "role"`
 	Password string `json: "password"`

@@ -5,6 +5,7 @@ import (
 	"os"
 	"time"
 
+	"github.com/joho/godotenv"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -27,8 +28,15 @@ func Migrate() {
 }
 
 func init() {
+	// подключение env-файла
+	err := godotenv.Load(".env")
+	if err != nil {
+		panic(err)
+	}
+	// подключение БД
 	dsn := fmt.Sprintf(
-		"host=db user=%s password=%s dbname=%s port=%s sslmode=disable",
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
+		os.Getenv("DB_HOST"),
 		os.Getenv("DB_USER"),
 		os.Getenv("DB_PASSWORD"),
 		os.Getenv("DB_NAME"),

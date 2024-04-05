@@ -19,7 +19,7 @@ func (a *Api) UserAuth(ctx *engine.Context) {
 	var usr entity.User
 	db.DB().Table(usr.TableName()).Where("login = ? and password = ?",
 		usr.Login, usr.Password).Find(&usr)
-	if usr.Iid == 0 {
+	if usr.ID == 0 {
 		ctx.Error(401, "Bad")
 		return
 	}

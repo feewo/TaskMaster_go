@@ -134,7 +134,8 @@ function getForm(form) {
     const formData = new FormData(form);
     const data = {}
     formData.forEach((value, key) => {
-        if (key.includes('id')) {
+        console.log(value);
+        if (key.includes('id') || key.includes('UserID') || key.includes('TaskID')) {
             value = +value;
         }
 
@@ -223,9 +224,8 @@ const updateCellOrDeleteRow = ({tableSelector, url, idName, errorSelector, error
             const btnSave = e.target;
             const id = btnSave.parentElement.parentElement.parentElement.querySelector('.table__cell').querySelector('.table__input').getAttribute('data-id');
             const input = btnSave.previousElementSibling.previousElementSibling;
-            let value = input.value;
-
-            if (input.name === idName) {
+            console.log(input.type)
+            if (input.name === idName || input.type == "number") {
                 value = +input.value;
             }
 
@@ -336,7 +336,7 @@ const initIsAuthorized = async () => {
     updateCellOrDeleteRow({
         tableSelector: '.user__table', 
         url: '/user/', 
-        idName: 'Iid',
+        idName: 'ID',
         errorSelector: '.table__error-user', 
         errorActiveClass: 'table__error-user_active', 
         errorForbiddenSelector: '.table__error-auth-user', 
@@ -370,7 +370,7 @@ const initIsAuthorized = async () => {
     updateCellOrDeleteRow({
         tableSelector: '.task__table', 
         url: '/task/', 
-        idName: 'Tid',
+        idName: 'ID',
         errorSelector: '.table__error-task', 
         errorActiveClass: 'table__error-task_active', 
         errorForbiddenSelector: '.table__error-auth-task', 
@@ -404,7 +404,7 @@ const initIsAuthorized = async () => {
     updateCellOrDeleteRow({
         tableSelector: '.task-point__table', 
         url: '/taskpoint/', 
-        idName: 'Pid',
+        idName: 'ID',
         errorSelector: '.table__error-task-point', 
         errorActiveClass: 'table__error-task-point_active', 
         errorForbiddenSelector: '.table__error-auth-task-point', 
@@ -537,7 +537,7 @@ const handleLogout = () => {
 // Структура таблиц
 const userHeaders = `
     <tr class="table__row">
-        <th class="table__head">Iid</th>
+        <th class="table__head">ID</th>
         <th class="table__head">Логин</th>
         <th class="table__head">Почта</th>
         <th class="table__head">Роль</th>
@@ -549,7 +549,7 @@ const createRowUser = (row) => {
     return `<tr class="table__row">
                 <td class="table__cell">
                     <form class="table__form">
-                        <input type="number" class="auth__input table__input" name="Iid" value=${row.Iid} data-id=${row.Iid} disabled>
+                        <input type="number" class="auth__input table__input" name="ID" value=${row.ID} data-id=${row.ID} disabled>
                         <button class="table__btn auth__input table__btn_active">Изменить</button>
                         <button class="table__btn auth__input" type="submit">Сохранить</button>
                         <button class="table__btn auth__input">Закрыть</button>
@@ -595,10 +595,10 @@ const createRowUser = (row) => {
 
 const taskHeaders = `
     <tr class="table__row">
-        <th class="table__head">Tid</th>
+        <th class="table__head">ID</th>
         <th class="table__head">Название</th>
         <th class="table__head">Статус</th>
-        <th class="table__head">Iid</th>
+        <th class="table__head">UserID</th>
         <th class="table__head">Удаление</th>
     </tr>`;
 
@@ -606,7 +606,7 @@ const createRowTask = (row) => {
     return `<tr class="table__row">
                 <td class="table__cell">
                     <form class="table__form">
-                        <input type="number" class="auth__input table__input" name="Tid" value=${row.Tid} data-id=${row.Tid} disabled>
+                        <input type="number" class="auth__input table__input" name="ID" value=${row.ID} data-id=${row.ID} disabled>
                         <button class="table__btn auth__input table__btn_active">Изменить</button>
                         <button class="table__btn auth__input" type="submit">Сохранить</button>
                         <button class="table__btn auth__input">Закрыть</button>
@@ -630,7 +630,7 @@ const createRowTask = (row) => {
                 </td>
                 <td class="table__cell">
                     <form class="table__form">
-                        <input type="text" class="auth__input table__input" name="Iid" value=${row.Iid} disabled>
+                        <input type="number" class="auth__input table__input" name="UserID" value=${row.UserID} disabled>
                         <button class="table__btn auth__input table__btn_active">Изменить</button>
                         <button class="table__btn auth__input" type="submit">Сохранить</button>
                         <button class="table__btn auth__input">Закрыть</button>
@@ -644,10 +644,10 @@ const createRowTask = (row) => {
 
 const taskPointHeaders = `
     <tr class="table__row">
-        <th class="table__head">Pid</th>
+        <th class="table__head">ID</th>
         <th class="table__head">Название</th>
         <th class="table__head">Статус</th>
-        <th class="table__head">Tid</th>
+        <th class="table__head">TaskID</th>
         <th class="table__head">Удалить</th>
     </tr>`;
 
@@ -655,7 +655,7 @@ const createRowTaskPoint = (row) => {
     return `<tr class="table__row">
                 <td class="table__cell">
                     <form class="table__form">
-                        <input type="number" class="auth__input table__input" name="Pid" value=${row.Pid} data-id=${row.Pid} disabled>
+                        <input type="number" class="auth__input table__input" name="ID" value=${row.ID} data-id=${row.ID} disabled>
                         <button class="table__btn auth__input table__btn_active">Изменить</button>
                         <button class="table__btn auth__input" type="submit">Сохранить</button>
                         <button class="table__btn auth__input">Закрыть</button>
@@ -679,7 +679,7 @@ const createRowTaskPoint = (row) => {
                 </td>
                 <td class="table__cell">
                     <form class="table__form">
-                        <input type="text" class="auth__input table__input" name="Tid" value=${row.Tid} disabled>
+                        <input type="text" class="auth__input table__input" name="TaskID" value=${row.TaskID} disabled>
                         <button class="table__btn auth__input table__btn_active">Изменить</button>
                         <button class="table__btn auth__input" type="submit">Сохранить</button>
                         <button class="table__btn auth__input">Закрыть</button>

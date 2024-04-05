@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"taskmaster/db"
 	"taskmaster/engine"
 	"taskmaster/entity"
 	"taskmaster/storage"
@@ -16,14 +15,10 @@ func (a *Api) TaskCreate(ctx *engine.Context) {
 	decoder := json.NewDecoder(ctx.Request.Body)
 	var item entity.Task
 	err := decoder.Decode(&item)
-	// проверка на ошибки
 	if err != nil {
 		ctx.Error(http.StatusBadRequest, err.Error())
 		return
 	}
-	var lastTask entity.Task
-	db.DB().Table("task").Order("tid DESC").Last(&lastTask)
-	item.Tid = lastTask.Tid + 1
 	ctx.Print(storage.TaskCreate(item))
 }
 
@@ -44,19 +39,22 @@ func (a *Api) Task(ctx *engine.Context) {
 func (a *Api) TaskDelete(ctx *engine.Context) {
 	path := ctx.Request.URL.Path[1:]
 	pathArr := strings.Split(path, "/")
-	id := pathArr[1]
-	idUint64, err := strconv.ParseUint(id, 10, 32)
+	idString := pathArr[1]
+	// преобразование в uint
+	idUint64, err := strconv.ParseUint(idString, 10, 64)
 	if err != nil {
 		fmt.Println("Ошибка при образовании строки в int", err)
+		return
 	}
-	idUint32 := uint32(idUint64)
-	storage.TaskDelete(idUint32)
+	id := uint(idUint64)
+	storage.TaskDelete(id)
 }
 
 func (a *Api) TaskUpdate(ctx *engine.Context) {
 	decoder := json.NewDecoder(ctx.Request.Body)
-	var taskMap map[string]interface{}
-	err := decoder.Decode(&taskMap)
+	// var taskMap map[string]interface{}
+	var task entity.Task
+	err := decoder.Decode(&task)
 	if err != nil {
 		ctx.Error(http.StatusBadRequest, err.Error())
 		return
@@ -68,6 +66,6 @@ func (a *Api) TaskUpdate(ctx *engine.Context) {
 	if err != nil {
 		fmt.Println("Ошибка при образовании строки в int", err)
 	}
-	idUint32 := uint32(idUint64)
-	ctx.Print(storage.TaskUpdate(taskMap, idUint32))
+	idUint := uint(idUint64)
+	ctx.Print(storage.TaskUpdate(task, idUint))
 }

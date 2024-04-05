@@ -3,11 +3,14 @@ package entity
 import (
 	"taskmaster/db"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 type Token struct {
-	Tokid   uint32    `json tokid sql:"AUTO_INCREMENT" gorm:"primaryKey;autoIncrement"`
-	Iid     uint32    `json iid gorm:"index:idx_item_iid`
+	gorm.Model
+	UserID  uint      `json: "uid"`
+	User    User      `gorm:"foreignkey:UserID"`
 	Token   string    `json token`
 	Expired time.Time `json expired`
 }

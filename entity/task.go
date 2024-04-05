@@ -2,13 +2,16 @@ package entity
 
 import (
 	"taskmaster/db"
+
+	"gorm.io/gorm"
 )
 
 type Task struct {
-	Tid   uint32 `json: "tid" sql:"AUTO_INCREMENT" gorm:"primaryKey"`
-	Title string `json: "title"`
-	Ready bool   `json: "ready"`
-	Iid   uint32 `json: "iid" gorm:"index:idx_item_iid`
+	gorm.Model
+	Title  string `json: "title"`
+	Ready  *bool  `json: "ready"`
+	UserID uint   `json: "uid"`
+	User   User   `gorm:"foreignkey:UserID"`
 }
 
 func (i Task) TableName() string {

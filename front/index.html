@@ -75,10 +75,11 @@
         <input type="text" id="title-task" name="Title" required>
 
         <label for="ready-task">Статус</label>
+        <input type="hidden" name="Ready" value="off">
         <input type="checkbox" id="ready-task" name="Ready">
 
-        <label for="iid-task">Iid</label>
-        <input type="number" id="iid-task" name="Iid" required>
+        <label for="iid-task">UserID</label>
+        <input type="number" id="iid-task" name="UserID" required>
 
         <button class="auth__btn table__add-btn">Создать</button>
     </form>
@@ -93,10 +94,11 @@
         <input type="text" id="title-task-point" name="Title" required>
 
         <label for="ready-task-point">Статус</label>
+        <input type="hidden" name="Ready" value="off">
         <input type="checkbox" id="ready-task-point" name="Ready">
 
-        <label for="tid-task-point">Tid</label>
-        <input type="number" id="tid-task-point" name="Tid" required>
+        <label for="tid-task-point">TaskID</label>
+        <input type="number" id="tid-task-point" name="TaskID" required>
 
         <button class="auth__btn table__add-btn">Создать</button>
     </form>

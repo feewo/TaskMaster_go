@@ -1,12 +1,17 @@
 package entity
 
-import "taskmaster/db"
+import (
+	"taskmaster/db"
+
+	"gorm.io/gorm"
+)
 
 type TaskPoint struct {
-	Pid   uint32 `json: "pid" sql:"AUTO_INCREMENT" gorm:"primaryKey"`
-	Title string `json: "title"`
-	Ready bool   `json: "ready"`
-	Tid   uint32 `json: "tid" gorm:"index:idx_taskpoint_tid`
+	gorm.Model
+	Title  string `json: "title"`
+	Ready  *bool  `json: "ready"`
+	TaskID uint   `json: "tid"`
+	Task   Task   `gorm:"foreignkey:TaskID"`
 }
 
 func (i TaskPoint) TableName() string {

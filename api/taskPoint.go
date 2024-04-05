@@ -6,7 +6,6 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"taskmaster/db"
 	"taskmaster/engine"
 	"taskmaster/entity"
 	"taskmaster/storage"
@@ -21,9 +20,6 @@ func (a *Api) TaskPointCreate(ctx *engine.Context) {
 		ctx.Error(http.StatusBadRequest, err.Error())
 		return
 	}
-	var lastTaskPoint entity.TaskPoint
-	db.DB().Table("taskpoint").Order("pid DESC").Last(&lastTaskPoint)
-	item.Pid = lastTaskPoint.Pid + 1
 	ctx.Print(storage.TaskPointCreate(item))
 }
 
@@ -55,8 +51,9 @@ func (a *Api) TaskPointDelete(ctx *engine.Context) {
 
 func (a *Api) TaskPointUpdate(ctx *engine.Context) {
 	decoder := json.NewDecoder(ctx.Request.Body)
-	var taskPointMap map[string]interface{}
-	err := decoder.Decode(&taskPointMap)
+	// var taskPointMap map[string]interface{}
+	var taskPoint entity.TaskPoint
+	err := decoder.Decode(&taskPoint)
 	if err != nil {
 		ctx.Error(http.StatusBadRequest, err.Error())
 		return
@@ -68,6 +65,7 @@ func (a *Api) TaskPointUpdate(ctx *engine.Context) {
 	if err != nil {
 		fmt.Println("Ошибка при образовании строки в int", err)
 	}
-	idUint32 := uint32(idUint64)
-	ctx.Print(storage.TaskPointUpdate(taskPointMap, idUint32))
+	idUint := uint(idUint64)
+	// ctx.Print(storage.TaskPointUpdate(taskPointMap, idUint))
+	ctx.Print(storage.TaskPointUpdate(taskPoint, idUint))
 }
