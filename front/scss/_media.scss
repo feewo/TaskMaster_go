@@ -1,0 +1,372 @@
+@media (max-width: 1500px) {
+    // Page
+    .page {
+        &__bg {
+            height: 200px !important;
+        }
+    }
+
+    // Main
+    .main {
+        &__img {
+            height: 300px;
+        }
+    }
+}
+
+@media (max-width: 1024px) {
+    // Page
+    .page {
+        &__bg {
+            height: 160px !important
+        }
+    }
+
+    // Main
+    .main {
+        &__img {
+            height: 230px
+        }
+
+        &__subtitle {
+            margin-bottom: 30px;
+        }
+
+        &__text {
+            margin-bottom: 25px;
+        }
+    }
+
+    // Reg
+    .reg {
+        &__subtitle {
+            margin-bottom: 25px;
+        }
+
+        &__inner {
+            margin-bottom: 20px;
+        }
+    }
+
+    // Auth
+    .auth {
+        &__input {
+            margin-bottom: 20px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    // Reg
+    .reg {
+        &__inner {
+            grid-column-gap: 20px;
+        }
+    }
+
+    // Login
+    .login {
+        &__title {
+            margin-bottom: 35px;
+        }
+
+        &__img {
+            display: none;
+        }
+
+        &__inner {
+            grid-template-columns: 1fr;
+        }
+
+        &__btn {
+            margin-top: 15px;
+        }
+    }
+
+    // Task
+    .task {
+        &__top {
+            margin-bottom: 20px;
+        }
+
+        &__create {
+            padding: 5px 18px 5px 36px;
+
+            &-circle {
+                width: 25px;
+                height: 25px;
+            }
+
+            &-icon {
+                width: 15px;
+                height: 15px;
+            }
+        }
+
+        &__item {
+            &-btn {
+                margin-left: 13px;
+            }
+
+            &-icon {
+                width: 20px;
+                height: 20px;
+            }
+
+            &-plus {
+                width: 20px;
+                height: 20px;
+
+                &>.task__item-icon {
+                    width: 11px;
+                    height: 11px;
+                }
+            }
+
+            &-flag {
+                width: 15px;
+                height: 15px;
+            }
+
+            &-label {
+                padding-left: 10px;
+            }
+
+            &-delete {
+                width: 15px;
+                height: 15px;
+            }
+
+            &-edit {
+                width: 11px;
+                height: 11px;
+            }
+        }
+    }
+
+    // Head
+    .head {
+        height: 200px;
+        margin-bottom: 35px;
+
+        &__photo {
+            @include photo (125px, 125px, 50%);
+        }
+    }
+
+    // Modal
+    .modal {
+        &__content {
+            padding: 25px 30px 20px 30px;
+        }
+
+        &__icon {
+            width: 25px;
+            height: 25px;
+        }
+
+        &__ready {
+            &-icon {
+                width: 30px;
+                height: 30px;
+            }
+        }
+    }
+
+    // Auth
+    .auth {
+        &__label--modal {
+            padding-left: 6px !important;
+        }
+
+        &__input--modal {
+            padding: 8px 16px !important;
+        }
+    }
+
+    // Account
+    .account {
+        &__head {
+            margin-bottom: 25px;
+        }
+        
+        &__icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        &__body {
+            grid-gap: 20px;
+        }
+
+        &__block {
+            padding: 17px 23px;
+        }
+
+        &__title {
+            margin-bottom: 20px;
+        }
+
+        &__item {
+            margin-bottom: 25px;
+            height: 25px;
+        }
+
+        &__text {
+            padding-right: 10px;
+        }
+    }
+}  
+
+@media (max-width: 520px) {
+    // Reg
+    .reg {
+        &__inner {
+            display: block;
+        }
+    }
+
+    // Login
+    .login {
+        &__inner {
+            display: block;
+        }
+
+        &__img {
+            display: block;
+            height: 180px;
+            margin-bottom: 20px;
+        }
+    }
+
+    // Account
+    .account {
+        &__body {
+            grid-template-columns: 1fr;
+        }
+    }
+}  
+
+@media (max-width: 425px) {
+    // Page
+    .page {
+        &--main {
+            padding-top: 15%;
+        }
+
+        &--scroll {
+            padding-bottom: 15px;
+        }
+        
+        &__bg {
+            height: 145px !important
+        }
+    }
+
+    // Main
+    .main {
+        &__text {
+            display: none;
+        }
+    }
+
+    // Auth
+    .auth {
+        &__input {
+            padding: 12px 17px;
+
+            &--account {
+                padding: 7px 14px;
+            }
+        }
+
+        &__label {
+            padding-left: 10px;
+        }
+    }
+
+    // Task
+    .task {
+        &__item {
+            border-radius: 15px;
+            padding: 16px 18px;
+
+            &-icon {
+                width: 16px;
+                height: 16px;
+            }
+
+            &-container {
+                margin-right: 0;
+                padding-right: 11px;
+
+                &::-webkit-scrollbar {
+                    width: 3px;
+                }
+            }
+
+            &-plus {
+                width: 16px;
+                height: 16px;
+
+                &>.task__item-icon {
+                    width: 8px;
+                    height: 8px;
+                }
+            }
+
+            &-title {
+                padding-right: 85px;
+            }
+        }
+    }
+
+    // Head
+    .head {
+        height: 175px;
+        margin-bottom: 15px;
+
+        &__photo {
+            @include photo(110px, 110px, 50%);
+            border: 3px solid $colorBlue;
+            margin-bottom: 0;
+        }
+    }
+
+    // Modal
+    .modal {
+        &__content {
+            padding: 20px 18px 15px 18px;
+        }
+
+        &__close {
+            top: 8px;
+            right: 12px;
+        }
+
+        &__ready {
+            margin-left: 15px;
+            
+            &-icon {
+                width: 25px;
+                height: 25px;
+            }
+        }
+    }
+}
+
+@media (max-width: 375px) {
+    // Btn
+    .btn {
+        min-width: 100% !important;
+    }
+
+    // Account
+    .account {
+        &__head {
+            &-btns {
+                display: block;
+            }
+        }
+    }
+}

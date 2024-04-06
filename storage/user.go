@@ -17,19 +17,19 @@ func UserGetAll() []*entity.User {
 	db.DB().Find(&users)
 	return users
 }
-func UserGet(id uint32) *entity.User {
+func UserGet(id uint) *entity.User {
 	var user entity.User
 	db.DB().Table(user.TableName()).Where("ID = ?", id).Find(&user)
 	return &user
 }
 
-func UserDelete(id uint32) *entity.User {
+func UserDelete(id uint) *entity.User {
 	var user entity.User
 	db.DB().Table(user.TableName()).Where("ID = ?", id).Delete(&user)
 	return &user
 }
 
-func UserUpdate(user entity.User, id uint32) *entity.User {
+func UserUpdate(user entity.User, id uint) *entity.User {
 	db.DB().Table(user.TableName()).Where("ID = ?", id).Updates(user)
 	updatedUser := &entity.User{}
 	if user.ID == 0 {

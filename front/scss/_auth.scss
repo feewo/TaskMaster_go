@@ -1,0 +1,79 @@
+.auth {
+    &__label {
+        @include fontSize(20);
+        margin-bottom: 10px;
+        padding-left: 20px;
+        display: block;
+        text-align: start;
+        cursor: pointer;
+
+        &--modal {
+            @include fontSize(18);
+            padding-left: 10px;
+        }
+    }
+
+    &__input {
+        width: 100%;
+        background-color: $colorWhite;
+        border-radius: 100px;
+        padding: 17px 30px;
+        @include fontSize(16);
+        font-weight: 400;
+        border: 2px solid transparent;
+        transition: border .2s linear;
+        margin-bottom: 30px;
+
+        &--modal {
+            padding: 11px 19px !important;
+            border: 2px solid $colorDarkBlue !important;
+            margin-bottom: 0 !important;
+
+            &.error {
+                border: 2px solid $colorError !important;
+            }
+        }
+
+        &--account {
+            height: 100%;
+            padding: 0 15px;
+            margin-bottom: 0 !important;
+            border: 2px solid $colorDarkBlue;
+            @include fontSize(14);
+            margin-right: 20px;
+        }
+
+        &::placeholder {
+            color: $colorGray;
+        }
+
+        &:focus {
+            border: 2px solid $colorDarkBlue;
+            color: $colorDarkBlue;
+            font-weight: 500;
+        }
+
+        &:hover {
+            border: 2px solid $colorDarkBlue;
+        }
+
+        &.error {
+            border: 2px solid $colorError;
+        }
+    }
+
+    &__error {
+        display: none;
+        @include fontSize(16);
+        font-weight: 400;
+        color: $colorError;
+        text-align: left;
+        padding-left: 10px;
+        margin-top: -10px;
+        margin-bottom: 20px;
+
+        &.active {
+            display: block;
+        }
+    }
+}

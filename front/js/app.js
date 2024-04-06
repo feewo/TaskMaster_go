@@ -1,704 +1,487 @@
-// API
+// Edit
+const taskItems = document.querySelectorAll('.task__item');
 
-const rootUrl = "http://localhost:8080";
-const exit = document.querySelector('#exit');
-const tables = document.querySelectorAll('.table');
-const table__errors = document.querySelectorAll('.table__error');
-const table__adds = document.querySelectorAll('.table__add');
-const auth = document.querySelectorAll('.auth');
-let cookieLogin = document.cookie.match(/login=(.+?)(;|$)/);
-let users = [];
-let tasks = [];
-let taskPoints = [];
+taskItems.forEach(taskItem => {
+    taskItem.addEventListener('click', (event) => {
+        const clickEdit = event.target.closest('.task__item--edit');
+        const clickDeletePoint = event.target.closest('.task__item-right');
+        const clickDelete = event.target.closest('.task__item-btn--delete');
+        const clickReady = event.target.closest('.task__item-btn--ready');
 
-async function getData(url) {
-    const response = await fetch(url, {
-        method: 'GET',
-        headers: {
-            'Authorization': document.cookie.match(/login=(.+?)(;|$)/)[1]
+        if (clickEdit) {
+            editMode(clickEdit);
         }
-    });
+        if (clickDeletePoint) {
+            deletePoint(clickDeletePoint);
+        }
+        if (clickDelete) {
+            deleteTask(clickDelete);
+        }
+        if (clickReady) {
+            defaultMode(clickReady);
+        }
+    })
+})
 
-    if (!response.ok) {
-        if (response.status === 401) {
-            throw new Error(`Не авторизован`);
-        }
-        if (response.status === 403) {
-            throw new Error(`Нет доступа`);
-        }
-        if (response.status >= 400) {
-            throw new Error(`Ошибка`);
-        }
-    }
-
-    return await response.json();
-}
-
-async function postData(url, data) {
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Authorization': document.cookie.match(/login=(.+?)(;|$)/)[1],
-            'Content-Type': 'application/json'
-        },
-        body: data,
-    });
-
-    if (!response.ok) {
-        if (response.status === 401) {
-            throw new Error(`Не авторизован`);
-        }
-        if (response.status === 403) {
-            throw new Error(`Нет доступа`);
-        }
-        if (response.status >= 400) {
-            throw new Error(`Ошибка`);
-        }
-    }
-
-    return await response.json();
-}
-
-async function postDataAuth(url, data) {
-    const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: data,
-    });
-    if (!response.ok) {
-        if (response.status === 401) {
-            throw new Error(`Не авторизован`);
-        }
-        if (response.status === 403) {
-            throw new Error(`Нет доступа`);
-        }
-        if (response.status >= 400) {
-            throw new Error(`Ошибка`);
-        }
-    }
-
-    return await response.json();
-}
-
-async function deleteData(url) {
-    const response = await fetch(url, {
-        method: 'DELETE',
-        headers: {
-            'Authorization': document.cookie.match(/login=(.+?)(;|$)/)[1]
-        }
-    });
-
-    if (!response.ok) {
-        if (response.status === 401) {
-            throw new Error(`Не авторизован`);
-        }
-        if (response.status === 403) {
-            throw new Error(`Нет доступа`);
-        }
-        if (response.status >= 400) {
-            throw new Error(`Ошибка`);
-        }
-    }
-
-    return response;
-}
-
-async function putData(url, data) {
-    const response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Authorization': document.cookie.match(/login=(.+?)(;|$)/)[1],
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-        if (response.status === 401) {
-            throw new Error(`Не авторизован`);
-        }
-        if (response.status === 403) {
-            throw new Error(`Нет доступа`);
-        }
-        if (response.status >= 400) {
-            throw new Error(`Ошибка`);
-        }
-    }
-
-    return await response.json();
-}
-
-function getForm(form) {
-    const formData = new FormData(form);
-    const data = {}
-    formData.forEach((value, key) => {
-        console.log(value);
-        if (key.includes('id') || key.includes('UserID') || key.includes('TaskID')) {
-            value = +value;
-        }
-
-        // Если перебираемый элемент является чекбоксом, то пара ключ-значение будет выглядить как key: 'on/off'. Мы строку 'on/off' меняем на булево значение
-        if (value === 'on') {
-            value = true;
-        } else if (value === 'off') {
-            value = false;
-        }
-
-        data[key] = value;
-    });
+const deleteTask = (btn) => {
+    const taskItem = btn.parentElement.parentElement.parentElement;
     
-    return JSON.stringify(data)
+    taskItem.style.opacity = '0';
+    setTimeout(() => {
+        taskItem.classList.add('hide');
+    }, 200)
 }
 
-const showErrorMessage = (errorSelector, errorActiveClass) => {
-    const error = document.querySelector(errorSelector);
+const deletePoint = (btn) => {
+    const point = btn.parentElement;
 
-    error.classList.add(errorActiveClass);
-};
+    point.style.opacity = '0';
+    setTimeout(() => {
+        point.classList.add('hide');
+    }, 200)
+}
 
-// Users
-const getTable = async ({url, table, errorSelector, errorActiveClass, errorForbiddenSelector, errorForbiddenActiveClass}) => {
-    try {
-        // к исходному массиву, который был передан в качестве аргумента (например users) добавляем новые данные, которые пришли с сервера
-        // https://newwebmaster.ru/merge-arrays-in-js/
-        table.push(...await getData(`${rootUrl}${url}`));
-    } catch(error) {
-        if (error.message === "Не авторизован") {
-            logout();
-        } else if (error.message === "Нет доступа") {
-            showErrorMessage(errorForbiddenSelector, errorForbiddenActiveClass)
-        } else {
-            showErrorMessage(errorSelector, errorActiveClass)
-        }
-    }
-};
+const editMode = (btnEdit) => {
+    const btns = btnEdit.parentElement;
+    const btnAdd = btns.querySelector('.task__item-plus');
+    const btnsEdit = btns.querySelectorAll('.task__item-btn--edit');
 
-const createTable = ({rows, tableSelector, tableHeaders, createRow}) => {
-    const table = document.querySelector(tableSelector);
+    const taskItem = btns.parentElement.parentElement;
+    const btnsDelete = taskItem.querySelectorAll('.task__item-right');
+    const btnsChange = taskItem.querySelectorAll('.task__item-btnedit');
 
-    table.insertAdjacentHTML('beforeend', tableHeaders);
+    // Hide
+    btnEdit.style.opacity = '0';
+    btnAdd.style.opacity = '0';
 
-    rows.forEach((row) => {
-        table.insertAdjacentHTML('beforeend', createRow(row));
+    setTimeout(() => {
+        btnEdit.classList.add('hide');
+        btnAdd.classList.add('hide');
+    }, 200)
+
+    // Show
+    btnsEdit.forEach(btn => {
+        btn.classList.add('show');
+
+        setTimeout(() => {
+            btn.style.opacity = '1';
+        }, 200)
     })
-};
 
-const updateCellOrDeleteRow = ({tableSelector, url, idName, errorSelector, errorActiveClass, errorForbiddenSelector, errorForbiddenActiveClass}) => {
-    const table = document.querySelector(tableSelector);
+    showBtns(btnsEdit);
+    showBtns(btnsDelete);
+    showBtns(btnsChange);
+}
 
-    table.addEventListener('click', (e) => {
-        // Если кликнули не по кнопке "Изменить, Закрыть, Сохранить, Удалить", то ничего не делаем
-        if (e.target && !e.target.classList.contains('table__btn')) return;
-        e.preventDefault();
 
-        const btnActiveClass = 'table__btn_active';
-            
-        if (e.target.textContent === 'Изменить') {
-            const btnUpdate = e.target;
-            const btnSave = btnUpdate.nextElementSibling;
-            const btnClose = btnUpdate.nextElementSibling.nextElementSibling;
-            const input = btnUpdate.previousElementSibling;
+const defaultMode = (btnReady) => {
+    const btns = btnReady.parentElement;
+    const btnEdit = btns.querySelector('.task__item--edit');
+    const btnAdd = btns.querySelector('.task__item-plus');
+    const btnsEdit = btns.querySelectorAll('.task__item-btn--edit');
 
-            btnUpdate.classList.remove(btnActiveClass);
-            btnSave.classList.add(btnActiveClass);
-            btnClose.classList.add(btnActiveClass);
-            input.disabled = '';
-            input.focus();
-        }
+    const taskItem = btns.parentElement.parentElement;
+    const btnsDelete = taskItem.querySelectorAll('.task__item-right');
+    const btnsChange = taskItem.querySelectorAll('.task__item-btnedit');
 
-        if (e.target.textContent === 'Закрыть') {
-            const btnClose = e.target;
-            const btnUpdate = btnClose.previousElementSibling.previousElementSibling;
-            const btnSave = btnClose.previousElementSibling;
-            const input = btnClose.previousElementSibling.previousElementSibling.previousElementSibling;
-        
-            btnUpdate.classList.add(btnActiveClass);
-            btnSave.classList.remove(btnActiveClass);
-            btnClose.classList.remove(btnActiveClass);
-            input.disabled = 'disabled';
-        }
+    // Hide
+    hideBtns(btnsEdit);
+    hideBtns(btnsDelete);
+    hideBtns(btnsChange);
 
-        if (e.target.textContent === 'Сохранить') {
-            const btnSave = e.target;
-            const id = btnSave.parentElement.parentElement.parentElement.querySelector('.table__cell').querySelector('.table__input').getAttribute('data-id');
-            const input = btnSave.previousElementSibling.previousElementSibling;
-            console.log(input.type)
-            if (input.name === idName || input.type == "number") {
-                value = +input.value;
-            }
+    // Show
+    btnAdd.classList.remove('hide');
+    btnEdit.classList.remove('hide');
 
-            if (input.type === 'checkbox') {
-                value = input.checked;
-            }
+    setTimeout(() => {
+        btnAdd.style.opacity = '1';
+        btnEdit.style.opacity = '1';
+    }, 200)
+}
 
-            putData(`${rootUrl}${url}${id}`, {
-                [input.name]: value
-            })
-                .then(() => {
-                    const btnSave = e.target;
-                    const btnUpdate = btnSave.previousElementSibling;
-                    const btnClose = btnSave.nextElementSibling;
-                    const input = btnSave.previousElementSibling.previousElementSibling;
-                
-                    btnClose.classList.remove(btnActiveClass);
-                    btnSave.classList.remove(btnActiveClass);
-                    btnUpdate.classList.add(btnActiveClass);
-                    input.disabled = 'disabled';
-                })
-                .catch((error) => {
-                    if (error.message === "Не авторизован") {
-                        logout();
-                    } else if (error.message === "Нет доступа") {
-                        showErrorMessage(errorForbiddenSelector, errorForbiddenActiveClass)
-                    } else {
-                        showErrorMessage(errorSelector, errorActiveClass)
-                    }
-                });
-        }
+const showBtns = (btns) => {
+    btns.forEach(btn => {
+        btn.classList.add('show');
 
-        if (e.target.textContent === 'Удалить') {
-            const btnDelete = e.target;
-            const row = btnDelete.parentElement.parentElement;
-            const id = btnDelete.parentElement.parentElement.querySelector('[data-id]').getAttribute('data-id');
-
-            deleteData(`${rootUrl}${url}${id}`)
-                .then(() => {
-                    row.remove();
-                })
-                .catch((error) => {
-                    if (error.message === "Не авторизован") {
-                        logout();
-                    } else if (error.message === "Нет доступа") {
-                        showErrorMessage(errorForbiddenSelector, errorForbiddenActiveClass)
-                    } else {
-                        showErrorMessage(errorSelector, errorActiveClass)
-                    }
-                });
-        }
+        setTimeout(() => {
+            btn.style.opacity = '1';
+        }, 200)
     })
-};
+}
 
-const addRow = ({formSelector, url, tableSelector, createRow, errorSelector, errorActiveClass, errorForbiddenSelector, errorForbiddenActiveClass}) => {
-    const form = document.querySelector(formSelector);
+const hideBtns = (btns) => {
+    btns.forEach(btn => {
+        btn.style.opacity = '0';
 
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
+        setTimeout(() => {
+            btn.classList.remove('show');
+        }, 200)
+    })
+}
 
-        try {
-            const row = await postData(`${rootUrl}${url}`, getForm(form));
-            console.log(row)
-            const table = document.querySelector(tableSelector);
+// Account
+const changeBtns = document.querySelectorAll('.account__btn--change');
 
-            table.insertAdjacentHTML('beforeend', createRow(row));
-        } catch(error) {
-            if (error.message === "Не авторизован") {
-                logout();
-            } else if (error.message === "Нет доступа") {
-                showErrorMessage(errorForbiddenSelector, errorForbiddenActiveClass)
-            } else {
-                showErrorMessage(errorSelector, errorActiveClass)
-            }
-        } finally {
-            e.target.reset();
-        }
-    });
-};
-
-// Login
-const initIsAuthorized = async () => {
-    exit.classList.add('active');
-    tables.forEach(table => {
-        table.classList.add('active');
-    });
-    table__adds.forEach(table__add => {
-        table__add.classList.add('table__add_active');
-    });
-    auth.forEach(item => {
-        item.classList.remove('active');
-    });
-
-    await getTable({
-        url: '/user', 
-        table: users, 
-        errorSelector: '.table__error-user', 
-        errorActiveClass: 'table__error-user_active', 
-        errorForbiddenSelector: '.table__error-auth-user', 
-        errorForbiddenActiveClass: 'table__error-auth-user_active',
-    });
-    createTable({
-        rows: users, 
-        tableSelector: '.user__table',
-        tableHeaders: userHeaders,
-        createRow: createRowUser,
-    });
-    updateCellOrDeleteRow({
-        tableSelector: '.user__table', 
-        url: '/user/', 
-        idName: 'ID',
-        errorSelector: '.table__error-user', 
-        errorActiveClass: 'table__error-user_active', 
-        errorForbiddenSelector: '.table__error-auth-user', 
-        errorForbiddenActiveClass: 'table__error-auth-user_active',
-    });
-    addRow({
-        formSelector: '.add__user', 
-        url: '/user', 
-        tableSelector: '.user__table', 
-        createRow: createRowUser,
-        errorSelector: '.table__error-user', 
-        errorActiveClass: 'table__error-user_active', 
-        errorForbiddenSelector: '.table__error-auth-user', 
-        errorForbiddenActiveClass: 'table__error-auth-user_active',
-    });
-
-    await getTable({
-        url: '/task', 
-        table: tasks, 
-        errorSelector: '.table__error-task', 
-        errorActiveClass: 'table__error-task_active', 
-        errorForbiddenSelector: '.table__error-auth-task', 
-        errorForbiddenActiveClass: 'table__error-auth-task_active',
-    });
-    createTable({
-        rows: tasks, 
-        tableSelector: '.task__table',
-        tableHeaders: taskHeaders,
-        createRow: createRowTask,
-    });
-    updateCellOrDeleteRow({
-        tableSelector: '.task__table', 
-        url: '/task/', 
-        idName: 'ID',
-        errorSelector: '.table__error-task', 
-        errorActiveClass: 'table__error-task_active', 
-        errorForbiddenSelector: '.table__error-auth-task', 
-        errorForbiddenActiveClass: 'table__error-auth-task_active',
-    });
-    addRow({
-        formSelector: '.add__task', 
-        url: '/task', 
-        tableSelector: '.task__table', 
-        createRow: createRowTask,
-        errorSelector: '.table__error-task', 
-        errorActiveClass: 'table__error-task_active', 
-        errorForbiddenSelector: '.table__error-auth-task', 
-        errorForbiddenActiveClass: 'table__error-auth-task_active',
-    });
-
-    await getTable({
-        url: '/taskpoint', 
-        table: taskPoints, 
-        errorSelector: '.table__error-task-point', 
-        errorActiveClass: 'table__error-task-point_active', 
-        errorForbiddenSelector: '.table__error-auth-task-point', 
-        errorForbiddenActiveClass: 'table__error-auth-task-point_active',
-    });
-    createTable({
-        rows: taskPoints, 
-        tableSelector: '.task-point__table',
-        tableHeaders: taskPointHeaders,
-        createRow: createRowTaskPoint,
-    });
-    updateCellOrDeleteRow({
-        tableSelector: '.task-point__table', 
-        url: '/taskpoint/', 
-        idName: 'ID',
-        errorSelector: '.table__error-task-point', 
-        errorActiveClass: 'table__error-task-point_active', 
-        errorForbiddenSelector: '.table__error-auth-task-point', 
-        errorForbiddenActiveClass: 'table__error-auth-task-point_active',
-    });
-    addRow({
-        formSelector: '.add__task-point', 
-        url: '/taskpoint', 
-        tableSelector: '.task-point__table', 
-        createRow: createRowTaskPoint,
-        errorSelector: '.table__error-task-point', 
-        errorActiveClass: 'table__error-task-point_active', 
-        errorForbiddenSelector: '.table__error-auth-task-point', 
-        errorForbiddenActiveClass: 'table__error-auth-task-point_active',
-    });
-};
-
-const login = (form) => {
-    postDataAuth(`${rootUrl}/token`, getForm(form))
-        .then((result) => {
-            document.cookie = `login=${result["Token"]}`;
-            cookieLogin = document.cookie.match(/login=(.+?)(;|$)/);
-
-            initIsAuthorized();
-        })
-        .catch((error) => {
-            formLog = document.querySelector('#formLog')
-            formLog.innerHTML +="<div class='error'>Неправильные данные</div>"
-            if (error.message) {
-                console.log(error);
-            }
-        });
-};
-
-// Registration
-const register = (form) => {
-    postDataAuth(`${rootUrl}/user`, getForm(form))
-        .then(() => {
-            formReg = document.querySelector('#formReg')
-            formReg.innerHTML +="<div class='success'>Успешно! Бегите авторизовываться :)</div>"
-        })
-        .catch((error) => {
-            formReg = document.querySelector('#formReg')
-            formReg.innerHTML +="<div class='error'>Неправильные данные</div>"
-            if (error.message) {
-                console.log(error);
-            }
-        });
-};
-
-const handleLoginAndRegister = () => {
-    const forms = document.querySelectorAll('.auth__form');
-
-    forms.forEach(form => {
-        form.addEventListener('submit', (event) => {
+if (changeBtns) {
+    changeBtns.forEach(changeBtn => {
+        changeBtn.addEventListener ('click', (event) => {
             event.preventDefault();
 
-            switch (form.id) {
-                case "formReg":
-                    register(form);
-                    break;
-                case "formLog":
-                    login(form);
-                    break;
-            }
+            const accountInfo = changeBtn.parentElement;
+            const accountForm = accountInfo.nextElementSibling;
+
+            accountInfo.classList.add('hide');
+
+            setTimeout(() => {
+                accountInfo.style.display = "none";
+            }, 200)
+
+            setTimeout(() => {
+                accountForm.style.display = "flex";
+                setTimeout(() => {
+                    accountForm.classList.add('show');
+                }, 50)
+            }, 200)
         })
-    });
-};
-
-// Logout
-const cleanCookie = () => {
-    var cookies = document.cookie.split("; ");
-    for (var c = 0; c < cookies.length; c++) {
-        var d = window.location.hostname.split(".");
-        while (d.length > 0) {
-            var cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path=';
-            var p = location.pathname.split('/');
-            document.cookie = cookieBase + '/';
-            while (p.length > 0) {
-                document.cookie = cookieBase + p.join('/');
-                p.pop();
-            };
-            d.shift();
-        }
-    }
-};
-
-const initIsNotAuthorized = () => {
-    exit.classList.remove('active');
-
-    tables.forEach(table => {
-        table.classList.remove('active');
-    });
-    table__errors.forEach(table__error => {
-        table__error.classList.remove('table__error_active', 'table__error-auth-user_active', 'table__error-auth-task_active', 'table__error-auth-task-point_active');
     })
-    table__adds.forEach(table__add => {
-        table__add.classList.remove('table__add_active');
+}
+
+const accountReady = (readyBtn) => {
+    const accountForm = readyBtn.parentElement;
+    const accountInfo = accountForm.previousElementSibling;
+
+    accountForm.classList.remove('show');
+    setTimeout(() => {
+        accountForm.style.display = "none";
+    }, 200)
+
+    setTimeout(() => {
+        accountInfo.style.display = "flex";
+        setTimeout(() => {
+            accountInfo.classList.remove('hide');
+        }, 50)
+    }, 200)
+}
+
+// Modal
+const btnsModal = document.querySelectorAll('[data-modal]');
+
+const modalShow = (modal, modalContent) => {
+    const body = document.querySelector('body');
+
+    body.classList.add('no-scroll');
+    modal.classList.add('active');
+
+    setTimeout(() => {
+        modalContent.style.opacity = '1';
+        modalContent.style.transform = 'translateY(0)';
+    }, 200)
+}
+
+const modalHide = (modal, modalContent) => {
+    modal.addEventListener('click', () => {
+        const body = document.querySelector('body');
+
+        modalContent.style.opacity = '0';
+        modalContent.style.transform = 'translateY(-250px)';
+
+        setTimeout(() => {
+            body.classList.remove('no-scroll');
+            modal.classList.remove('active');
+        }, 500)
+    }, {"once": true})
+
+    modalContent.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        if (!event.target.closest('.modal__close')){
+            event.stopPropagation()
+        }
+    })
+}
+
+const modalClose = (modal) => {
+    const body = document.querySelector('body');
+    const modalContent = modal.querySelector('.modal__content');
+
+    modalContent.style.opacity = '0';
+    modalContent.style.transform = 'translateY(-250px)';
+
+    setTimeout(() => {
+        body.classList.remove('no-scroll');
+        modal.classList.remove('active');
+    }, 500) 
+}
+
+btnsModal.forEach(btnModal => {
+    btnModal.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        const dataModal = btnModal.dataset.modal;
+        const modal = document.querySelector(dataModal);
+        const modalContent = modal.querySelector('.modal__content');
+
+        // Show
+        modalShow(modal, modalContent);
+
+        // Hide
+        modalHide(modal, modalContent);
     });
-    auth.forEach(item => {
-        item.classList.add('active');
-    });
-};
+});
 
-const clearTables = () => {
-    const rows = document.querySelectorAll('.table tbody');
+// Forms
+const formBtns = document.querySelectorAll('[data-form]');
 
-    rows.forEach((row) => row.remove());
-};
-
-const logout = () => {
-    deleteData(`${rootUrl}/token`)
-        .then(() => {
-            users = [];
-            tasks = [];
-            taskPoints = [];
-
-            clearTables();
-            cleanCookie();
-            initIsNotAuthorized();
-        });
-};
-
-const handleLogout = () => {
-    exit.addEventListener('click', () => {
-        logout();
-    });
-};
-
-// Структура таблиц
-const userHeaders = `
-    <tr class="table__row">
-        <th class="table__head">ID</th>
-        <th class="table__head">Логин</th>
-        <th class="table__head">Почта</th>
-        <th class="table__head">Роль</th>
-        <th class="table__head">Пароль</th>
-        <th class="table__head">Удаление</th>
-    </tr>`;
-
-const createRowUser = (row) => {
-    return `<tr class="table__row">
-                <td class="table__cell">
-                    <form class="table__form">
-                        <input type="number" class="auth__input table__input" name="ID" value=${row.ID} data-id=${row.ID} disabled>
-                        <button class="table__btn auth__input table__btn_active">Изменить</button>
-                        <button class="table__btn auth__input" type="submit">Сохранить</button>
-                        <button class="table__btn auth__input">Закрыть</button>
-                    </form>
-                </td>
-                <td class="table__cell">
-                    <form class="table__form">
-                        <input type="text" class="auth__input table__input" name="Login" value=${row.Login} disabled>
-                        <button class="table__btn auth__input table__btn_active">Изменить</button>
-                        <button class="table__btn auth__input" type="submit">Сохранить</button>
-                        <button class="table__btn auth__input">Закрыть</button>
-                    </form>
-                </td>
-                <td class="table__cell">
-                    <form class="table__form">
-                        <input type="text" class="auth__input table__input" name="Email" value=${row.Email} disabled>
-                        <button class="table__btn auth__input table__btn_active">Изменить</button>
-                        <button class="table__btn auth__input" type="submit">Сохранить</button>
-                        <button class="table__btn auth__input">Закрыть</button>
-                    </form>
-                </td>
-                <td class="table__cell">
-                    <form class="table__form">
-                        <input type="text" class="auth__input table__input" name="Role" value=${row.Role} disabled>
-                        <button class="table__btn auth__input table__btn_active">Изменить</button>
-                        <button class="table__btn auth__input" type="submit">Сохранить</button>
-                        <button class="table__btn auth__input">Закрыть</button>
-                    </form>
-                </td>
-                <td class="table__cell">
-                    <form class="table__form">
-                        <input type="password" class="auth__input table__input" name="Password" value=${row.Password} disabled>
-                        <button class="table__btn auth__input table__btn_active">Изменить</button>
-                        <button class="table__btn auth__input" type="submit">Сохранить</button>
-                        <button class="table__btn auth__input">Закрыть</button>
-                    </form>
-                </td>
-                <td class="table__cell">
-                    <button class="table__btn auth__input table__btn_active">Удалить</button>
-                </td>
-            </tr>`;
-};
-
-const taskHeaders = `
-    <tr class="table__row">
-        <th class="table__head">ID</th>
-        <th class="table__head">Название</th>
-        <th class="table__head">Статус</th>
-        <th class="table__head">UserID</th>
-        <th class="table__head">Удаление</th>
-    </tr>`;
-
-const createRowTask = (row) => {
-    return `<tr class="table__row">
-                <td class="table__cell">
-                    <form class="table__form">
-                        <input type="number" class="auth__input table__input" name="ID" value=${row.ID} data-id=${row.ID} disabled>
-                        <button class="table__btn auth__input table__btn_active">Изменить</button>
-                        <button class="table__btn auth__input" type="submit">Сохранить</button>
-                        <button class="table__btn auth__input">Закрыть</button>
-                    </form>
-                </td>
-                <td class="table__cell">
-                    <form class="table__form">
-                        <input type="text" class="auth__input table__input" name="Title" value=${row.Title} disabled>
-                        <button class="table__btn auth__input table__btn_active">Изменить</button>
-                        <button class="table__btn auth__input" type="submit">Сохранить</button>
-                        <button class="table__btn auth__input">Закрыть</button>
-                    </form>
-                </td>
-                <td class="table__cell">
-                    <form class="table__form">
-                        <input type="checkbox" class="auth__input table__input" name="Ready" ${row.Ready && 'checked'}  disabled>
-                        <button class="table__btn auth__input table__btn_active">Изменить</button>
-                        <button class="table__btn auth__input" type="submit">Сохранить</button>
-                        <button class="table__btn auth__input">Закрыть</button>
-                    </form>
-                </td>
-                <td class="table__cell">
-                    <form class="table__form">
-                        <input type="number" class="auth__input table__input" name="UserID" value=${row.UserID} disabled>
-                        <button class="table__btn auth__input table__btn_active">Изменить</button>
-                        <button class="table__btn auth__input" type="submit">Сохранить</button>
-                        <button class="table__btn auth__input">Закрыть</button>
-                    </form>
-                </td>
-                <td class="table__cell">
-                    <button class="table__btn auth__input table__btn_active">Удалить</button>
-                </td>
-            </tr>`;
-};
-
-const taskPointHeaders = `
-    <tr class="table__row">
-        <th class="table__head">ID</th>
-        <th class="table__head">Название</th>
-        <th class="table__head">Статус</th>
-        <th class="table__head">TaskID</th>
-        <th class="table__head">Удалить</th>
-    </tr>`;
-
-const createRowTaskPoint = (row) => {
-    return `<tr class="table__row">
-                <td class="table__cell">
-                    <form class="table__form">
-                        <input type="number" class="auth__input table__input" name="ID" value=${row.ID} data-id=${row.ID} disabled>
-                        <button class="table__btn auth__input table__btn_active">Изменить</button>
-                        <button class="table__btn auth__input" type="submit">Сохранить</button>
-                        <button class="table__btn auth__input">Закрыть</button>
-                    </form>
-                </td>
-                <td class="table__cell">
-                    <form class="table__form">
-                        <input type="text" class="auth__input table__input" name="Title" value=${row.Title} disabled>
-                        <button class="table__btn auth__input table__btn_active">Изменить</button>
-                        <button class="table__btn auth__input" type="submit">Сохранить</button>
-                        <button class="table__btn auth__input">Закрыть</button>
-                    </form>
-                </td>
-                <td class="table__cell">
-                    <form class="table__form">
-                        <input type="checkbox" class="auth__input table__input" name="Ready" ${row.Ready && 'checked'}  disabled>
-                        <button class="table__btn auth__input table__btn_active">Изменить</button>
-                        <button class="table__btn auth__input" type="submit">Сохранить</button>
-                        <button class="table__btn auth__input">Закрыть</button>
-                    </form>
-                </td>
-                <td class="table__cell">
-                    <form class="table__form">
-                        <input type="text" class="auth__input table__input" name="TaskID" value=${row.TaskID} disabled>
-                        <button class="table__btn auth__input table__btn_active">Изменить</button>
-                        <button class="table__btn auth__input" type="submit">Сохранить</button>
-                        <button class="table__btn auth__input">Закрыть</button>
-                    </form>
-                </td>
-                <td class="table__cell">
-                    <button class="table__btn auth__input table__btn_active">Удалить</button>
-                </td>
-            </tr>`;
-};
-
-document.addEventListener('DOMContentLoaded', () => {
-    handleLoginAndRegister();
-    handleLogout();
-
-    if (cookieLogin) {
-        initIsAuthorized();
-    } else {
-        initIsNotAuthorized();
-    }
+formBtns.forEach(formBtn => {
+    formBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        const formId = formBtn.dataset.form;
+        const form = document.querySelector(formId);
+        
+        switch(formId) {
+            case "#regForm":
+                registration(form);
+                break;
+            case "#logForm":
+                login(form);
+                break;
+            case "#formCreateTask":
+                createTask(form);
+                break;
+            case "#formCreatePoint":
+                createPoint(form);
+                break;
+            case "#formEdit":
+                edit(form);
+                break;
+            case "#accountForm":
+                account(form, formBtn);
+                break;
+        }
+    })
 })
+
+const registration = (regForm) => {
+    const formInputs = regForm.querySelectorAll('.auth__input');
+    const regSurname = document.querySelector('#regSurname');
+    const regName = document.querySelector('#regName');
+    const regPatronymic = document.querySelector('#regPatronymic');
+    const regEmail = document.querySelector('#regEmail');
+    const regPass = document.querySelector('#regPass');
+    const regPassValue = regPass.value;
+    const regConfirm = document.querySelector('#regConfirm');
+    const rEmail = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
+
+    formClear(formInputs);
+
+    if (regSurname.value == '') {
+        formError(regSurname);
+        formBlur(regSurname);
+        return;
+    }
+    if (regName.value == '') {
+        formError(regName);
+        formBlur(regName);
+        return;
+    }
+    if (regPatronymic.value == '') {
+        formError(regPatronymic);
+        formBlur(regPatronymic);
+        return;
+    }
+    if (!rEmail.test(regEmail.value)) {
+        formError(regEmail);
+        formEmailBlur(regEmail);
+        return;
+    }
+    if (regPassValue.length < 8) {
+        formError(regPass);
+        formBlur(regPass);
+        return;
+    }
+    if (regConfirm.value != regPassValue) {
+        formError(regConfirm);
+        formBlur(regConfirm);
+        return;
+    }
+    console.log('ОТПРАВКА ФОРМЫ');
+}
+
+const login = (logForm) => {
+    const formInputs = logForm.querySelectorAll('.auth__input');
+    const logEmail = document.querySelector('#loginEmail');
+    const logPass = document.querySelector('#loginPass');
+    const logPassValue = logPass.value;
+    const rEmail = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
+
+    formClear(formInputs);
+
+    if (!rEmail.test(logEmail.value)) {
+        formError(logEmail);
+        formEmailBlur(logEmail);
+        return;
+    }
+    if (logPassValue.length < 8) {
+        formError(logPass);
+        formBlur(logPass);
+        return;
+    }
+    console.log('ОТПРАВКА ФОРМЫ');
+}
+
+const createTask = (form) => {
+    const formInputs = form.querySelectorAll('.auth__input');
+    const taskName = document.querySelector('#taskName');
+    const modal = form.parentElement.parentElement;
+    formClear(formInputs);
+
+    if (taskName.value == '') {
+        formError(taskName);
+        formBlur(taskName);
+        return;
+    }
+    modalClose(modal);
+    console.log('ОТПРАВКА ФОРМЫ');
+}
+
+const createPoint = (form) => {
+    const formInputs = form.querySelectorAll('.auth__input');
+    const pointName = document.querySelector('#taskPointName');
+    const modal = form.parentElement.parentElement;
+    formClear(formInputs);
+
+    if (pointName.value == '') {
+        formError(pointName);
+        formBlur(pointName);
+        return;
+    }
+    modalClose(modal);
+    console.log('ОТПРАВКА ФОРМЫ');
+}
+
+const edit = (form) => {
+    const formInputs = form.querySelectorAll('.auth__input');
+    const taskEdit = document.querySelector('#taskEdit');
+    const modal = form.parentElement.parentElement;
+    formClear(formInputs);
+
+    if (taskEdit.value == '') {
+        formError(taskEdit);
+        formBlur(taskEdit);
+        return;
+    }
+    modalClose(modal);
+    console.log('ОТПРАВКА ФОРМЫ');
+}
+
+const account = (form, formBtn) => {
+    const formInputs = form.querySelectorAll('.auth__input');
+    const accountSurname = document.querySelector('#accountSurname');
+    const accountName = document.querySelector('#accountName');
+    const accountPatronymic = document.querySelector('#accountPatronymic');
+    const accountLogin = document.querySelector('#accountLogin');
+    const accountPass = document.querySelector('#accountPassword');
+    const accountPassValue = accountPass.value;
+    const accountEmail = document.querySelector('#accountEmail');
+    const rEmail = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
+
+    formAccountClear(formInputs);
+
+    if (accountSurname.value == '') {
+        formAccountError(accountSurname);
+        formAccountBlur(accountSurname);
+        return;
+    }
+    if (accountName.value == '') {
+        formAccountError(accountName);
+        formAccountBlur(accountName);
+        return;
+    }
+    if (accountPatronymic.value == '') {
+        formAccountError(accountPatronymic);
+        formAccountBlur(accountPatronymic);
+        return;
+    }
+    if (accountLogin.value == '') {
+        formAccountError(accountLogin);
+        formAccountBlur(accountLogin);
+        return;
+    }
+    if (!rEmail.test(accountEmail.value)) {
+        formAccountError(accountEmail);
+        formAccountEmailBlur(accountEmail);
+        return;
+    }
+    if (accountPassValue.length < 8) {
+        formAccountError(accountPass);
+        formAccountBlur(accountPass);
+        return;
+    }
+    accountReady(formBtn);
+    console.log('ОТПРАВКА ФОРМЫ');
+}
+
+const formClear = (formInputs) => {
+    formInputs.forEach(input => {
+        let inputError = input.nextElementSibling;
+
+        input.classList.remove('error');
+        inputError.classList.remove('active');
+    })
+}
+
+const formAccountClear = (formInputs) => {
+    formInputs.forEach(input => {
+        input.classList.remove('error');
+    })
+}
+
+const formError = (element) => {
+    element.classList.add('error');
+    element.nextElementSibling.classList.add('active');
+}
+
+const formAccountError = (element) => {
+    element.classList.add('error');
+}
+
+const formBlur = (input) => {
+    input.addEventListener('blur', function() {
+        if (input.value != '') {
+            const inputError = input.nextElementSibling;
+
+            input.classList.remove('error');
+            inputError.classList.remove('active');
+        }     
+    })
+}
+
+const formAccountBlur = (input) => {
+    input.addEventListener('blur', function() {
+        if (input.value != '') {
+            input.classList.remove('error');
+        }     
+    })
+}
+
+const formEmailBlur = (input) => {
+    const rEmail = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
+    input.addEventListener('blur', function() {
+        if (rEmail.test(input.value)) {
+            const inputError = input.nextElementSibling;
+
+            input.classList.remove('error');
+            inputError.classList.remove('active');
+        }     
+    })
+}
+
+const formAccountEmailBlur = (input) => {
+    const rEmail = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
+    input.addEventListener('blur', function() {
+        if (rEmail.test(input.value)) {
+            input.classList.remove('error');
+        }     
+    })
+}
 

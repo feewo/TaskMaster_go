@@ -34,7 +34,7 @@ func (a *Api) TaskPoint(ctx *engine.Context) {
 	if err != nil {
 		ctx.Error(400, err.Error())
 	}
-	ctx.Print(storage.TaskPointGet(uint32(iid)))
+	ctx.Print(storage.TaskPointGet(uint(iid)))
 }
 
 func (a *Api) TaskPointDelete(ctx *engine.Context) {
@@ -45,8 +45,8 @@ func (a *Api) TaskPointDelete(ctx *engine.Context) {
 	if err != nil {
 		fmt.Println("Ошибка при образовании строки в int", err)
 	}
-	idUint32 := uint32(idUint64)
-	storage.TaskPointDelete(idUint32)
+	idUint := uint(idUint64)
+	storage.TaskPointDelete(idUint)
 }
 
 func (a *Api) TaskPointUpdate(ctx *engine.Context) {

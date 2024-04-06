@@ -57,16 +57,7 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	url := r.URL
 	path := url.Path[1:]
 	pathArr := strings.Split(path, "/")
-
-	if pathArr[0] == "" || pathArr[0] == "index.html" {
-		http.ServeFile(w, r, "./front/index.html")
-	}
-	if pathArr[0] == "css" {
-		http.ServeFile(w, r, "./front/css/style.css")
-	}
-	if pathArr[0] == "js" {
-		http.ServeFile(w, r, "./front/js/app.js")
-	}
+	front(path, w, r)
 	maps, ok := apiMap[r.Method]
 	if !ok {
 		w.Write([]byte("Нет метода"))

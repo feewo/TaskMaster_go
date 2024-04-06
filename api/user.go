@@ -52,7 +52,7 @@ func (a *Api) User(ctx *engine.Context) {
 	if err != nil {
 		ctx.Error(400, err.Error())
 	}
-	ctx.Print(storage.UserGet(uint32(iid)))
+	ctx.Print(storage.UserGet(uint(iid)))
 }
 
 func (a *Api) UserDelete(ctx *engine.Context) {
@@ -64,8 +64,8 @@ func (a *Api) UserDelete(ctx *engine.Context) {
 	if err != nil {
 		fmt.Println("Ошибка при образовании строки в int", err)
 	}
-	idUint32 := uint32(idUint64)
-	storage.UserDelete(idUint32)
+	idUint := uint(idUint64)
+	storage.UserDelete(idUint)
 }
 
 func (a *Api) UserUpdate(ctx *engine.Context) {
@@ -84,8 +84,8 @@ func (a *Api) UserUpdate(ctx *engine.Context) {
 		fmt.Println("Ошибка при образовании строки в int", err)
 		ctx.Error(422, "Unprocessable Entity")
 	}
-	idUint32 := uint32(idUint64)
-	ctx.Print(storage.UserUpdate(item, idUint32))
+	idUint := uint(idUint64)
+	ctx.Print(storage.UserUpdate(item, idUint))
 }
 
 func (a *Api) UserAuth(ctx *engine.Context) {

@@ -6,15 +6,18 @@ import (
 	"testing"
 )
 
+var User_id uint = 4
+var Task_id uint
+
 func TestTaskCreate(t *testing.T) {
 	ready := false
 	newTask := entity.Task{
 		Title:  "Test Task",
 		Ready:  &ready,
-		UserID: 4,
+		UserID: User_id,
 	}
 	createdTask := storage.TaskCreate(newTask)
-
+	Task_id = createdTask.ID
 	if createdTask.Title != newTask.Title {
 		t.Errorf("Expected title to be %s, but got %s", newTask.Title, createdTask.Title)
 	}
@@ -35,7 +38,7 @@ func TestTaskGetAll(t *testing.T) {
 }
 
 func TestTaskGet(t *testing.T) {
-	testTaskID := uint(22)
+	testTaskID := Task_id
 	task := storage.TaskGet(testTaskID)
 
 	if task.ID != testTaskID {
@@ -43,22 +46,13 @@ func TestTaskGet(t *testing.T) {
 	}
 }
 
-func TestTaskDelete(t *testing.T) {
-	testTaskID := uint(22)
-	task := storage.TaskDelete(testTaskID)
-
-	if task.ID != testTaskID {
-		t.Errorf("Expected deleted task ID to be %d, but got %d", testTaskID, task.ID)
-	}
-}
-
 func TestTaskUpdate(t *testing.T) {
-	testTaskID := uint(22)
+	testTaskID := Task_id
 	ready := false
 	updatedTask := entity.Task{
 		Title:  "Updated Task",
 		Ready:  &ready,
-		UserID: 4,
+		UserID: User_id,
 	}
 	task := storage.TaskUpdate(updatedTask, testTaskID)
 
@@ -70,5 +64,14 @@ func TestTaskUpdate(t *testing.T) {
 	}
 	if task.UserID != updatedTask.UserID {
 		t.Errorf("Expected updated user ID to be %d, but got %d", updatedTask.UserID, task.UserID)
+	}
+}
+
+func TestTaskDelete(t *testing.T) {
+	testTaskID := Task_id
+	task := storage.TaskDelete(testTaskID)
+
+	if task.ID != 0 {
+		t.Errorf("Error during deletion")
 	}
 }

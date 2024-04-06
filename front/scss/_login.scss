@@ -1,0 +1,52 @@
+.login {
+    text-align: center;
+
+    &__title {
+        @include fontSize(30);
+        font-weight: 700;
+        margin-bottom: 50px;
+        @include animationLeft(oneLeft);
+    }
+
+    &__inner {
+        display: grid;
+        grid-template-columns: 2fr 3fr;
+        grid-column-gap: 40px;
+    }
+
+    &__img {
+        height: 280px;
+    }
+
+    &__item {
+        &--left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            @include animationLeft(twoLeft);
+        }
+
+        &--right {
+            @include animationRight(twoRight);
+        }
+    }
+
+    &__btn {
+        margin-top: 25px;
+        margin-bottom: 10px;
+    }
+
+    &__reg {
+        @include fontSize(18);
+        font-weight: 500;
+
+        &>a {
+            color: $colorDarkBlue;
+            transition: color .2s linear;
+
+            &:hover {
+                color: $colorBlue;
+            }
+        }
+    }
+}

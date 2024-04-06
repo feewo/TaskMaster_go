@@ -1,0 +1,41 @@
+.main {
+    text-align: center;
+    
+    &__img {
+        height: 376px;
+        margin-bottom: 5px;
+    }
+
+    &__title {
+        @include fontSize(50);
+        font-weight: 800;
+        @include animationLeft(oneLeft);
+
+        &>span {
+            color: $colorBlue;
+        }
+    }
+
+    &__subtitle {
+        @include fontSize(25);
+        font-weight: 700;
+        margin-bottom: 50px;
+        @include animationLeft(oneLeft);
+
+        &>span {
+            color: $colorBlue;
+        }
+    }
+
+    &__text {
+        @include fontSize(20);
+        line-height: 1.21;
+        font-weight: 400;
+        margin-bottom: 40px;
+        @include animationLeft(twoLeft);
+    }
+
+    &__btn {
+        @include animationLeft(threeLeft);
+    }
+}

@@ -1,0 +1,58 @@
+// Photo
+
+@mixin photo ($width, $height, $br) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    width: $width;
+    height: $height;
+    border-radius: $br;
+}
+
+@mixin img () {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+// Font Size
+
+@mixin fontSize ($size) {
+    font-size: #{$size + px};
+
+    @media (max-width: 1500px) {
+        font-size: calc(#{$size + px} * 0.9);
+    }
+
+    @media (max-width: 1030px) {
+        font-size: calc(#{$size + px} * 0.75);
+    }
+
+    @media (max-width: 768px) {
+        font-size: calc(#{$size + px} * 0.65);
+    }
+
+    @media (max-width: 375px) {
+        font-size: calc(#{$size + px} * 0.6);
+    }
+}
+
+// Animation
+@mixin animationLeft ($name) {
+    transform: translateX(-150px);
+    opacity: 0;
+    animation: $name 1s forwards;
+}
+
+@mixin animationRight ($name) {
+    transform: translateX(150px);
+    opacity: 0;
+    animation: $name 1s forwards;
+}
+
+@mixin animationTop ($name) {
+    transform: translateY(-150px);
+    opacity: 0;
+    animation: $name 1s forwards;
+}
