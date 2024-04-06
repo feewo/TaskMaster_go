@@ -14,26 +14,23 @@ func TaskGetAll() []*entity.Task {
 	db.DB().Find(&tasks)
 	return tasks
 }
-func TaskGet(id uint32) *entity.Task {
+func TaskGet(id uint) *entity.Task {
 	var task entity.Task
-	db.DB().Table(task.TableName()).Where("tid = ?", id).Find(&task)
+	db.DB().Table(task.TableName()).Where("ID = ?", id).Find(&task)
 	return &task
 }
 
 func TaskDelete(id uint) *entity.Task {
 	var task entity.Task
-	db.DB().Table(task.TableName()).Where("tid = ?", id).Delete(&task)
+	db.DB().Table(task.TableName()).Where("ID = ?", id).Delete(&task)
 	return &task
 }
 
 func TaskUpdate(task entity.Task, id uint) *entity.Task {
 	db.DB().Table(task.TableName()).Where("ID = ?", id).Updates(task)
 	updatedTask := &entity.Task{}
-	if updatedTask.ID == 0 {
-		db.DB().Table(task.TableName()).Where("ID = ?", id).First(updatedTask)
-	} else {
-		db.DB().Table(task.TableName()).Where("ID = ?", task.ID).First(updatedTask)
-	}
+	db.DB().Table(task.TableName()).Where("ID = ?", id).First(updatedTask)
+
 	return updatedTask
 }
 

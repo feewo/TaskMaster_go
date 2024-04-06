@@ -33,7 +33,7 @@ func (a *Api) Task(ctx *engine.Context) {
 	if err != nil {
 		ctx.Error(400, err.Error())
 	}
-	ctx.Print(storage.TaskGet(uint32(iid)))
+	ctx.Print(storage.TaskGet(uint(iid)))
 }
 
 func (a *Api) TaskDelete(ctx *engine.Context) {
