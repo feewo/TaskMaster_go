@@ -13,7 +13,6 @@ import (
 	"time"
 )
 
-var types map[string]bool
 var hdl *api.Api
 var apiMap map[string]map[string]reflect.Value
 
@@ -25,12 +24,6 @@ func init() {
 	cfg := config.Get()
 	maps := cfg.Api
 	hdl = &api.Api{}
-	types = make(map[string]bool)
-	types["ico"] = true
-	types["html"] = true
-	types["js"] = true
-	types["svg"] = true
-	types["png"] = true
 
 	services := reflect.ValueOf(hdl)
 	_struct := reflect.TypeOf(hdl)
@@ -105,35 +98,4 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		fun.Call(in)
 		return
 	}
-}
-
-// эта функция работает плохо
-func sendFile(file string, ctx engine.Context) {
-	// pwd, _ := os.Getwd()
-	fmt.Println(file)
-	// проблема в этой команде, она просто не работает с:
-	http.ServeFile(ctx.Response, ctx.Request, file)
-}
-
-// эта функция работает хорошо
-func checkStatic(path string) (string, bool) {
-	// fmt.Println(path)
-	typeFile := strings.Split(path, ".")
-	if len(typeFile) < 2 {
-		return "", false
-	}
-	// fmt.Println(typeFile, types[typeFile[1]])
-	if _, ok := types[typeFile[1]]; ok {
-		switch typeFile[1] {
-		case "html":
-			return "../front/" + path, true
-		case "css":
-			return "front/css/" + path, true
-		case "js":
-			return "front/js/" + path, true
-		case "png", "ico", "svg":
-			return "front/img/" + path, true
-		}
-	}
-	return "", false
 }

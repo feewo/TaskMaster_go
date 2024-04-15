@@ -1,11 +1,12 @@
 .auth {
     &__label {
         @include fontSize(20);
-        margin-bottom: 10px;
-        padding-left: 20px;
-        display: block;
-        text-align: start;
-        cursor: pointer;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        left: 0;
+        z-index: -1;
+        transition: .2s linear;
 
         &--modal {
             @include fontSize(18);
@@ -13,16 +14,19 @@
         }
     }
 
+    &__group {
+        position: relative;
+        margin-bottom: 30px;
+    }
+
     &__input {
         width: 100%;
-        background-color: $colorWhite;
-        border-radius: 100px;
-        padding: 17px 30px;
-        @include fontSize(16);
+        background-color: transparent;
+        padding: 15px 0 7px 0;
+        @include fontSize(18);
         font-weight: 400;
-        border: 2px solid transparent;
-        transition: border .2s linear;
-        margin-bottom: 30px;
+        border-bottom: 1px solid $colorGray;
+        transition: all .2s linear;
 
         &--modal {
             padding: 11px 19px !important;
@@ -48,13 +52,23 @@
         }
 
         &:focus {
-            border: 2px solid $colorDarkBlue;
+            border-bottom: 1px solid $colorDarkBlue;
             color: $colorDarkBlue;
             font-weight: 500;
+
+            & ~ .auth__label {
+                color: $colorDarkBlue;
+            }
+        }
+
+        &:focus ~ .auth__label,
+        &:not(:placeholder-shown) ~ .auth__label {
+            top: 0;
+            @include fontSize(13);
         }
 
         &:hover {
-            border: 2px solid $colorDarkBlue;
+            border-bottom: 1px solid $colorDarkBlue;
         }
 
         &.error {
