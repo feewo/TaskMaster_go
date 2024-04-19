@@ -13,7 +13,6 @@ import (
 	"time"
 )
 
-var types map[string]bool
 var hdl *api.Api
 var apiMap map[string]map[string]reflect.Value
 
@@ -25,12 +24,6 @@ func init() {
 	cfg := config.Get()
 	maps := cfg.Api
 	hdl = &api.Api{}
-	types = make(map[string]bool)
-	types["ico"] = true
-	types["html"] = true
-	types["js"] = true
-	types["svg"] = true
-	types["png"] = true
 
 	services := reflect.ValueOf(hdl)
 	_struct := reflect.TypeOf(hdl)

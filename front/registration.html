@@ -23,31 +23,43 @@
                 <form action="" method="post" class="reg__form" id="regForm">
                     <div class="reg__inner">
                         <div class="reg__item reg__item--left">
-                            <label for="regName" class="auth__label">Фамилия:</label>
-                            <input minlength="1" maxlength="225" type="text" class="auth__input" id="regSurname" name="surname" placeholder="Введите вашу фамилию" required>
-                            <div class="auth__error">Заполните поле!</div>
+                            <div class="auth__group">
+                                <input minlength="1" maxlength="225" type="text" class="auth__input" id="regSurname" name="surname" placeholder=" " required>
+                                <label for="regName" class="auth__label">Фамилия</label>   
+                                <div class="auth__error">Заполните поле!</div>
+                            </div>
 
-                            <label for="regName" class="auth__label">Имя:</label>
-                            <input minlength="1" maxlength="225" type="text" class="auth__input" id="regName" name="name" placeholder="Введите ваше имя" required>
-                            <div class="auth__error">Заполните поле!</div>
+                            <div class="auth__group">
+                                <input minlength="1" maxlength="225" type="text" class="auth__input" id="regName" name="name" placeholder=" " required>
+                                <label for="regName" class="auth__label">Имя</label>
+                                <div class="auth__error">Заполните поле!</div>
+                            </div>
 
-                            <label for="regName" class="auth__label">Отчество:</label>
-                            <input minlength="1" maxlength="225" type="text" class="auth__input" id="regPatronymic" name="patronymic" placeholder="Введите ваше отчество" required>
-                            <div class="auth__error">Заполните поле!</div>
+                            <div class="auth__group">
+                                <input minlength="1" maxlength="225" type="text" class="auth__input" id="regPatronymic" name="patronymic" placeholder=" " required>
+                                <label for="regName" class="auth__label">Отчество</label>
+                                <div class="auth__error">Заполните поле!</div>
+                            </div>
                         </div>
     
                         <div class="reg__item reg__item--right">
-                            <label for="regEmail" class="auth__label">Почта:</label>
-                            <input minlength="1" maxlength="225" type="text" class="auth__input" id="regEmail" name="email" placeholder="Введите вашу почту" required>
-                            <div class="auth__error">Поле заполнено неверно!</div>
+                            <div class="auth__group">
+                                <input minlength="1" maxlength="225" type="text" class="auth__input" id="regEmail" name="email" placeholder=" " required>
+                                <label for="regEmail" class="auth__label">Почта</label>
+                                <div class="auth__error">Поле заполнено неверно!</div>
+                            </div>
                             
-                            <label for="regPass" class="auth__label">Пароль:</label>
-                            <input minlength="8" maxlength="225" type="password" class="auth__input" id="regPass" name="password" placeholder="Введите пароль" required>
-                            <div class="auth__error">Пароль не может быть меньше 8 символов!</div>
+                            <div class="auth__group">
+                                <input minlength="8" maxlength="225" type="password" class="auth__input" id="regPass" name="password" placeholder=" " required>
+                                <label for="regPass" class="auth__label">Пароль</label>
+                                <div class="auth__error">Пароль не может быть меньше 8 символов!</div>
+                            </div>
 
-                            <label for="regConfirm" class="auth__label">Подтверждение пароля:</label>
-                            <input minlength="8" maxlength="225" type="password" class="auth__input" id="regConfirm" name="confirm" placeholder="Повторите пароль" required>
-                            <div class="auth__error">Пароли не совпадают!</div>
+                            <div class="auth__group">
+                                <input minlength="8" maxlength="225" type="password" class="auth__input" id="regConfirm" name="confirm" placeholder=" " required>
+                                <label for="regConfirm" class="auth__label">Подтверждение пароля</label>
+                                <div class="auth__error">Пароли не совпадают!</div>
+                            </div>
                         </div>
                     </div>
 
