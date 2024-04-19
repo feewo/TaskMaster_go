@@ -56,8 +56,11 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	url := r.URL
 	path := url.Path[1:]
-	pathArr := strings.Split(path, "/")
-	front(path, w, r)
+	if path[:3] != "api" {
+		front(path, w, r)
+		return
+	}
+	pathArr := strings.Split(path[4:], "/")
 	maps, ok := apiMap[r.Method]
 	if !ok {
 		w.Write([]byte("Нет метода"))
@@ -79,6 +82,7 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		if pathName == "user" && r.Method == "POST" {
 			isIgnore = true
 		}
+		// вынести
 		if !isIgnore {
 			token, ok := ctx.Request.Header["Authorization"]
 			if !ok {
@@ -105,35 +109,4 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		fun.Call(in)
 		return
 	}
-}
-
-// эта функция работает плохо
-func sendFile(file string, ctx engine.Context) {
-	// pwd, _ := os.Getwd()
-	fmt.Println(file)
-	// проблема в этой команде, она просто не работает с:
-	http.ServeFile(ctx.Response, ctx.Request, file)
-}
-
-// эта функция работает хорошо
-func checkStatic(path string) (string, bool) {
-	// fmt.Println(path)
-	typeFile := strings.Split(path, ".")
-	if len(typeFile) < 2 {
-		return "", false
-	}
-	// fmt.Println(typeFile, types[typeFile[1]])
-	if _, ok := types[typeFile[1]]; ok {
-		switch typeFile[1] {
-		case "html":
-			return "../front/" + path, true
-		case "css":
-			return "front/css/" + path, true
-		case "js":
-			return "front/js/" + path, true
-		case "png", "ico", "svg":
-			return "front/img/" + path, true
-		}
-	}
-	return "", false
 }

@@ -9,6 +9,7 @@ import (
 var User_id uint = 4
 var Task_id uint
 
+// как замокать бд
 func TestTaskCreate(t *testing.T) {
 	ready := false
 	newTask := entity.Task{
