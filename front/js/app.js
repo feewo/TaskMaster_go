@@ -366,7 +366,6 @@ const registration = (regForm) => {
     const formInputs = regForm.querySelectorAll('.auth__input');
     const regSurname = document.querySelector('#regSurname');
     const regName = document.querySelector('#regName');
-    const regPatronymic = document.querySelector('#regPatronymic');
     const regEmail = document.querySelector('#regEmail');
     const regPass = document.querySelector('#regPass');
     const regPassValue = regPass.value;
@@ -383,11 +382,6 @@ const registration = (regForm) => {
     if (regName.value == '') {
         formError(regName);
         formBlur(regName);
-        return;
-    }
-    if (regPatronymic.value == '') {
-        formError(regPatronymic);
-        formBlur(regPatronymic);
         return;
     }
     if (!rEmail.test(regEmail.value)) {
@@ -480,7 +474,6 @@ const account = (form, formBtn) => {
     const formInputs = form.querySelectorAll('.auth__input');
     const accountSurname = document.querySelector('#accountSurname');
     const accountName = document.querySelector('#accountName');
-    const accountPatronymic = document.querySelector('#accountPatronymic');
     const accountLogin = document.querySelector('#accountLogin');
     const accountPass = document.querySelector('#accountPass');
     const accountPassValue = accountPass.value;
@@ -497,11 +490,6 @@ const account = (form, formBtn) => {
     if (accountName.value == '') {
         formAccountError(accountName);
         formAccountBlur(accountName);
-        return;
-    }
-    if (accountPatronymic.value == '') {
-        formAccountError(accountPatronymic);
-        formAccountBlur(accountPatronymic);
         return;
     }
     if (accountLogin.value == '') {

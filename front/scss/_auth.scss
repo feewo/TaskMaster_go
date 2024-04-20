@@ -12,6 +12,10 @@
             @include fontSize(18);
             padding-left: 10px;
         }
+
+        &>span {
+            color: $colorError;
+        }
     }
 
     &__group {

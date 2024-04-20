@@ -25,18 +25,18 @@
                         <div class="reg__item reg__item--left">
                             <div class="auth__group">
                                 <input minlength="1" maxlength="225" type="text" class="auth__input" id="regSurname" name="surname" placeholder=" " required>
-                                <label for="regName" class="auth__label">Фамилия</label>   
+                                <label for="regName" class="auth__label">Фамилия <span>*</span></label>   
                                 <div class="auth__error">Заполните поле!</div>
                             </div>
 
                             <div class="auth__group">
                                 <input minlength="1" maxlength="225" type="text" class="auth__input" id="regName" name="name" placeholder=" " required>
-                                <label for="regName" class="auth__label">Имя</label>
+                                <label for="regName" class="auth__label">Имя <span>*</span></label>
                                 <div class="auth__error">Заполните поле!</div>
                             </div>
 
                             <div class="auth__group">
-                                <input minlength="1" maxlength="225" type="text" class="auth__input" id="regPatronymic" name="patronymic" placeholder=" " required>
+                                <input minlength="1" maxlength="225" type="text" class="auth__input" id="regPatronymic" name="patronymic" placeholder=" ">
                                 <label for="regName" class="auth__label">Отчество</label>
                                 <div class="auth__error">Заполните поле!</div>
                             </div>
@@ -45,20 +45,20 @@
                         <div class="reg__item reg__item--right">
                             <div class="auth__group">
                                 <input minlength="1" maxlength="225" type="text" class="auth__input" id="regEmail" name="email" placeholder=" " required>
-                                <label for="regEmail" class="auth__label">Почта</label>
+                                <label for="regEmail" class="auth__label">Почта <span>*</span></label>
                                 <div class="auth__error">Поле заполнено неверно!</div>
                             </div>
 
                             <div class="auth__group">
                                 <input minlength="1" maxlength="225" type="text" class="auth__input" id="regLogin" name="login" placeholder=" " required>
-                                <label for="regConfirm" class="auth__label">Логин</label>
+                                <label for="regConfirm" class="auth__label">Логин <span>*</span></label>
                                 <div class="auth__error">Поле заполнено неверно!</div>
                                 <div class="auth__error auth__error--login">Такой логин уже существует!</div>
                             </div>
                             
                             <div class="auth__group">
                                 <input minlength="8" maxlength="225" type="password" class="auth__input" id="regPass" name="password" placeholder=" " required>
-                                <label for="regPass" class="auth__label">Пароль</label>
+                                <label for="regPass" class="auth__label">Пароль <span>*</span></label>
                                 <div class="auth__error">Пароль не может быть меньше 8 символов!</div>
                             </div>
                         </div>
