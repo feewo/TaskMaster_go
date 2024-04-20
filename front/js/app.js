@@ -1,4 +1,36 @@
 // API
+const rootUrl = '/api/';
+
+async function postData(url, data) {
+    const response = await fetch(url, {
+        headers: {
+            'X-API-KEY': 'FC52783F63184532B379EECD56DFC009E0131854354C4FA293EC5581CC6547F7',
+        },
+        method: 'POST',
+        body: data,
+    });
+
+    if (!response.ok) {
+        throw new Error('Ошибка');
+    }
+
+    return await response.json();
+}
+
+async function getData(url) {
+    const response = await fetch(url, {
+        headers: {
+            'X-API-KEY': 'FC52783F63184532B379EECD56DFC009E0131854354C4FA293EC5581CC6547F7',
+        },
+        method: 'GET',
+    });
+
+    if (!response.ok) {
+        throw new Error('Ошибка');
+    }
+
+    return await response.json();
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     const url = document.URL;
@@ -195,6 +227,18 @@ const forms = () => {
     })
 }
 
+// API functoins
+
+const submitForm = (formData) => {
+    postData(`${rootUrl}/user`, formData)
+    .then (result => {
+        console.log('success');
+    })
+    .catch (error => {
+        console.log('error');
+    })
+}   
+
 // Supportive functions
 
 const addPoint = (btn) => {
@@ -360,6 +404,13 @@ const hideBtns = (btns) => {
     })
 }
 
+function getForm(form) {
+    const fd = new FormData(form);
+    const data = {}
+    fd.forEach((v, k) => data[k] = v);
+    return JSON.stringify(data);
+}
+
 // Forms
 
 const registration = (regForm) => {
@@ -400,7 +451,8 @@ const registration = (regForm) => {
         return;
     }
     
-    console.log('ОТПРАВКА ФОРМЫ');
+    const formData = getForm(regForm);
+    submitForm(formData);
 }
 
 const login = (logForm) => {
