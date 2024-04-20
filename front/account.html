@@ -57,146 +57,52 @@
                     </div>
                 </div>
 
-                <form action="" method="post" class="account__body" id="accountForm">
+                <form action="" method="post" class="account__body" id="accountSave">
                     <div class="account__block account__block--left">
                         <h4 class="account__title">Общие данные</h4>
 
-                        <div class="account__item">
-                            <div class="account__info">
-                                <div class="account__text">Фамилия: <span>Иванов Иванов ИвановИванов Иванов Иванов Иванов Иванов</span></div>
-
-                                <button class="account__btn account__btn--change">
-                                    <svg class="account__icon">
-                                        <use xlink:href="#change"></use>
-                                    </svg>
-                                </button>
-                            </div>
-                            
-                            <div class="account__form">
-                                <input type="text" class="auth__input auth__input--account" id="accountSurname" name="surname" value="Иванов">
-                                <button class="account__btn account__btn--ready" data-form="#accountForm">
-                                    <svg class="account__icon">
-                                        <use xlink:href="#ready"></use>
-                                    </svg>
-                                </button>
-                            </div>
+                        <div class="auth__group">
+                            <input minlength="1" maxlength="225" type="text" class="auth__input" id="accountSurname" name="surname" value="fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ааааааааааааааааа" placeholder=" " required>
+                            <label for="accountSurname" class="auth__label">Фамилия</label>   
                         </div>
 
-                        <div class="account__item">
-                            <div class="account__info">
-                                <div class="account__text">Имя: <span>Иван</span></div>
-
-                                <button class="account__btn account__btn--change">
-                                    <svg class="account__icon">
-                                        <use xlink:href="#change"></use>
-                                    </svg>
-                                </button>
-                            </div>
-                            
-                            <div class="account__form">
-                                <input type="text" class="auth__input auth__input--account" id="accountName" name="name" value="Иван">
-                            
-                                <button class="account__btn account__btn--ready" data-form="#accountForm">
-                                    <svg class="account__icon">
-                                        <use xlink:href="#ready"></use>
-                                    </svg>
-                                </button>
-                            </div>
+                        <div class="auth__group">
+                            <input minlength="1" maxlength="225" type="text" class="auth__input" id="accountName" name="name" value="Екатерина" placeholder=" " required>
+                            <label for="accountName" class="auth__label">Имя</label>
                         </div>
 
-                        <div class="account__item">
-                            <div class="account__info">
-                                <div class="account__text">Отчество: <span>Иванович</span></div>
-
-                                <button class="account__btn account__btn--change">
-                                    <svg class="account__icon">
-                                        <use xlink:href="#change"></use>
-                                    </svg>
-                                </button>
-                            </div>
-                            
-                            <div class="account__form">
-                                <input type="text" class="auth__input auth__input--account" id="accountPatronymic" name="patronymic" value="Иванович">
-                            
-                                <button class="account__btn account__btn--ready" data-form="#accountForm">
-                                    <svg class="account__icon">
-                                        <use xlink:href="#ready"></use>
-                                    </svg>
-                                </button>
-                            </div>
+                        <div class="auth__group">
+                            <input minlength="1" maxlength="225" type="text" class="auth__input" id="accountPatronymic" name="patronymic" value="Андреевна" placeholder=" " required>
+                            <label for="accountPatronymic" class="auth__label">Отчество</label>
                         </div>
                     </div>
 
                     <div class="account__block account__block--right">
                         <h4 class="account__title">Безопасность</h4>
 
-                        <div class="account__item">
-                            <div class="account__info">
-                                <div class="account__text">Логин: <span>Ivanoff228</span></div>
-
-                                <button class="account__btn account__btn--change">
-                                    <svg class="account__icon">
-                                        <use xlink:href="#change"></use>
-                                    </svg>
-                                </button>
-                            </div>
-                            
-                            <div class="account__form">
-                                <input type="text" class="auth__input auth__input--account" id="accountLogin" name="login" value="Иванов">
-                            
-                                <button class="account__btn account__btn--ready" data-form="#accountForm">
-                                    <svg class="account__icon">
-                                        <use xlink:href="#ready"></use>
-                                    </svg>
-                                </button>
-                            </div>
+                        <div class="auth__group">
+                            <input minlength="1" maxlength="225" type="text" class="auth__input" id="accountEmail" name="email" value="ivanoff@bk.ru" placeholder=" " required>
+                            <label for="accountEmail" class="auth__label">Почта</label>
                         </div>
 
-                        <div class="account__item">
-                            <div class="account__info">
-                                <div class="account__text">Пароль: <span>******</span></div>
-
-                                <button class="account__btn account__btn--change">
-                                    <svg class="account__icon">
-                                        <use xlink:href="#change"></use>
-                                    </svg>
-                                </button>
-                            </div>
-                            
-                            <div class="account__form">
-                                <input type="password" class="auth__input auth__input--account" id="accountPassword" name="password" value="Иван">
-                            
-                                <button class="account__btn account__btn--ready" data-form="#accountForm">
-                                    <svg class="account__icon">
-                                        <use xlink:href="#ready"></use>
-                                    </svg>
-                                </button>
-                            </div>
+                        <div class="auth__group">
+                            <input minlength="1" maxlength="225" type="text" class="auth__input" id="accountLogin" name="login" value="ivanoff228" placeholder=" " required>
+                            <label for="accountLogin" class="auth__label">Логин</label>
                         </div>
-
-                        <div class="account__item">
-                            <div class="account__info">
-                                <div class="account__text">E-mail: <span>ivanoff@bk.ru</span></div>
-
-                                <button class="account__btn account__btn--change">
-                                    <svg class="account__icon">
-                                        <use xlink:href="#change"></use>
-                                    </svg>
-                                </button>
-                            </div>
-                            
-                            <div class="account__form">
-                                <input type="text" class="auth__input auth__input--account" id="accountEmail" name="email" value="Иванович">
-                            
-                                <button class="account__btn account__btn--ready" data-form="#accountForm">
-                                    <svg class="account__icon">
-                                        <use xlink:href="#ready"></use>
-                                    </svg>
-                                </button>
-                            </div>
+                        
+                        <div class="auth__group">
+                            <input minlength="8" maxlength="225" type="password" class="auth__input" id="accountPass" name="password" value="12345678" placeholder=" " required>
+                            <label for="accountPass" class="auth__label">Пароль</label>
                         </div>
                     </div>
                 </form>
+                
+                <div class="account__notice">
+                    <div class="error">Произошла ошибка! Попробуйте позже</div>
+                    <div class="success">Данные успешно обновлены</div>
+                </div>
+
+                <input id="btnChange" type="submit" class="btn account__btn" value="Сохранить" data-form="#accountSave">
             </div>
         </div>
     </div>

@@ -48,21 +48,23 @@
                                 <label for="regEmail" class="auth__label">Почта</label>
                                 <div class="auth__error">Поле заполнено неверно!</div>
                             </div>
+
+                            <div class="auth__group">
+                                <input minlength="1" maxlength="225" type="text" class="auth__input" id="regLogin" name="login" placeholder=" " required>
+                                <label for="regConfirm" class="auth__label">Логин</label>
+                                <div class="auth__error">Поле заполнено неверно!</div>
+                                <div class="auth__error auth__error--login">Такой логин уже существует!</div>
+                            </div>
                             
                             <div class="auth__group">
                                 <input minlength="8" maxlength="225" type="password" class="auth__input" id="regPass" name="password" placeholder=" " required>
                                 <label for="regPass" class="auth__label">Пароль</label>
                                 <div class="auth__error">Пароль не может быть меньше 8 символов!</div>
                             </div>
-
-                            <div class="auth__group">
-                                <input minlength="8" maxlength="225" type="password" class="auth__input" id="regConfirm" name="confirm" placeholder=" " required>
-                                <label for="regConfirm" class="auth__label">Подтверждение пароля</label>
-                                <div class="auth__error">Пароли не совпадают!</div>
-                            </div>
                         </div>
                     </div>
 
+                    <div class="error">Произошла ошибка! Попробуйте позже</div>
                     <input type="submit" class="btn reg__btn" value="Зарегистрироваться" data-form="#regForm">
                     <div class="reg__login">У вас уже есть аккаунт? <a href="login.html">Войдите в него</a></div>
                 </form>
