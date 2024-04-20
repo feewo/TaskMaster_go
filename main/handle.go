@@ -49,18 +49,18 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	url := r.URL
 	path := url.Path[1:]
-	if path[:3] != "api" {
+	pathArr := strings.Split(path, "/")
+	if pathArr[0] != "api" {
 		front(path, w, r)
 		return
 	}
-	pathArr := strings.Split(path[4:], "/")
 	maps, ok := apiMap[r.Method]
 	if !ok {
 		w.Write([]byte("Нет метода"))
 		return
 	}
-	pathName := pathArr[0]
-	if len(pathArr) > 1 {
+	pathName := pathArr[1]
+	if len(pathArr) > 2 {
 		pathName += "/{id}"
 	}
 
