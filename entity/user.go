@@ -8,10 +8,13 @@ import (
 
 type User struct {
 	gorm.Model
-	Login    string `json: "login" gorm:"unique"`
-	Email    string `json: "email"`
-	Role     string `json: "role"`
-	Password string `json: "password"`
+	Surname    string `gorm:"not null;type:varchar(100)"`
+	Name       string `gorm:"not null;type:varchar(100)"`
+	Patronymic string `gorm:"type:varchar(100)"`
+	Login      string `gorm:"not null;type:varchar(100)"`
+	Email      string `gorm:"not null;type:varchar(100)"`
+	Role       string `gorm:"not null;type:varchar(100)"`
+	Password   string `gorm:"not null;type:varchar(100)"`
 }
 
 func (i User) TableName() string {
