@@ -49,8 +49,11 @@ func handle(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Access-Control-Allow-Headers", "Content-Type")
 	url := r.URL
 	path := url.Path[1:]
-	pathArr := strings.Split(path, "/")
-	front(path, w, r)
+	if path[:3] != "api" {
+		front(path, w, r)
+		return
+	}
+	pathArr := strings.Split(path[4:], "/")
 	maps, ok := apiMap[r.Method]
 	if !ok {
 		w.Write([]byte("Нет метода"))
@@ -72,6 +75,7 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		if pathName == "user" && r.Method == "POST" {
 			isIgnore = true
 		}
+		// вынести
 		if !isIgnore {
 			token, ok := ctx.Request.Header["Authorization"]
 			if !ok {
