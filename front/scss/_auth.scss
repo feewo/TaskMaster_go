@@ -54,7 +54,6 @@
         &:focus {
             border-bottom: 1px solid $colorDarkBlue;
             color: $colorDarkBlue;
-            font-weight: 500;
 
             & ~ .auth__label {
                 color: $colorDarkBlue;
@@ -69,10 +68,20 @@
 
         &:hover {
             border-bottom: 1px solid $colorDarkBlue;
+            color: $colorDarkBlue;
+            
+            & ~ .auth__label {
+                color: $colorDarkBlue;
+            }
         }
 
-        &.error {
-            border: 2px solid $colorError;
+        &.err {
+            border-bottom: 1px solid $colorError;
+            color: $colorError;
+
+            & ~ .auth__label {
+                color: $colorError;
+            }
         }
     }
 
@@ -82,9 +91,10 @@
         font-weight: 400;
         color: $colorError;
         text-align: left;
-        padding-left: 10px;
-        margin-top: -10px;
-        margin-bottom: 20px;
+        position: absolute;
+        left: 0;
+        bottom: -20px;
+        z-index: $zDefault;
 
         &.active {
             display: block;

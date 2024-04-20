@@ -45,6 +45,12 @@
     animation: $name 1s forwards;
 }
 
+@mixin animationLeftRun ($name) {
+    transform: translateX(-150px);
+    opacity: 0;
+    animation: $name .5s forwards;
+}
+
 @mixin animationRight ($name) {
     transform: translateX(150px);
     opacity: 0;
@@ -53,6 +59,12 @@
 
 @mixin animationTop ($name) {
     transform: translateY(-150px);
+    opacity: 0;
+    animation: $name 1s forwards;
+}
+
+@mixin animationBottom ($name) {
+    transform: translateY(150px);
     opacity: 0;
     animation: $name 1s forwards;
 }

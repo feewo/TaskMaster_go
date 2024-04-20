@@ -1,12 +1,133 @@
-// Edit
-const taskItems = document.querySelectorAll('.task__item');
+// API
 
-taskItems.forEach(taskItem => {
+document.addEventListener('DOMContentLoaded', () => {
+    const url = document.URL;
+    const urlArr = url.split('/');
+
+    const taskItems = document.querySelectorAll('.task__item');
+
+    if (urlArr[urlArr.length - 1] == 'task.html') {
+        addTask();
+
+        if (taskItems.length > 0) {
+            interaction(taskItems);
+        }
+    }
+
+    forms();
+})
+
+// Main functions
+
+const addTask = () => {
+    const taskCreate = document.querySelector('#taskCreate');
+
+    taskCreate.addEventListener('click', () => {
+        const taskTop = document.querySelector('.task__top');
+
+        taskTop.insertAdjacentHTML('afterend', `
+        <div class="task__item">
+            <div class="task__item-head">
+                <div class="task__item-title">Текст задачи</div>
+                <input type="text" class="task__item-inputtitle hide" value="Текст задачи">
+                <div class="task__item-icons">
+                    <button class="task__item-btn task__item--edit">
+                        <svg class="task__item-icon">
+                            <use xlink:href="#change"></use>
+                        </svg>
+                    </button>
+
+                    <button class="task__item-btn task__item-btn--edit task__item-btn--ready">
+                        <svg class="task__item-icon">
+                            <use xlink:href="#ready"></use>
+                        </svg>
+                    </button>
+
+                    <button class="task__item-btn task__item-btn--edit task__item-btn--delete">
+                        <svg class="task__item-icon">
+                            <use xlink:href="#delete"></use>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="task__item-container">
+                <div class="task__item-point">
+                    <div class="task__item-left">
+                        <input type="checkbox" class="task__item-checkbox" id="point1">
+                        <label for="point1" class="task__item-flag"></label>
+                        <label for="point1" class="task__item-label">Текст подзадачи</label>
+                        <input type="text" class="task__item-input hide" value="Текст подзадачи">
+                    </div>
+
+                    <button class="task__item-right">
+                        <svg class="task__item-delete">
+                            <use xlink:href="#delete"></use>
+                        </svg>
+                    </button>
+                </div>
+
+                <button class="task__add">
+                    <svg class="task__add-icon">
+                        <use xlink:href="#plus"></use>
+                    </svg>
+
+                    <div class="task__add-text">Добавить подзадачу</div>
+                </button>
+            </div>
+        </div>
+        `)
+
+        const taskItems = document.querySelectorAll('.task__item');
+        interaction(taskItems[0]);
+    });
+}
+
+const interaction = (taskItems) => {
+    if (taskItems.length > 1) {
+        taskItems.forEach(taskItem => {
+            taskItem.addEventListener('click', (event) => {
+                const clickEdit = event.target.closest('.task__item--edit');
+                const clickDeletePoint = event.target.closest('.task__item-right');
+                const clickDelete = event.target.closest('.task__item-btn--delete');
+                const clickCanel = event.target.closest('.task__item-btn--canel');
+                const clickReady = event.target.closest('.task__item-btn--ready');
+                const clickAdd = event.target.closest('.task__add');
+    
+                if (clickEdit) {
+                    editMode(clickEdit);
+                }
+                if (clickDeletePoint) {
+                    deletePoint(clickDeletePoint);
+                }
+                if (clickDelete) {
+                    deleteTask(clickDelete);
+                }
+                if (clickReady) {
+                    const btns = clickReady.parentElement;
+                    const itemPoints = btns.parentElement.nextElementSibling.querySelectorAll('.task__item-point');
+                    const taskTitleInput = btns.previousElementSibling;
+                    const taskTitle = taskTitleInput.previousElementSibling;
+                    
+                    defaultMode(clickReady);
+                    pointDefaultValue(itemPoints, taskTitleInput, taskTitle);
+                }
+                if (clickAdd) {
+                    addPoint(clickAdd);
+                }
+            })
+        })
+        return;
+    }
+    
+    const taskItem = taskItems;
     taskItem.addEventListener('click', (event) => {
         const clickEdit = event.target.closest('.task__item--edit');
         const clickDeletePoint = event.target.closest('.task__item-right');
         const clickDelete = event.target.closest('.task__item-btn--delete');
+        const clickCanel = event.target.closest('.task__item-btn--canel');
         const clickReady = event.target.closest('.task__item-btn--ready');
+        const clickAdd = event.target.closest('.task__add');
 
         if (clickEdit) {
             editMode(clickEdit);
@@ -18,10 +139,86 @@ taskItems.forEach(taskItem => {
             deleteTask(clickDelete);
         }
         if (clickReady) {
+            const btns = clickReady.parentElement;
+            const itemPoints = btns.parentElement.nextElementSibling.querySelectorAll('.task__item-point');
+            const taskTitleInput = btns.previousElementSibling;
+            const taskTitle = taskTitleInput.previousElementSibling;
+            
             defaultMode(clickReady);
+            pointDefaultValue(itemPoints, taskTitleInput, taskTitle);
+        }
+        if (clickCanel) {
+            const btns = clickCanel.parentElement;
+            const itemPoints = btns.parentElement.nextElementSibling.querySelectorAll('.task__item-point');
+            const taskTitleInput = btns.previousElementSibling;
+            const taskTitle = taskTitleInput.previousElementSibling;
+
+            defaultMode(clickCanel);
+            pointDefault(itemPoints, taskTitleInput, taskTitle);
+        }
+        if (clickAdd) {
+            addPoint(clickAdd);
         }
     })
-})
+}
+
+const forms = () => {
+    const formBtns = document.querySelectorAll('[data-form]');
+
+    formBtns.forEach(formBtn => {
+        formBtn.addEventListener('click', (event) => {
+            event.preventDefault();
+            const formId = formBtn.dataset.form;
+            const form = document.querySelector(formId);
+            
+            switch(formId) {
+                case "#regForm":
+                    registration(form);
+                    break;
+                case "#logForm":
+                    login(form);
+                    break;
+                case "#formCreateTask":
+                    createTask(form);
+                    break;
+                case "#formCreatePoint":
+                    createPoint(form);
+                    break;
+                case "#formEdit":
+                    edit(form);
+                    break;
+                case "#accountSave":
+                    account(form, formBtn);
+                    break;
+            }
+        })
+    })
+}
+
+// Supportive functions
+
+const addPoint = (btn) => {
+    const container = btn.parentElement;
+
+    btn.insertAdjacentHTML('beforebegin' , `
+    <div class="task__item-point task__item-add">
+        <div class="task__item-left">
+            <input type="checkbox" class="task__item-checkbox" id="point6">
+            <label for="point6" class="task__item-flag"></label>
+            <label for="point2" class="task__item-label hide"></label>
+            <input type="text" class="task__item-addinput">
+        </div>
+
+        <button class="task__item-right">
+            <svg class="task__item-delete">
+                <use xlink:href="#delete"></use>
+            </svg>
+        </button>
+    </div>
+    `)
+
+    container.scrollTop = container.scrollHeight;
+}
 
 const deleteTask = (btn) => {
     const taskItem = btn.parentElement.parentElement.parentElement;
@@ -43,60 +240,104 @@ const deletePoint = (btn) => {
 
 const editMode = (btnEdit) => {
     const btns = btnEdit.parentElement;
-    const btnAdd = btns.querySelector('.task__item-plus');
+    const itemPoints = btns.parentElement.nextElementSibling.querySelectorAll('.task__item-point');
     const btnsEdit = btns.querySelectorAll('.task__item-btn--edit');
 
     const taskItem = btns.parentElement.parentElement;
     const btnsDelete = taskItem.querySelectorAll('.task__item-right');
-    const btnsChange = taskItem.querySelectorAll('.task__item-btnedit');
+
+    const taskAdd = btns.parentElement.nextElementSibling.querySelector('.task__add');
+    const taskTitleInput = btns.previousElementSibling;
+    const taskTitle = taskTitleInput.previousElementSibling;
 
     // Hide
     btnEdit.style.opacity = '0';
-    btnAdd.style.opacity = '0';
 
     setTimeout(() => {
         btnEdit.classList.add('hide');
-        btnAdd.classList.add('hide');
     }, 200)
 
     // Show
-    btnsEdit.forEach(btn => {
-        btn.classList.add('show');
-
-        setTimeout(() => {
-            btn.style.opacity = '1';
-        }, 200)
-    })
-
+    taskAdd.classList.add('show');
     showBtns(btnsEdit);
     showBtns(btnsDelete);
-    showBtns(btnsChange);
-}
 
+    itemPoints.forEach(itemPoint => {
+        const pointLabel = itemPoint.querySelector('.task__item-label');
+        const pointInput = itemPoint.querySelector('.task__item-input');
+        const pointLabelValue = pointLabel.textContent;
+        const taskTitleValue = taskTitle.textContent;
+
+        pointLabel.classList.add('hide');
+        taskTitle.classList.add('hide');
+
+        pointInput.value = pointLabelValue
+        taskTitleInput.value = taskTitleValue;
+
+        pointInput.classList.remove('hide');
+        taskTitleInput.classList.remove('hide');
+    })
+}
 
 const defaultMode = (btnReady) => {
     const btns = btnReady.parentElement;
     const btnEdit = btns.querySelector('.task__item--edit');
-    const btnAdd = btns.querySelector('.task__item-plus');
     const btnsEdit = btns.querySelectorAll('.task__item-btn--edit');
 
     const taskItem = btns.parentElement.parentElement;
     const btnsDelete = taskItem.querySelectorAll('.task__item-right');
-    const btnsChange = taskItem.querySelectorAll('.task__item-btnedit');
+
+    const taskAdd = btns.parentElement.nextElementSibling.querySelector('.task__add');
 
     // Hide
+    taskAdd.classList.remove('show');
     hideBtns(btnsEdit);
     hideBtns(btnsDelete);
-    hideBtns(btnsChange);
 
     // Show
-    btnAdd.classList.remove('hide');
     btnEdit.classList.remove('hide');
 
     setTimeout(() => {
-        btnAdd.style.opacity = '1';
         btnEdit.style.opacity = '1';
     }, 200)
+}
+
+const pointDefault = (itemPoints, taskTitleInput, taskTitle) => {
+    itemPoints.forEach(itemPoint => {
+        const pointLabel = itemPoint.querySelector('.task__item-label');
+        const pointInput = itemPoint.querySelector('.task__item-input');
+
+        pointInput.classList.add('hide');
+        taskTitleInput.classList.add('hide');
+
+        pointLabel.classList.remove('hide');
+        taskTitle.classList.remove('hide');
+    })
+}
+
+const pointDefaultValue = (itemPoints, taskTitleInput, taskTitle) => {
+    itemPoints.forEach(itemPoint => {
+        const pointLabel = itemPoint.querySelector('.task__item-label');
+        var pointInput = itemPoint.querySelector('.task__item-input');
+
+        if (!pointInput) {
+            pointInput = itemPoint.querySelector('.task__item-addinput');
+            pointInput.classList.remove('task__item-addinput');
+            pointInput.classList.add('task__item-input');
+        }
+
+        const pointInputValue = pointInput.value;
+        const taskTitleInputValue = taskTitleInput.value;
+
+        pointInput.classList.add('hide');
+        taskTitleInput.classList.add('hide');
+
+        pointLabel.innerHTML = pointInputValue
+        taskTitle.innerHTML = taskTitleInputValue;
+
+        pointLabel.classList.remove('hide');
+        taskTitle.classList.remove('hide');
+    })
 }
 
 const showBtns = (btns) => {
@@ -119,147 +360,7 @@ const hideBtns = (btns) => {
     })
 }
 
-// Account
-const changeBtns = document.querySelectorAll('.account__btn--change');
-
-if (changeBtns) {
-    changeBtns.forEach(changeBtn => {
-        changeBtn.addEventListener ('click', (event) => {
-            event.preventDefault();
-
-            const accountInfo = changeBtn.parentElement;
-            const accountForm = accountInfo.nextElementSibling;
-
-            accountInfo.classList.add('hide');
-
-            setTimeout(() => {
-                accountInfo.style.display = "none";
-            }, 200)
-
-            setTimeout(() => {
-                accountForm.style.display = "flex";
-                setTimeout(() => {
-                    accountForm.classList.add('show');
-                }, 50)
-            }, 200)
-        })
-    })
-}
-
-const accountReady = (readyBtn) => {
-    const accountForm = readyBtn.parentElement;
-    const accountInfo = accountForm.previousElementSibling;
-
-    accountForm.classList.remove('show');
-    setTimeout(() => {
-        accountForm.style.display = "none";
-    }, 200)
-
-    setTimeout(() => {
-        accountInfo.style.display = "flex";
-        setTimeout(() => {
-            accountInfo.classList.remove('hide');
-        }, 50)
-    }, 200)
-}
-
-// Modal
-const btnsModal = document.querySelectorAll('[data-modal]');
-
-const modalShow = (modal, modalContent) => {
-    const body = document.querySelector('body');
-
-    body.classList.add('no-scroll');
-    modal.classList.add('active');
-
-    setTimeout(() => {
-        modalContent.style.opacity = '1';
-        modalContent.style.transform = 'translateY(0)';
-    }, 200)
-}
-
-const modalHide = (modal, modalContent) => {
-    modal.addEventListener('click', () => {
-        const body = document.querySelector('body');
-
-        modalContent.style.opacity = '0';
-        modalContent.style.transform = 'translateY(-250px)';
-
-        setTimeout(() => {
-            body.classList.remove('no-scroll');
-            modal.classList.remove('active');
-        }, 500)
-    }, {"once": true})
-
-    modalContent.addEventListener('click', (event) => {
-        event.preventDefault();
-
-        if (!event.target.closest('.modal__close')){
-            event.stopPropagation()
-        }
-    })
-}
-
-const modalClose = (modal) => {
-    const body = document.querySelector('body');
-    const modalContent = modal.querySelector('.modal__content');
-
-    modalContent.style.opacity = '0';
-    modalContent.style.transform = 'translateY(-250px)';
-
-    setTimeout(() => {
-        body.classList.remove('no-scroll');
-        modal.classList.remove('active');
-    }, 500) 
-}
-
-btnsModal.forEach(btnModal => {
-    btnModal.addEventListener('click', (event) => {
-        event.preventDefault();
-
-        const dataModal = btnModal.dataset.modal;
-        const modal = document.querySelector(dataModal);
-        const modalContent = modal.querySelector('.modal__content');
-
-        // Show
-        modalShow(modal, modalContent);
-
-        // Hide
-        modalHide(modal, modalContent);
-    });
-});
-
 // Forms
-const formBtns = document.querySelectorAll('[data-form]');
-
-formBtns.forEach(formBtn => {
-    formBtn.addEventListener('click', (event) => {
-        event.preventDefault();
-        const formId = formBtn.dataset.form;
-        const form = document.querySelector(formId);
-        
-        switch(formId) {
-            case "#regForm":
-                registration(form);
-                break;
-            case "#logForm":
-                login(form);
-                break;
-            case "#formCreateTask":
-                createTask(form);
-                break;
-            case "#formCreatePoint":
-                createPoint(form);
-                break;
-            case "#formEdit":
-                edit(form);
-                break;
-            case "#accountForm":
-                account(form, formBtn);
-                break;
-        }
-    })
-})
 
 const registration = (regForm) => {
     const formInputs = regForm.querySelectorAll('.auth__input');
@@ -269,7 +370,7 @@ const registration = (regForm) => {
     const regEmail = document.querySelector('#regEmail');
     const regPass = document.querySelector('#regPass');
     const regPassValue = regPass.value;
-    const regConfirm = document.querySelector('#regConfirm');
+    const regLogin = document.querySelector('#regLogin');
     const rEmail = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
 
     formClear(formInputs);
@@ -294,16 +395,17 @@ const registration = (regForm) => {
         formEmailBlur(regEmail);
         return;
     }
+    if (regLogin.value == '') {
+        formError(regLogin);
+        formBlur(regLogin);
+        return;
+    }
     if (regPassValue.length < 8) {
         formError(regPass);
         formBlur(regPass);
         return;
     }
-    if (regConfirm.value != regPassValue) {
-        formError(regConfirm);
-        formBlur(regConfirm);
-        return;
-    }
+    
     console.log('ОТПРАВКА ФОРМЫ');
 }
 
@@ -380,7 +482,7 @@ const account = (form, formBtn) => {
     const accountName = document.querySelector('#accountName');
     const accountPatronymic = document.querySelector('#accountPatronymic');
     const accountLogin = document.querySelector('#accountLogin');
-    const accountPass = document.querySelector('#accountPassword');
+    const accountPass = document.querySelector('#accountPass');
     const accountPassValue = accountPass.value;
     const accountEmail = document.querySelector('#accountEmail');
     const rEmail = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
@@ -425,52 +527,52 @@ const formClear = (formInputs) => {
     formInputs.forEach(input => {
         let inputError = input.nextElementSibling;
 
-        input.classList.remove('error');
+        input.classList.remove('err');
         inputError.classList.remove('active');
     })
 }
 
 const formAccountClear = (formInputs) => {
     formInputs.forEach(input => {
-        input.classList.remove('error');
+        input.classList.remove('err');
     })
 }
 
 const formError = (element) => {
-    element.classList.add('error');
-    element.nextElementSibling.classList.add('active');
+    element.classList.add('err');
+    element.nextElementSibling.nextElementSibling.classList.add('active');
 }
 
 const formAccountError = (element) => {
-    element.classList.add('error');
+    element.classList.add('err');
 }
 
 const formBlur = (input) => {
-    input.addEventListener('blur', function() {
+    input.addEventListener('blur', () => {
         if (input.value != '') {
-            const inputError = input.nextElementSibling;
+            const inputError = input.nextElementSibling.nextElementSibling;
 
-            input.classList.remove('error');
+            input.classList.remove('err');
             inputError.classList.remove('active');
         }     
     })
 }
 
 const formAccountBlur = (input) => {
-    input.addEventListener('blur', function() {
+    input.addEventListener('blur', () =>  {
         if (input.value != '') {
-            input.classList.remove('error');
+            input.classList.remove('err');
         }     
     })
 }
 
 const formEmailBlur = (input) => {
     const rEmail = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
-    input.addEventListener('blur', function() {
+    input.addEventListener('blur', () =>  {
         if (rEmail.test(input.value)) {
-            const inputError = input.nextElementSibling;
+            const inputError = input.nextElementSibling.nextElementSibling;
 
-            input.classList.remove('error');
+            input.classList.remove('err');
             inputError.classList.remove('active');
         }     
     })
@@ -478,9 +580,12 @@ const formEmailBlur = (input) => {
 
 const formAccountEmailBlur = (input) => {
     const rEmail = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
-    input.addEventListener('blur', function() {
+    input.addEventListener('blur', () =>  {
         if (rEmail.test(input.value)) {
-            input.classList.remove('error');
+            const inputError = input.nextElementSibling.nextElementSibling;
+
+            input.classList.remove('err');
+            inputError.classList.remove('active');
         }     
     })
 }

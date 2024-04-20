@@ -47,13 +47,6 @@
             margin-bottom: 20px;
         }
     }
-
-    // Auth
-    .auth {
-        &__input {
-            margin-bottom: 20px;
-        }
-    }
 }
 
 @media (max-width: 768px) {
@@ -71,7 +64,9 @@
         }
 
         &__img {
-            display: none;
+            display: block;
+            height: 180px;
+            margin-bottom: 30px;
         }
 
         &__inner {
@@ -132,7 +127,8 @@
                 padding-left: 10px;
             }
 
-            &-delete {
+            &-delete,
+            &-ready {
                 width: 15px;
                 height: 15px;
             }
@@ -231,18 +227,30 @@
         &__inner {
             display: block;
         }
-
-        &__img {
-            display: block;
-            height: 180px;
-            margin-bottom: 20px;
-        }
     }
 
     // Account
     .account {
         &__body {
             grid-template-columns: 1fr;
+        }
+    }
+
+    // Task
+    .task {
+        &__add {
+            &-icon {
+                width: 12px;
+                height: 12px;
+                margin-right: 8px;
+            }
+        }
+
+        &__item {
+            &-title,
+            &-inputtitle {
+                padding-right: 100px;
+            }
         }
     }
 }  
@@ -273,15 +281,9 @@
     // Auth
     .auth {
         &__input {
-            padding: 12px 17px;
-
             &--account {
                 padding: 7px 14px;
             }
-        }
-
-        &__label {
-            padding-left: 10px;
         }
     }
 
@@ -366,6 +368,16 @@
         &__head {
             &-btns {
                 display: block;
+            }
+        }
+    }
+
+    // Task
+    .task {
+        &__item {
+            &-title,
+            &-inputtitle {
+                padding-right: 85px;
             }
         }
     }

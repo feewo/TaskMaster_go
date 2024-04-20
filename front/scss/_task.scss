@@ -12,6 +12,39 @@
         margin-right: 15px;
     }
 
+    &__add {
+        display: flex;
+        align-items: center;
+        display: none;
+
+        &.show {
+            display: flex;
+        }
+
+        &:hover {
+            & .task__add-icon,
+            & .task__add-text {
+                fill: $colorDarkBlue;
+                color: $colorDarkBlue;
+            }
+        }
+
+        &-icon {
+            fill: $colorBlue;
+            width: 16px;
+            height: 16px;
+            transition: fill .2s linear;
+            margin-right: 10px;
+        }
+
+        &-text {
+            @include fontSize(18);
+            font-weight: 400;
+            color: $colorBlue;
+            transition: color .2s linear;
+        }
+    }
+
     &__create {
         background-color: $colorBlue;
         color: $colorWhite;
@@ -61,10 +94,26 @@
         margin-bottom: 20px;
         @include animationLeft(twoLeft);
         transition: opacity .2s linear;
-        opacity: 1;
 
         &.hide {
             display: none;
+        }
+
+        &-addinput {
+            @include fontSize(18);
+            margin-left: 10px;
+            background-color: lighten($colorBlue, 38%);
+            width: 100%;
+            padding: 5px 10px;
+            border-radius: 5px;
+
+            &.hide {
+                display: none;
+            }
+        }
+
+        &-add {
+            @include animationLeftRun(oneLeft);
         }
 
         &-head {
@@ -81,6 +130,22 @@
             -webkit-box-orient: vertical;
             position: relative;
             padding-right: 140px;
+
+            &.hide {
+                display: none;
+            }
+        }
+
+        &-inputtitle {
+            cursor: text;
+            @include fontSize(20);
+            font-weight: 500;
+            width: 100%;
+            padding-right: 140px;
+
+            &.hide {
+                display: none;
+            }
         }
 
         &-btn {
@@ -152,8 +217,7 @@
         &-container {
             max-height: 200px;
             overflow-y: auto;
-            margin-right: 15px;
-            padding-right: 15px;
+            padding-right: 2px;
 
             scrollbar-color: $colorWhite lighten($colorGray, 30%);
             scrollbar-width: thin;
@@ -194,6 +258,22 @@
             padding-left: 15px;
             display: flex;
             align-items: center;
+
+            &.hide {
+                display: none;
+            }
+        }
+
+        &-input {
+            cursor: text;
+            @include fontSize(18);
+            font-weight: 400;
+            width: 100%;
+            padding-left: 15px;
+
+            &.hide {
+                display: none;
+            }
         }
 
         &-checkbox {
@@ -264,6 +344,17 @@
 
             &:hover {
                 fill: $colorBlue;
+            }
+        }
+
+        &-ready {
+            width: 20px;
+            height: 20px;
+            fill: $colorBlue;
+            transition: fill .2s linear;
+
+            &:hover {
+                fill: $colorDarkBlue;
             }
         }
 
