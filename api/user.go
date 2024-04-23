@@ -6,10 +6,11 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"taskmaster/context"
 	"taskmaster/db"
-	"taskmaster/engine"
 	"taskmaster/entity"
 	"taskmaster/storage"
+	"time"
 )
 
 // func TokenGet(usr entity.User) entity.Token {
@@ -26,7 +27,30 @@ import (
 // 	return token
 // }
 
-func (a *Api) UserCreate(ctx *engine.Context) {
+func IsAuth(ctx *context.Context, method string) {
+	// получаем токен
+	token, ok := ctx.Request.Header["Authorization"]
+	if !ok {
+		ctx.Error(401, "Bad")
+		return
+	}
+	var tokenDb entity.Token
+	var userDb entity.User
+	// проверка токена
+	db.DB().Table(tokenDb.TableName()).Where("token = ? and expired > ?", token, time.Now()).Find(&tokenDb)
+	if tokenDb.UserID == 0 {
+		ctx.Error(401, "Bad")
+		return
+	}
+	// разделение на пользовательские роли
+	db.DB().Table(userDb.TableName()).Where("ID = ?", tokenDb.UserID).Find(&userDb)
+	// if (method == "POST" || method == "DELETE" || method == "PUT") && userDb.Role != "admin" {
+	// 	ctx.Error(403, "Forbidden")
+	// 	return
+	// }
+}
+
+func (a *Api) UserCreate(ctx *context.Context) {
 	decoder := json.NewDecoder(ctx.Request.Body)
 	var item entity.User
 	err := decoder.Decode(&item)
@@ -41,11 +65,11 @@ func (a *Api) UserCreate(ctx *engine.Context) {
 	ctx.Print(storage.UserCreate(item))
 }
 
-func (a *Api) Users(ctx *engine.Context) {
+func (a *Api) Users(ctx *context.Context) {
 	ctx.Print(storage.UserGetAll())
 }
 
-func (a *Api) User(ctx *engine.Context) {
+func (a *Api) User(ctx *context.Context) {
 	path := strings.Split(ctx.Request.URL.String(), "/")
 	id := path[len(path)-1]
 	iid, err := strconv.ParseUint(id, 10, 32)
@@ -55,11 +79,27 @@ func (a *Api) User(ctx *engine.Context) {
 	ctx.Print(storage.UserGet(uint(iid)))
 }
 
-func (a *Api) UserDelete(ctx *engine.Context) {
+func (a *Api) UserToken(ctx *context.Context) {
+	// получаем токен
+	token, ok := ctx.Request.Header["Authorization"]
+	if !ok {
+		ctx.Error(401, "Bad")
+		return
+	}
+	var tokenDb entity.Token
+	// проверка токена
+	db.DB().Table(tokenDb.TableName()).Where("token = ? and expired > ?", token, time.Now()).Find(&tokenDb)
+	if tokenDb.UserID == 0 {
+		ctx.Error(401, "Bad")
+		return
+	}
+	ctx.Print(storage.UserGet(uint(tokenDb.UserID)))
+}
+
+func (a *Api) UserDelete(ctx *context.Context) {
 	path := ctx.Request.URL.Path[1:]
 	pathArr := strings.Split(path, "/")
-	id := pathArr[1]
-	fmt.Println(path)
+	id := pathArr[len(pathArr)-1]
 	idUint64, err := strconv.ParseUint(id, 10, 32)
 	if err != nil {
 		fmt.Println("Ошибка при образовании строки в int", err)
@@ -68,7 +108,7 @@ func (a *Api) UserDelete(ctx *engine.Context) {
 	storage.UserDelete(idUint)
 }
 
-func (a *Api) UserUpdate(ctx *engine.Context) {
+func (a *Api) UserUpdate(ctx *context.Context) {
 	decoder := json.NewDecoder(ctx.Request.Body)
 	var item entity.User
 	err := decoder.Decode(&item)
@@ -78,7 +118,7 @@ func (a *Api) UserUpdate(ctx *engine.Context) {
 	}
 	path := ctx.Request.URL.Path[1:]
 	pathArr := strings.Split(path, "/")
-	id := pathArr[1]
+	id := pathArr[len(pathArr)-1]
 	idUint64, err := strconv.ParseUint(id, 10, 32)
 	if err != nil {
 		fmt.Println("Ошибка при образовании строки в int", err)
@@ -88,7 +128,7 @@ func (a *Api) UserUpdate(ctx *engine.Context) {
 	ctx.Print(storage.UserUpdate(item, idUint))
 }
 
-func (a *Api) UserAuth(ctx *engine.Context) {
+func (a *Api) UserAuth(ctx *context.Context) {
 	decoder := json.NewDecoder(ctx.Request.Body)
 	var item entity.User
 	err := decoder.Decode(&item)
@@ -101,7 +141,6 @@ func (a *Api) UserAuth(ctx *engine.Context) {
 	// вывод item
 	var usr entity.User
 	db.DB().Table(usr.TableName()).Where("login = ? AND password = ?", item.Login, item.Password).Find(&usr)
-	fmt.Println(item)
 	if usr.ID == 0 {
 		ctx.Error(401, "Unauthorized")
 		return
@@ -109,12 +148,11 @@ func (a *Api) UserAuth(ctx *engine.Context) {
 
 	ctx.Print(storage.UserAuth(usr))
 }
-func (a *Api) UserAuthDelete(ctx *engine.Context) {
-
+func (a *Api) UserAuthDelete(ctx *context.Context) {
 	token, ok := ctx.Request.Header["Authorization"]
 	if !ok {
 		ctx.Error(401, "Bad")
 		return
 	}
-	ctx.Print(storage.UserAuthDelete(token))
+	storage.UserAuthDelete(token)
 }

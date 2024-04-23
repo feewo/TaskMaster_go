@@ -3,7 +3,6 @@ version: '3.8'
 services:
   taskmaster_go:
     build: ./
-    command: go run ./main 
     ports:
       - "8080:8080"
     volumes:
@@ -12,6 +11,8 @@ services:
       - .env
     depends_on:
       - db
+    environment:
+      - TZ='Europe/Moscow'
   db:
     restart: always
     image: postgres:latest

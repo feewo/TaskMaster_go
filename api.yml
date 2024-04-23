@@ -11,6 +11,9 @@ api:
   Users:
     method: GET
     url: user
+  UserToken:
+    method: GET
+    url: user_token
   User:
     method: GET
     url: user/{id}

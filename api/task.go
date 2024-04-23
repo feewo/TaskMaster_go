@@ -6,12 +6,12 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
-	"taskmaster/engine"
+	"taskmaster/context"
 	"taskmaster/entity"
 	"taskmaster/storage"
 )
 
-func (a *Api) TaskCreate(ctx *engine.Context) {
+func (a *Api) TaskCreate(ctx *context.Context) {
 	decoder := json.NewDecoder(ctx.Request.Body)
 	var item entity.Task
 	err := decoder.Decode(&item)
@@ -22,11 +22,11 @@ func (a *Api) TaskCreate(ctx *engine.Context) {
 	ctx.Print(storage.TaskCreate(item))
 }
 
-func (a *Api) Tasks(ctx *engine.Context) {
+func (a *Api) Tasks(ctx *context.Context) {
 	ctx.Print(storage.TaskGetAll())
 }
 
-func (a *Api) Task(ctx *engine.Context) {
+func (a *Api) Task(ctx *context.Context) {
 	path := strings.Split(ctx.Request.URL.String(), "/")
 	id := path[len(path)-1]
 	iid, err := strconv.ParseUint(id, 10, 32)
@@ -36,7 +36,7 @@ func (a *Api) Task(ctx *engine.Context) {
 	ctx.Print(storage.TaskGet(uint(iid)))
 }
 
-func (a *Api) TaskDelete(ctx *engine.Context) {
+func (a *Api) TaskDelete(ctx *context.Context) {
 	path := ctx.Request.URL.Path[1:]
 	pathArr := strings.Split(path, "/")
 	idString := pathArr[1]
@@ -50,7 +50,7 @@ func (a *Api) TaskDelete(ctx *engine.Context) {
 	storage.TaskDelete(id)
 }
 
-func (a *Api) TaskUpdate(ctx *engine.Context) {
+func (a *Api) TaskUpdate(ctx *context.Context) {
 	decoder := json.NewDecoder(ctx.Request.Body)
 	// var taskMap map[string]interface{}
 	var task entity.Task

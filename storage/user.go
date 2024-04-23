@@ -10,33 +10,31 @@ import (
 
 func UserCreate(user entity.User) *entity.User {
 	db.DB().Create(&user)
-	return &user
+	var result entity.User
+	db.DB().Select("id", "login", "surname", "name", "patronymic", "email", "role").Where("ID = ?", user.ID).Find(&result)
+	return &result
 }
 func UserGetAll() []*entity.User {
 	var users []*entity.User
-	db.DB().Find(&users)
+	db.DB().Select("id", "login", "surname", "name", "patronymic", "email", "role").Find(&users)
 	return users
 }
+
 func UserGet(id uint) *entity.User {
 	var user entity.User
-	db.DB().Table(user.TableName()).Where("ID = ?", id).Find(&user)
+	db.DB().Select("id", "login", "surname", "name", "patronymic", "email", "role").Where("ID = ?", id).Find(&user)
 	return &user
 }
 
 func UserDelete(id uint) *entity.User {
 	var user entity.User
-	db.DB().Table(user.TableName()).Where("ID = ?", id).Delete(&user)
+	db.DB().Where("ID = ?", id).Delete(&user)
 	return &user
 }
 
 func UserUpdate(user entity.User, id uint) *entity.User {
-	db.DB().Table(user.TableName()).Where("ID = ?", id).Updates(user)
-	updatedUser := &entity.User{}
-	if user.ID == 0 {
-		db.DB().Table(user.TableName()).Where("ID = ?", id).First(updatedUser)
-	} else {
-		db.DB().Table(user.TableName()).Where("ID = ?", user.ID).First(updatedUser)
-	}
+	db.DB().Where("ID = ?", id).Updates(&user)
+	updatedUser := UserGet(id)
 	return updatedUser
 }
 
@@ -52,7 +50,7 @@ func UserAuth(usr entity.User) *entity.Token {
 
 func UserAuthDelete(token []string) *entity.Token {
 	var TableToken entity.Token
-	db.DB().Table(TableToken.TableName()).Where("token = ?", token).Delete(&TableToken)
+	db.DB().Where("token = ?", token).Delete(&TableToken)
 	return &TableToken
 }
 

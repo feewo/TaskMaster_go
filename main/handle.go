@@ -1,16 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 	"reflect"
 	"strings"
 	"taskmaster/api"
 	"taskmaster/config"
-	"taskmaster/db"
-	"taskmaster/engine"
-	"taskmaster/entity"
-	"time"
+	"taskmaster/context"
 )
 
 var hdl *api.Api
@@ -41,7 +37,7 @@ func init() {
 }
 
 func handle(w http.ResponseWriter, r *http.Request) {
-	ctx := engine.Context{
+	ctx := context.Context{
 		Response: w,
 		Request:  r,
 	}
@@ -72,30 +68,13 @@ func handle(w http.ResponseWriter, r *http.Request) {
 				break
 			}
 		}
+		// регстрация не требует авторизации
 		if pathName == "user" && r.Method == "POST" {
 			isIgnore = true
 		}
-		// вынести
+		// проверяем токен и роли
 		if !isIgnore {
-			token, ok := ctx.Request.Header["Authorization"]
-			if !ok {
-				ctx.Error(401, "Bad")
-				return
-			}
-			var tokenDb entity.Token
-			var userDb entity.User
-
-			db.DB().Table(tokenDb.TableName()).Where("token = ? and expired > ?", token, time.Now()).Find(&tokenDb)
-			fmt.Println(userDb.Role)
-			if tokenDb.UserID == 0 {
-				ctx.Error(401, "Bad")
-				return
-			}
-			db.DB().Table(userDb.TableName()).Where("ID = ?", tokenDb.UserID).Find(&userDb)
-			if (r.Method == "POST" || r.Method == "DELETE" || r.Method == "PUT") && userDb.Role != "admin" {
-				ctx.Error(403, "Forbidden")
-				return
-			}
+			api.IsAuth(&ctx, r.Method)
 		}
 		in := make([]reflect.Value, 1)
 		in[0] = reflect.ValueOf(&ctx)

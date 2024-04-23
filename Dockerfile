@@ -4,6 +4,6 @@ WORKDIR /usr/src/app
 
 COPY ./ ./
 
+RUN go mod init
 RUN go mod tidy
-
-# добавить сборку
+RUN go run ./main 
