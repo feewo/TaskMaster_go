@@ -11,19 +11,14 @@ var Task_id uint
 
 // как замокать бд
 func TestTaskCreate(t *testing.T) {
-	ready := false
 	newTask := entity.Task{
 		Title:  "Test Task",
-		Ready:  &ready,
 		UserID: User_id,
 	}
 	createdTask := storage.TaskCreate(newTask)
 	Task_id = createdTask.ID
 	if createdTask.Title != newTask.Title {
 		t.Errorf("Expected title to be %s, but got %s", newTask.Title, createdTask.Title)
-	}
-	if *createdTask.Ready != *newTask.Ready {
-		t.Errorf("Expected ready status to be %t, but got %t", *newTask.Ready, *createdTask.Ready)
 	}
 	if createdTask.UserID != newTask.UserID {
 		t.Errorf("Expected user ID to be %d, but got %d", newTask.UserID, createdTask.UserID)
@@ -49,19 +44,14 @@ func TestTaskGet(t *testing.T) {
 
 func TestTaskUpdate(t *testing.T) {
 	testTaskID := Task_id
-	ready := false
 	updatedTask := entity.Task{
 		Title:  "Updated Task",
-		Ready:  &ready,
 		UserID: User_id,
 	}
 	task := storage.TaskUpdate(updatedTask, testTaskID)
 
 	if task.Title != updatedTask.Title {
 		t.Errorf("Expected updated title to be %s, but got %s", updatedTask.Title, task.Title)
-	}
-	if *task.Ready != *updatedTask.Ready {
-		t.Errorf("Expected updated ready status to be %t, but got %t", *updatedTask.Ready, *task.Ready)
 	}
 	if task.UserID != updatedTask.UserID {
 		t.Errorf("Expected updated user ID to be %d, but got %d", updatedTask.UserID, task.UserID)

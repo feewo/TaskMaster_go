@@ -21,10 +21,8 @@ var IdTask uint = 68
 func TestTaskCreate(t *testing.T) {
 	// подготовка запроса
 	api := api.Api{}
-	ready := false
 	newTask := entity.Task{
 		Title:  "Test Task",
-		Ready:  &ready,
 		UserID: 1,
 	}
 	jsonBody, err := json.Marshal(newTask)
@@ -68,10 +66,6 @@ func TestTaskCreate(t *testing.T) {
 
 	if task.Title != newTask.Title {
 		t.Errorf("Expected task title %s, got %s", newTask.Title, task.Title)
-	}
-
-	if *task.Ready != *newTask.Ready {
-		t.Errorf("Expected task ready status %v, got %v", *newTask.Ready, *task.Ready)
 	}
 
 	if task.UserID != newTask.UserID {

@@ -9,7 +9,6 @@ import (
 type Task struct {
 	gorm.Model
 	Title  string `json: "title"`
-	Ready  *bool  `json: "ready"`
 	UserID uint   `json: "uid"`
 	User   User   `gorm:"foreignkey:UserID"`
 }
