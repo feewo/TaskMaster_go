@@ -42,7 +42,10 @@ api:
   Task:
     method: GET
     url: task/{id}
-  
+  TaskUser:
+    method: GET
+    url: task_user/{id}
+
   TaskPointCreate:
     method: POST
     url: taskpoint
@@ -58,4 +61,7 @@ api:
   TaskPoint:
     method: GET
     url: taskpoint/{id}
+  TaskPointTask:
+    method: GET
+    url: taskpoint_task/{id}
   

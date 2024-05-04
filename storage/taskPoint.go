@@ -20,6 +20,12 @@ func TaskPointGet(id uint) *entity.TaskPoint {
 	return &taskpoint
 }
 
+func TaskPointTaskGet(id uint) []*entity.TaskPoint {
+	var taskpoints []*entity.TaskPoint
+	db.DB().Where("task_id = ?", id).Find(&taskpoints)
+	return taskpoints
+}
+
 func TaskPointDelete(id uint) *entity.TaskPoint {
 	var taskpoint entity.TaskPoint
 	db.DB().Table(taskpoint.TableName()).Where("ID = ?", id).Delete(&taskpoint)

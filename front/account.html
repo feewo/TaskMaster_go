@@ -47,62 +47,26 @@
                 </div>
             </div>
 
-            <div class="container">
+            <div class="container" id="accountContainer">
                 <div class="account__head">
                     <h2 class="account__head-title">Личный кабинет</h2>
 
                     <div class="account__head-btns">
                         <a href="task.html" class="account__head-btn">Задачи</a>
-                        <button class="account__head-btn">Выйти</button>
+                        <button class="account__head-btn" id="exit">Выйти</button>
                     </div>
                 </div>
 
-                <form action="" method="post" class="account__body" id="accountSave">
-                    <div class="account__block account__block--left">
-                        <h4 class="account__title">Общие данные</h4>
-
-                        <div class="auth__group">
-                            <input minlength="1" maxlength="225" type="text" class="auth__input" id="accountSurname" name="surname" value="fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff ааааааааааааааааа" placeholder=" " required>
-                            <label for="accountSurname" class="auth__label">Фамилия</label>   
-                        </div>
-
-                        <div class="auth__group">
-                            <input minlength="1" maxlength="225" type="text" class="auth__input" id="accountName" name="name" value="Екатерина" placeholder=" " required>
-                            <label for="accountName" class="auth__label">Имя</label>
-                        </div>
-
-                        <div class="auth__group">
-                            <input minlength="1" maxlength="225" type="text" class="auth__input" id="accountPatronymic" name="patronymic" value="Андреевна" placeholder=" " required>
-                            <label for="accountPatronymic" class="auth__label">Отчество</label>
-                        </div>
-                    </div>
-
-                    <div class="account__block account__block--right">
-                        <h4 class="account__title">Безопасность</h4>
-
-                        <div class="auth__group">
-                            <input minlength="1" maxlength="225" type="text" class="auth__input" id="accountEmail" name="email" value="ivanoff@bk.ru" placeholder=" " required>
-                            <label for="accountEmail" class="auth__label">Почта</label>
-                        </div>
-
-                        <div class="auth__group">
-                            <input minlength="1" maxlength="225" type="text" class="auth__input" id="accountLogin" name="login" value="ivanoff228" placeholder=" " required>
-                            <label for="accountLogin" class="auth__label">Логин</label>
-                        </div>
-                        
-                        <div class="auth__group">
-                            <input minlength="8" maxlength="225" type="password" class="auth__input" id="accountPass" name="password" value="12345678" placeholder=" " required>
-                            <label for="accountPass" class="auth__label">Пароль</label>
-                        </div>
-                    </div>
-                </form>
+                <div class="loader__container">
+                    <span class="loader"></span>
+                </div>
                 
                 <div class="account__notice">
-                    <div class="error">Произошла ошибка! Попробуйте позже</div>
-                    <div class="success">Данные успешно обновлены</div>
+                    <div class="error" id="accError">Произошла ошибка! Попробуйте позже</div>
+                    <div class="success" id="accSuccess">Данные успешно обновлены</div>
                 </div>
 
-                <input id="btnChange" type="submit" class="btn account__btn" value="Сохранить" data-form="#accountSave">
+                <input id="btnChange" type="submit" class="btn account__btn" value="Сохранить" data-form="#accountSave" id="btnSave">
             </div>
         </div>
     </div>

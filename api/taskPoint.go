@@ -37,6 +37,16 @@ func (a *Api) TaskPoint(ctx *context.Context) {
 	ctx.Print(storage.TaskPointGet(uint(iid)))
 }
 
+func (a *Api) TaskPointTask(ctx *context.Context) {
+	path := strings.Split(ctx.Request.URL.String(), "/")
+	id := path[len(path)-1]
+	iid, err := strconv.ParseUint(id, 10, 32)
+	if err != nil {
+		ctx.Error(400, err.Error())
+	}
+	ctx.Print(storage.TaskPointTaskGet(uint(iid)))
+}
+
 func (a *Api) TaskPointDelete(ctx *context.Context) {
 	path := ctx.Request.URL.Path[1:]
 	pathArr := strings.Split(path, "/")

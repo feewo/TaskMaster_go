@@ -26,6 +26,16 @@ func (a *Api) Tasks(ctx *context.Context) {
 	ctx.Print(storage.TaskGetAll())
 }
 
+func (a *Api) TaskUser(ctx *context.Context) {
+	path := strings.Split(ctx.Request.URL.String(), "/")
+	id := path[len(path)-1]
+	iid, err := strconv.ParseUint(id, 10, 32)
+	if err != nil {
+		ctx.Error(400, err.Error())
+	}
+	ctx.Print(storage.TaskUserGetAll(uint(iid)))
+}
+
 func (a *Api) Task(ctx *context.Context) {
 	path := strings.Split(ctx.Request.URL.String(), "/")
 	id := path[len(path)-1]

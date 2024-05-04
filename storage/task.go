@@ -20,6 +20,12 @@ func TaskGet(id uint) *entity.Task {
 	return &task
 }
 
+func TaskUserGetAll(id uint) []*entity.Task {
+	var tasks []*entity.Task
+	db.DB().Where("user_id = ?", id).Find(&tasks)
+	return tasks
+}
+
 func TaskDelete(id uint) *entity.Task {
 	var task entity.Task
 	db.DB().Table(task.TableName()).Where("ID = ?", id).Delete(&task)

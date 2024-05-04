@@ -253,6 +253,17 @@
             }
         }
     }
+
+    // Loader
+    .loader {
+        width: 43px;
+        height: 43px;
+
+        &__container {
+            margin-bottom: 45px;
+            margin-top: 43px;
+        }
+    }
 }  
 
 @media (max-width: 425px) {

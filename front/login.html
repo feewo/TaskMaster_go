@@ -26,8 +26,8 @@
 
                     <form action="" method="post" class="login__item login__item--right" id="logForm">
                         <div class="auth__group">
-                            <input type="text" class="auth__input" id="loginEmail" name="email" placeholder=" ">
-                            <label for="loginEmail" class="auth__label">Почта</label>
+                            <input type="text" class="auth__input" id="loginLogin" name="login" placeholder=" ">
+                            <label for="loginLogin" class="auth__label">Логин</label>
                             <div class="auth__error">Поле заполнено неверно!</div>
                             <div class="auth__error auth__exit">Неправильный логин или пароль!</div>
                         </div>
@@ -38,7 +38,7 @@
                             <div class="auth__error">Пароль не может быть меньше 8 символов!</div>
                         </div>
 
-                        <div class="error">Произошла ошибка! Попробуйте позже</div>
+                        <div class="error" id="logError">Произошла ошибка! Попробуйте позже</div>
                         <input type="submit" class="btn login__btn" value="Войти" data-form="#logForm">
                         <div class="login__reg">Нет аккаунта? <a href="registration.html">Зарегистрируйтесь</a></div>
                     </form>

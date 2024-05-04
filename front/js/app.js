@@ -1,12 +1,31 @@
 // API
-const rootUrl = '/api/';
+const rootUrl = '/api';
+var idUser = 0;
 
 async function postData(url, data) {
     const response = await fetch(url, {
         headers: {
             'X-API-KEY': 'FC52783F63184532B379EECD56DFC009E0131854354C4FA293EC5581CC6547F7',
+            'Authorization': document.cookie.match(/login=(.+?)(;|$)/)[1]
         },
         method: 'POST',
+        body: data,
+    });
+
+    if (!response.ok) {
+        throw new Error('Ошибка');
+    }
+
+    return await response.json();
+}
+
+async function putData(url, data) {
+    const response = await fetch(url, {
+        headers: {
+            'X-API-KEY': 'FC52783F63184532B379EECD56DFC009E0131854354C4FA293EC5581CC6547F7',
+            'Authorization': document.cookie.match(/login=(.+?)(;|$)/)[1]
+        },
+        method: 'PUT',
         body: data,
     });
 
@@ -21,6 +40,7 @@ async function getData(url) {
     const response = await fetch(url, {
         headers: {
             'X-API-KEY': 'FC52783F63184532B379EECD56DFC009E0131854354C4FA293EC5581CC6547F7',
+            'Authorization': document.cookie.match(/login=(.+?)(;|$)/)[1]
         },
         method: 'GET',
     });
@@ -39,11 +59,16 @@ document.addEventListener('DOMContentLoaded', () => {
     const taskItems = document.querySelectorAll('.task__item');
 
     if (urlArr[urlArr.length - 1] == 'task.html') {
-        addTask();
+        getTaskData();
 
         if (taskItems.length > 0) {
             interaction(taskItems);
         }
+    }
+
+    if (urlArr[urlArr.length - 1] == 'account.html') {
+        getAccData();
+        exit();
     }
 
     forms();
@@ -51,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Main functions
 
-const addTask = () => {
+const addTask = (idUser) => {
     const taskCreate = document.querySelector('#taskCreate');
 
     taskCreate.addEventListener('click', () => {
@@ -109,6 +134,8 @@ const addTask = () => {
             </div>
         </div>
         `)
+
+        addTaskRequest(idUser);
 
         const taskItems = document.querySelectorAll('.task__item');
         interaction(taskItems[0]);
@@ -220,26 +247,286 @@ const forms = () => {
                     edit(form);
                     break;
                 case "#accountSave":
-                    account(form, formBtn);
+                    account(form);
                     break;
             }
         })
     })
 }
 
+const exit = () => {
+    const btn = document.querySelector('#exit');
+
+    btn.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        cleanCookie();
+        window.location.replace("/");
+    })
+}
+
 // API functoins
 
-const submitForm = (formData) => {
+const submitFormReg = (formData) => {
     postData(`${rootUrl}/user`, formData)
     .then (result => {
-        console.log('success');
+        window.location.replace("login.html");
     })
     .catch (error => {
-        console.log('error');
+        const err = document.querySelector('#regError');
+        notice(err);
     })
 }   
 
+const submitFormLog = (formData) => {
+    postData(`${rootUrl}/token`, formData)
+    .then (result => {
+        document.cookie = `login=${result["Token"]}`;
+        window.location.replace("account.html");
+    })
+    .catch (error => {
+        const err = document.querySelector('#logError');
+        notice(err);
+    })
+}   
+
+const submitFormAcc = (formData) => {
+    putData(`${rootUrl}/user/${idUser}`, formData)
+    .then (result => {
+        const err = document.querySelector('#accSuccess');
+        notice(err);
+    })
+    .catch (error => {
+        const err = document.querySelector('#accError');
+        notice(err);
+    })
+}   
+
+const getAccData = () => {
+    getData(`${rootUrl}/user_token`)
+    .then(result => {
+        loadAccInfo(result);
+        idUser = result["ID"];
+    })
+    .catch(error => {
+        console.log(error);
+    })
+}
+
+const getTaskData = () => {
+    getData(`${rootUrl}/user_token`)
+    .then(result => {
+        const idUserTask = result["ID"];
+        loadName(result["Name"]);
+        loadTaskInfo(idUserTask);
+        addTask(idUserTask);
+    })
+    .catch(error => {
+        console.log(error);
+    })
+}
+
+const addTaskRequest = (idUser) => {
+    formDataTask = `{
+        "Title":"Текст задачи",
+        "UserID":${idUser}
+    }
+    `
+    postData(`${rootUrl}/task`, formDataTask)
+    .then(resultTask => {
+        formDataTaskpoint = `{
+            "Title":"Текст подзадачи",
+            "Ready":false,
+            "TaskID":${resultTask["ID"]}
+        }
+        `
+    
+        postData(`${rootUrl}/taskpoint`, formDataTaskpoint)
+        .then(resultTaskpoint => {
+            console.log('success');
+        })
+        .catch(error => {
+            const err = document.querySelector('#taskError');
+            notice(err);
+        })
+    })
+    .catch(error => {
+        const err = document.querySelector('#taskError');
+        notice(err);
+    })
+}
+
+const changeCheckbox = () => {
+    const inputs = document.querySelectorAll('.task__item-checkbox');
+
+    inputs.forEach(input => {
+        const idInput = input.id.slice(5);
+        const titlePoint = input.nextElementSibling.nextElementSibling.textContent;
+        const taskId = Number(input.parentElement.parentElement.parentElement.id.slice(13));
+
+        input.addEventListener('input', () => {
+            const formData = `
+            {
+                "Title":"${titlePoint}",
+                "Ready":${input.checked},
+                "TaskID":${taskId}
+            }
+            `
+
+            putData(`${rootUrl}/taskpoint/${idInput}`, formData)
+            .then(result => {
+                console.log(result);
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        })  
+    })
+}
+
 // Supportive functions
+
+const loadName = (name) => {
+    const headName = document.querySelector('.head__name');
+
+    headName.insertAdjacentHTML('beforeend', `
+        ${name}
+    `)
+}
+
+const loadTaskInfo = (id) => {
+    getData(`${rootUrl}/task_user/${id}`)
+    .then (tasks => {
+        const loader = document.querySelector('.loader__container');
+
+        tasks.forEach(task => {
+            loader.insertAdjacentHTML('afterend', `
+            <div class="task__item">
+                <div class="task__item-head">
+                    <div class="task__item-title">${task["Title"]}</div>
+                    <input type="text" class="task__item-inputtitle hide" value="${task["Title"]}">
+                    <div class="task__item-icons">
+                        <button class="task__item-btn task__item--edit">
+                            <svg class="task__item-icon">
+                                <use xlink:href="#change"></use>
+                            </svg>
+                        </button>
+
+                        <button class="task__item-btn task__item-btn--edit task__item-btn--ready">
+                            <svg class="task__item-icon">
+                                <use xlink:href="#ready"></use>
+                            </svg>
+                        </button>
+
+                        <button class="task__item-btn task__item-btn--edit task__item-btn--canel">
+                            <svg class="task__item-icon">
+                                <use xlink:href="#canel"></use>
+                            </svg>
+                        </button>
+
+                        <button class="task__item-btn task__item-btn--edit task__item-btn--delete">
+                            <svg class="task__item-icon">
+                                <use xlink:href="#delete"></use>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="task__item-container" id="taskContainer${task["ID"]}">
+                    <button class="task__add">
+                        <svg class="task__add-icon">
+                            <use xlink:href="#plus"></use>
+                        </svg>
+
+                        <div class="task__add-text">Добавить подзадачу</div>
+                    </button>
+                </div>
+            </div>
+            `)
+
+            const taskId = task["ID"];
+            getData(`${rootUrl}/taskpoint_task/${taskId}`)
+            .then(taskpoints => {
+                const taskContainer = document.querySelector(`#taskContainer${task["ID"]}`);
+
+                taskpoints.forEach(taskpoint => {
+                    let check;
+                    taskpoint["Ready"] ? check = 'checked' : check = '';
+
+                    taskContainer.insertAdjacentHTML('beforeend', `
+                    <div class="task__item-point">
+                        <div class="task__item-left">
+                            <input type="checkbox" class="task__item-checkbox" id="point${taskpoint["ID"]}" ${check}>
+                            <label for="point${taskpoint["ID"]}" class="task__item-flag" value="1"></label>
+                            <label for="point${taskpoint["ID"]}" class="task__item-label">${taskpoint["Title"]}</label>
+                            <input type="text" class="task__item-input hide" value="${taskpoint["Title"]}">
+                        </div>
+
+                        <button class="task__item-right">
+                            <svg class="task__item-delete">
+                                <use xlink:href="#delete"></use>
+                            </svg>
+                        </button>
+                    </div>
+                    `)
+                })
+
+                changeCheckbox();
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        })
+
+        loader.style.display = "none";
+    })
+    .catch(error => {
+        console.log(error);
+    })
+}
+
+const loadAccInfo = (data) => {
+    const loader = document.querySelector('.loader__container');
+
+    loader.insertAdjacentHTML('afterend', `
+    <form action="" method="post" class="account__body" id="accountSave">
+        <div class="account__block account__block--left">
+            <h4 class="account__title">Общие данные</h4>
+
+            <div class="auth__group">
+                <input minlength="1" maxlength="225" type="text" class="auth__input" id="accountSurname" name="surname" value="${data["Surname"]}" placeholder=" " required>
+                <label for="accountSurname" class="auth__label">Фамилия</label>   
+            </div>
+
+            <div class="auth__group">
+                <input minlength="1" maxlength="225" type="text" class="auth__input" id="accountName" name="name" value="${data["Name"]}" placeholder=" " required>
+                <label for="accountName" class="auth__label">Имя</label>
+            </div>
+
+            <div class="auth__group">
+                <input minlength="1" maxlength="225" type="text" class="auth__input" id="accountPatronymic" name="patronymic" value="${data["Patronymic"]}" placeholder=" " required>
+                <label for="accountPatronymic" class="auth__label">Отчество</label>
+            </div>
+        </div>
+
+        <div class="account__block account__block--right">
+            <h4 class="account__title">Безопасность</h4>
+
+            <div class="auth__group">
+                <input minlength="1" maxlength="225" type="text" class="auth__input" id="accountEmail" name="email" value="${data["Email"]}" placeholder=" " required>
+                <label for="accountEmail" class="auth__label">Почта</label>
+            </div>
+
+            <div class="auth__group">
+                <input minlength="1" maxlength="225" type="text" class="auth__input" id="accountLogin" name="login" value="${data["Login"]}" placeholder=" " required>
+                <label for="accountLogin" class="auth__label">Логин</label>
+            </div>
+        </div>
+    </form>
+    `)
+
+    loader.style.display = "none";
+}
 
 const addPoint = (btn) => {
     const container = btn.parentElement;
@@ -404,11 +691,32 @@ const hideBtns = (btns) => {
     })
 }
 
-function getForm(form) {
+const getForm = (form) => {
     const fd = new FormData(form);
     const data = {}
     fd.forEach((v, k) => data[k] = v);
     return JSON.stringify(data);
+}
+
+const notice = (notice) => {
+    notice.classList.add('active');
+}
+
+const cleanCookie = () => {
+    var cookies = document.cookie.split("; ");
+    for (var c = 0; c < cookies.length; c++) {
+        var d = window.location.hostname.split(".");
+        while (d.length > 0) {
+            var cookieBase = encodeURIComponent(cookies[c].split(";")[0].split("=")[0]) + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT; domain=' + d.join('.') + ' ;path=';
+            var p = location.pathname.split('/');
+            document.cookie = cookieBase + '/';
+            while (p.length > 0) {
+                document.cookie = cookieBase + p.join('/');
+                p.pop();
+            };
+            d.shift();
+        }
+    }
 }
 
 // Forms
@@ -452,21 +760,20 @@ const registration = (regForm) => {
     }
     
     const formData = getForm(regForm);
-    submitForm(formData);
+    submitFormReg(formData);
 }
 
 const login = (logForm) => {
     const formInputs = logForm.querySelectorAll('.auth__input');
-    const logEmail = document.querySelector('#loginEmail');
+    const logLogin = document.querySelector('#loginLogin');
     const logPass = document.querySelector('#loginPass');
     const logPassValue = logPass.value;
-    const rEmail = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
 
     formClear(formInputs);
 
-    if (!rEmail.test(logEmail.value)) {
-        formError(logEmail);
-        formEmailBlur(logEmail);
+    if (logLogin.value == "") {
+        formError(logLogin);
+        formBlur(logLogin);
         return;
     }
     if (logPassValue.length < 8) {
@@ -474,7 +781,9 @@ const login = (logForm) => {
         formBlur(logPass);
         return;
     }
-    console.log('ОТПРАВКА ФОРМЫ');
+
+    const formData = getForm(logForm);
+    submitFormLog(formData);
 }
 
 const createTask = (form) => {
@@ -522,13 +831,11 @@ const edit = (form) => {
     console.log('ОТПРАВКА ФОРМЫ');
 }
 
-const account = (form, formBtn) => {
+const account = (form) => {
     const formInputs = form.querySelectorAll('.auth__input');
     const accountSurname = document.querySelector('#accountSurname');
     const accountName = document.querySelector('#accountName');
     const accountLogin = document.querySelector('#accountLogin');
-    const accountPass = document.querySelector('#accountPass');
-    const accountPassValue = accountPass.value;
     const accountEmail = document.querySelector('#accountEmail');
     const rEmail = /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i;
 
@@ -554,13 +861,9 @@ const account = (form, formBtn) => {
         formAccountEmailBlur(accountEmail);
         return;
     }
-    if (accountPassValue.length < 8) {
-        formAccountError(accountPass);
-        formAccountBlur(accountPass);
-        return;
-    }
-    accountReady(formBtn);
-    console.log('ОТПРАВКА ФОРМЫ');
+  
+    const formData = getForm(form);
+    submitFormAcc(formData);
 }
 
 const formClear = (formInputs) => {
