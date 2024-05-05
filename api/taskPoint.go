@@ -50,7 +50,7 @@ func (a *Api) TaskPointTask(ctx *context.Context) {
 func (a *Api) TaskPointDelete(ctx *context.Context) {
 	path := ctx.Request.URL.Path[1:]
 	pathArr := strings.Split(path, "/")
-	id := pathArr[1]
+	id := pathArr[len(pathArr)-1]
 	idUint64, err := strconv.ParseUint(id, 10, 32)
 	if err != nil {
 		fmt.Println("Ошибка при образовании строки в int", err)

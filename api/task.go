@@ -49,7 +49,7 @@ func (a *Api) Task(ctx *context.Context) {
 func (a *Api) TaskDelete(ctx *context.Context) {
 	path := ctx.Request.URL.Path[1:]
 	pathArr := strings.Split(path, "/")
-	idString := pathArr[1]
+	idString := pathArr[len(pathArr)-1]
 	// преобразование в uint
 	idUint64, err := strconv.ParseUint(idString, 10, 64)
 	if err != nil {
