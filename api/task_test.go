@@ -102,6 +102,61 @@ func TestTask(t *testing.T) {
 	}
 }
 
+func TestTaskUpdate(t *testing.T) {
+	api := api.Api{}
+	newTask := entity.Task{
+		Title:  "Test Task",
+		UserID: 1,
+	}
+	jsonBody, err := json.Marshal(newTask)
+	if err != nil {
+		t.Fatalf("Error marshaling task to JSON: %v", err)
+	}
+	req, err := http.NewRequest("PUT", "/api/task/"+strconv.Itoa(int(IdTask)), bytes.NewBuffer(jsonBody))
+	if err != nil {
+		t.Fatal(err)
+	}
+	res := httptest.NewRecorder()
+	ctx := &context.Context{
+		Request:  req,
+		Response: res,
+	}
+	api.TaskUpdate(ctx)
+	if res.Code != http.StatusOK {
+		t.Errorf("Expected status code %d, got %d", http.StatusOK, res.Code)
+	}
+	// начало проверок
+	task := storage.TaskGet(IdTask)
+	if err != nil {
+		t.Fatalf("Error getting task from storage: %s", err.Error())
+	}
+
+	if task.Title != newTask.Title {
+		t.Errorf("Expected task title %s, got %s", newTask.Title, task.Title)
+	}
+
+	if task.UserID != newTask.UserID {
+		t.Errorf("Expected task user ID %d, got %d", newTask.UserID, task.UserID)
+	}
+}
+
+func TestApi_TaskPointTask(t *testing.T) {
+	api := api.Api{}
+
+	req := httptest.NewRequest("GET", "/taskpoint_task/"+strconv.Itoa(int(IdTask)), nil)
+	res := httptest.NewRecorder()
+	ctx := &context.Context{
+		Request:  req,
+		Response: res,
+	}
+
+	api.TaskPointTask(ctx)
+
+	if res.Code != http.StatusOK {
+		t.Errorf("Expected status code %d, got %d", http.StatusOK, res.Code)
+	}
+}
+
 func TestTaskDelete(t *testing.T) {
 	api := api.Api{}
 	req, err := http.NewRequest("DELETE", "/api/task/"+strconv.Itoa(int(IdTask)), nil)
