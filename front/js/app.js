@@ -19,6 +19,21 @@ async function postData(url, data) {
     return await response.json();
 }
 
+async function deleteData(url) {
+    const response = await fetch(url, {
+        headers: {
+            'X-API-KEY': 'FC52783F63184532B379EECD56DFC009E0131854354C4FA293EC5581CC6547F7',
+            'Authorization': document.cookie.match(/login=(.+?)(;|$)/)[1]
+        },
+        method: 'DELETE',
+    });
+
+    if (!response.ok) {
+        throw new Error('Ошибка');
+    }
+
+}
+
 async function putData(url, data) {
     const response = await fetch(url, {
         headers: {
@@ -56,14 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const url = document.URL;
     const urlArr = url.split('/');
 
-    const taskItems = document.querySelectorAll('.task__item');
-
     if (urlArr[urlArr.length - 1] == 'task.html') {
         getTaskData();
-
-        if (taskItems.length > 0) {
-            interaction(taskItems);
-        }
     }
 
     if (urlArr[urlArr.length - 1] == 'account.html') {
@@ -82,141 +91,62 @@ const addTask = (idUser) => {
     taskCreate.addEventListener('click', () => {
         const taskTop = document.querySelector('.task__top');
 
-        taskTop.insertAdjacentHTML('afterend', `
-        <div class="task__item">
-            <div class="task__item-head">
-                <div class="task__item-title">Текст задачи</div>
-                <input type="text" class="task__item-inputtitle hide" value="Текст задачи">
-                <div class="task__item-icons">
-                    <button class="task__item-btn task__item--edit">
-                        <svg class="task__item-icon">
-                            <use xlink:href="#change"></use>
-                        </svg>
-                    </button>
-
-                    <button class="task__item-btn task__item-btn--edit task__item-btn--ready">
-                        <svg class="task__item-icon">
-                            <use xlink:href="#ready"></use>
-                        </svg>
-                    </button>
-
-                    <button class="task__item-btn task__item-btn--edit task__item-btn--delete">
-                        <svg class="task__item-icon">
-                            <use xlink:href="#delete"></use>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-
-            <div class="task__item-container">
-                <div class="task__item-point">
-                    <div class="task__item-left">
-                        <input type="checkbox" class="task__item-checkbox" id="point1">
-                        <label for="point1" class="task__item-flag"></label>
-                        <label for="point1" class="task__item-label">Текст подзадачи</label>
-                        <input type="text" class="task__item-input hide" value="Текст подзадачи">
-                    </div>
-
-                    <button class="task__item-right">
-                        <svg class="task__item-delete">
-                            <use xlink:href="#delete"></use>
-                        </svg>
-                    </button>
-                </div>
-
-                <button class="task__add">
-                    <svg class="task__add-icon">
-                        <use xlink:href="#plus"></use>
-                    </svg>
-
-                    <div class="task__add-text">Добавить подзадачу</div>
-                </button>
-            </div>
-        </div>
-        `)
-
-        addTaskRequest(idUser);
-
-        const taskItems = document.querySelectorAll('.task__item');
-        interaction(taskItems[0]);
+        addTaskRequest(idUser, taskTop);
     });
 }
 
 const interaction = (taskItems) => {
-    if (taskItems.length > 1) {
-        taskItems.forEach(taskItem => {
-            taskItem.addEventListener('click', (event) => {
-                const clickEdit = event.target.closest('.task__item--edit');
-                const clickDeletePoint = event.target.closest('.task__item-right');
-                const clickDelete = event.target.closest('.task__item-btn--delete');
-                const clickCanel = event.target.closest('.task__item-btn--canel');
-                const clickReady = event.target.closest('.task__item-btn--ready');
-                const clickAdd = event.target.closest('.task__add');
-    
-                if (clickEdit) {
-                    editMode(clickEdit);
-                }
-                if (clickDeletePoint) {
-                    deletePoint(clickDeletePoint);
-                }
-                if (clickDelete) {
-                    deleteTask(clickDelete);
-                }
-                if (clickReady) {
-                    const btns = clickReady.parentElement;
-                    const itemPoints = btns.parentElement.nextElementSibling.querySelectorAll('.task__item-point');
-                    const taskTitleInput = btns.previousElementSibling;
-                    const taskTitle = taskTitleInput.previousElementSibling;
-                    
-                    defaultMode(clickReady);
-                    pointDefaultValue(itemPoints, taskTitleInput, taskTitle);
-                }
-                if (clickAdd) {
-                    addPoint(clickAdd);
-                }
-            })
-        })
-        return;
-    }
-    
-    const taskItem = taskItems;
-    taskItem.addEventListener('click', (event) => {
-        const clickEdit = event.target.closest('.task__item--edit');
-        const clickDeletePoint = event.target.closest('.task__item-right');
-        const clickDelete = event.target.closest('.task__item-btn--delete');
-        const clickCanel = event.target.closest('.task__item-btn--canel');
-        const clickReady = event.target.closest('.task__item-btn--ready');
-        const clickAdd = event.target.closest('.task__add');
+    taskItems.forEach(taskItem => {
+        taskItem.addEventListener('click', (event) => {
+            const clickEdit = event.target.closest('.task__item--edit');
+            const clickDeletePoint = event.target.closest('.task__item-right');
+            const clickDelete = event.target.closest('.task__item-btn--delete');
+            const clickReady = event.target.closest('.task__item-btn--ready');
+            const clickAdd = event.target.closest('.task__add');
 
-        if (clickEdit) {
-            editMode(clickEdit);
+            if (clickEdit) {
+                editMode(clickEdit);
+            }
+            if (clickDeletePoint) {
+                deletePoint(clickDeletePoint);
+            }
+            if (clickDelete) {
+                deleteTask(clickDelete);
+            }
+            if (clickReady) {
+                const btns = clickReady.parentElement;
+                const itemPoints = btns.parentElement.nextElementSibling.querySelectorAll('.task__item-point');
+                const taskPointInputs = btns.parentElement.nextElementSibling.querySelectorAll('.task__item-input');
+                const taskPointAddinputs = btns.parentElement.nextElementSibling.querySelectorAll('.task__item-addinput');
+                const taskTitleInput = btns.previousElementSibling;
+                const taskTitle = taskTitleInput.previousElementSibling;
+                
+                defaultMode(clickReady);
+                pointDefaultValue(itemPoints, taskTitleInput, taskTitle);
+                changeInfo(taskTitleInput, taskPointInputs, taskPointAddinputs);
+            }
+            if (clickAdd) {
+                addPoint(clickAdd);
+            }
+        })
+    })
+}
+
+const interactionAfterAdd = (pointId, taskItem, clickDeletePoint) => {
+    taskItem.addEventListener('click', (event) => {
+        const clickReady = event.target.closest('.task__item-btn--ready');
+
+        if (clickReady) {
+            const pointInput = document.querySelector(`#point${pointId}`).nextElementSibling.nextElementSibling.nextElementSibling
+            const pointValue = pointInput.value;
+            const pointReady = pointInput.previousElementSibling.previousElementSibling.previousElementSibling.checked;
+            const taskId = taskItem.dataset.id;
+            
+            changePointRequest(taskId, pointId, pointValue, pointReady);
         }
+
         if (clickDeletePoint) {
             deletePoint(clickDeletePoint);
-        }
-        if (clickDelete) {
-            deleteTask(clickDelete);
-        }
-        if (clickReady) {
-            const btns = clickReady.parentElement;
-            const itemPoints = btns.parentElement.nextElementSibling.querySelectorAll('.task__item-point');
-            const taskTitleInput = btns.previousElementSibling;
-            const taskTitle = taskTitleInput.previousElementSibling;
-            
-            defaultMode(clickReady);
-            pointDefaultValue(itemPoints, taskTitleInput, taskTitle);
-        }
-        if (clickCanel) {
-            const btns = clickCanel.parentElement;
-            const itemPoints = btns.parentElement.nextElementSibling.querySelectorAll('.task__item-point');
-            const taskTitleInput = btns.previousElementSibling;
-            const taskTitle = taskTitleInput.previousElementSibling;
-
-            defaultMode(clickCanel);
-            pointDefault(itemPoints, taskTitleInput, taskTitle);
-        }
-        if (clickAdd) {
-            addPoint(clickAdd);
         }
     })
 }
@@ -262,6 +192,19 @@ const exit = () => {
 
         cleanCookie();
         window.location.replace("/");
+    })
+}
+
+const changeInfo = (titleTask, pointInputs) => {
+    const taskId = titleTask.parentElement.parentElement.dataset.id;
+    changeTaskRequest(titleTask.value, taskId);
+
+    pointInputs.forEach(pointInput => {
+        const pointId = pointInput.parentElement.parentElement.dataset.id;
+        const pointValue = pointInput.value;
+        const pointReady = pointInput.previousElementSibling.previousElementSibling.previousElementSibling.checked;
+        
+        changePointRequest(taskId, pointId, pointValue, pointReady);
     })
 }
 
@@ -326,7 +269,7 @@ const getTaskData = () => {
     })
 }
 
-const addTaskRequest = (idUser) => {
+const addTaskRequest = (idUser, taskTop) => {
     formDataTask = `{
         "Title":"Текст задачи",
         "UserID":${idUser}
@@ -334,6 +277,8 @@ const addTaskRequest = (idUser) => {
     `
     postData(`${rootUrl}/task`, formDataTask)
     .then(resultTask => {
+        pasteTask(resultTask["ID"], 'Текст задачи');
+
         formDataTaskpoint = `{
             "Title":"Текст подзадачи",
             "Ready":false,
@@ -343,12 +288,48 @@ const addTaskRequest = (idUser) => {
     
         postData(`${rootUrl}/taskpoint`, formDataTaskpoint)
         .then(resultTaskpoint => {
+            const container = document.querySelector(`#taskContainer${resultTask["ID"]}`);
+            const taskAdd = container.querySelector('.task__add');
+
+            pasteTaskpoint(taskAdd, resultTaskpoint["ID"], 'Текст подзадачи', '', '', 'hide', '');
+
+            const input = document.querySelector(`#point${resultTaskpoint["ID"]}`);
+            const taskItems = document.querySelectorAll('.task__item');
+
+            changeCheckbox(input);
+            interaction ([taskItems[0]]);
+
             console.log('success');
         })
         .catch(error => {
+            console.log(error);
             const err = document.querySelector('#taskError');
             notice(err);
         })
+    })
+    .catch(error => {
+        console.log(error);
+        const err = document.querySelector('#taskError');
+        notice(err);
+    })
+}
+
+const addPointRequest = (idTask, task, btn) => {
+    formData = `{
+        "Title":"Текст подзадачи",
+        "Ready":false,
+        "TaskID":${idTask}
+    }
+    `
+    postData(`${rootUrl}/taskpoint`, formData)
+    .then(result => {
+        const container = document.querySelector(`#taskContainer${idTask}`);
+        const taskAdd = container.querySelector('.task__add');
+        const btnDelete = task.querySelector('.task__item-right');
+
+        pasteTaskpoint(taskAdd, result["ID"], 'Текст подзадачи', '', 'hide', '', 'show');
+        interactionAfterAdd(result["ID"], task, btnDelete);
+        console.log(result);
     })
     .catch(error => {
         const err = document.querySelector('#taskError');
@@ -356,32 +337,88 @@ const addTaskRequest = (idUser) => {
     })
 }
 
-const changeCheckbox = () => {
-    const inputs = document.querySelectorAll('.task__item-checkbox');
-
-    inputs.forEach(input => {
-        const idInput = input.id.slice(5);
-        const titlePoint = input.nextElementSibling.nextElementSibling.textContent;
-        const taskId = Number(input.parentElement.parentElement.parentElement.id.slice(13));
-
-        input.addEventListener('input', () => {
-            const formData = `
-            {
-                "Title":"${titlePoint}",
-                "Ready":${input.checked},
-                "TaskID":${taskId}
-            }
-            `
-
-            putData(`${rootUrl}/taskpoint/${idInput}`, formData)
-            .then(result => {
-                console.log(result);
-            })
-            .catch(error => {
-                console.log(error);
-            })
-        })  
+const deleteTaskRequest = (idTask) => {
+    deleteData(`${rootUrl}/task/${idTask}`)
+    .then(() => {
+        console.log('success');
     })
+    .catch(error => {
+        console.log(error);
+        const err = document.querySelector('#taskError');
+        notice(err);
+    })
+}
+
+const deletePointRequest = (idPoint) => {
+    deleteData(`${rootUrl}/taskpoint/${idPoint}`)
+    .then(() => {
+        console.log('success');
+    })
+    .catch(error => {
+        console.log(error);
+        const err = document.querySelector('#taskError');
+        notice(err);
+    })
+}
+
+const changeTaskRequest = (title, id) => {
+    const formData = `{
+        "Title":"${title}",
+        "UserID":${idUser}
+    }
+    `
+    putData(`${rootUrl}/task/${id}`, formData)
+    .then(result => {
+        console.log(result);
+    })
+    .catch(error => {
+        console.log(error);
+        const err = document.querySelector('#taskError');
+        notice(err);
+    })
+}
+
+const changePointRequest = (taskId, id, title, ready) => {
+    const formData = `{
+        "Title":"${title}",
+        "Ready":${ready},
+        "TaskID":${taskId}
+    }
+    `
+    putData(`${rootUrl}/taskpoint/${id}`, formData)
+    .then(result => {
+        console.log(result);
+    })
+    .catch(error => {
+        console.log(error);
+        const err = document.querySelector('#taskError');
+        notice(err);
+    })
+}
+
+const changeCheckbox = (input) => {
+    const idInput = input.id.slice(5);
+    const titlePoint = input.nextElementSibling.nextElementSibling.textContent;
+    const taskId = input.parentElement.parentElement.parentElement.parentElement.dataset.id;
+
+    input.addEventListener('input', () => {
+        const formData = `
+        {
+            "Title":"${titlePoint}",
+            "Ready":${input.checked},
+            "TaskID":${taskId}
+        }
+        `
+
+        putData(`${rootUrl}/taskpoint/${idInput}`, formData)
+        .then(result => {
+            console.log(result);
+        })
+        .catch(error => {
+            const err = document.querySelector("#taskError");
+            notice(err);
+        })
+    }) 
 }
 
 // Supportive functions
@@ -400,89 +437,104 @@ const loadTaskInfo = (id) => {
         const loader = document.querySelector('.loader__container');
 
         tasks.forEach(task => {
-            loader.insertAdjacentHTML('afterend', `
-            <div class="task__item">
-                <div class="task__item-head">
-                    <div class="task__item-title">${task["Title"]}</div>
-                    <input type="text" class="task__item-inputtitle hide" value="${task["Title"]}">
-                    <div class="task__item-icons">
-                        <button class="task__item-btn task__item--edit">
-                            <svg class="task__item-icon">
-                                <use xlink:href="#change"></use>
-                            </svg>
-                        </button>
-
-                        <button class="task__item-btn task__item-btn--edit task__item-btn--ready">
-                            <svg class="task__item-icon">
-                                <use xlink:href="#ready"></use>
-                            </svg>
-                        </button>
-
-                        <button class="task__item-btn task__item-btn--edit task__item-btn--canel">
-                            <svg class="task__item-icon">
-                                <use xlink:href="#canel"></use>
-                            </svg>
-                        </button>
-
-                        <button class="task__item-btn task__item-btn--edit task__item-btn--delete">
-                            <svg class="task__item-icon">
-                                <use xlink:href="#delete"></use>
-                            </svg>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="task__item-container" id="taskContainer${task["ID"]}">
-                    <button class="task__add">
-                        <svg class="task__add-icon">
-                            <use xlink:href="#plus"></use>
-                        </svg>
-
-                        <div class="task__add-text">Добавить подзадачу</div>
-                    </button>
-                </div>
-            </div>
-            `)
+            pasteTask(task["ID"], task["Title"]);
 
             const taskId = task["ID"];
             getData(`${rootUrl}/taskpoint_task/${taskId}`)
             .then(taskpoints => {
                 const taskContainer = document.querySelector(`#taskContainer${task["ID"]}`);
+                const taskAdd = taskContainer.querySelector('.task__add');
 
                 taskpoints.forEach(taskpoint => {
                     let check;
                     taskpoint["Ready"] ? check = 'checked' : check = '';
 
-                    taskContainer.insertAdjacentHTML('beforeend', `
-                    <div class="task__item-point">
-                        <div class="task__item-left">
-                            <input type="checkbox" class="task__item-checkbox" id="point${taskpoint["ID"]}" ${check}>
-                            <label for="point${taskpoint["ID"]}" class="task__item-flag" value="1"></label>
-                            <label for="point${taskpoint["ID"]}" class="task__item-label">${taskpoint["Title"]}</label>
-                            <input type="text" class="task__item-input hide" value="${taskpoint["Title"]}">
-                        </div>
+                    pasteTaskpoint(taskAdd, taskpoint["ID"], taskpoint["Title"], check, '', 'hide', '');
 
-                        <button class="task__item-right">
-                            <svg class="task__item-delete">
-                                <use xlink:href="#delete"></use>
-                            </svg>
-                        </button>
-                    </div>
-                    `)
+                    const inputCheck = document.querySelector(`#point${taskpoint["ID"]}`);
+                    changeCheckbox(inputCheck);
                 })
-
-                changeCheckbox();
             })
             .catch(error => {
                 console.log(error);
             })
         })
 
+        const taskItems = document.querySelectorAll('.task__item');
+
+        interaction(taskItems);
+
         loader.style.display = "none";
     })
     .catch(error => {
         console.log(error);
     })
+}
+
+const pasteTask = (id, title) => {
+    const loader = document.querySelector('.loader__container');
+
+    loader.insertAdjacentHTML('afterend', `
+    <div data-id="${id}" class="task__item">
+        <div class="task__item-head">
+            <div class="task__item-title">${title}</div>
+            <input type="text" class="task__item-inputtitle hide" value="${title}">
+            <div class="task__item-icons">
+                <button class="task__item-btn task__item--edit">
+                    <svg class="task__item-icon">
+                        <use xlink:href="#change"></use>
+                    </svg>
+                </button>
+
+                <button class="task__item-btn task__item-btn--edit task__item-btn--ready">
+                    <svg class="task__item-icon">
+                        <use xlink:href="#ready"></use>
+                    </svg>
+                </button>
+
+                <button class="task__item-btn task__item-btn--edit task__item-btn--delete">
+                    <svg class="task__item-icon">
+                        <use xlink:href="#delete"></use>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="task__item-container" id="taskContainer${id}">
+            <button class="task__add">
+                <svg class="task__add-icon">
+                    <use xlink:href="#plus"></use>
+                </svg>
+
+                <div class="task__add-text">Добавить подзадачу</div>
+            </button>
+        </div>
+    </div>
+    `)
+}
+
+const pasteTaskpoint = (taskAdd, id, title, check, label, input, del) => {
+    taskAdd.insertAdjacentHTML('beforebegin', `
+        <div class="task__item-point" data-id="${id}">
+            <div class="task__item-left">
+                <input type="checkbox" class="task__item-checkbox" id="point${id}" ${check}>
+                <label for="point${id}" class="task__item-flag" value="1"></label>
+                <label for="point${id}" class="task__item-label ${label}">${title}</label>
+                <input type="text" class="task__item-input ${input}" value="${title}">
+            </div>
+
+            <button class="task__item-right ${del}">
+                <svg class="task__item-delete">
+                    <use xlink:href="#delete"></use>
+                </svg>
+            </button>
+        </div>
+    `)
+
+    if (del == 'show') {
+        const itemDel = taskAdd.previousElementSibling.querySelector('.task__item-right');
+        itemDel.style.opacity = '1';
+    }
 }
 
 const loadAccInfo = (data) => {
@@ -530,23 +582,10 @@ const loadAccInfo = (data) => {
 
 const addPoint = (btn) => {
     const container = btn.parentElement;
+    const task = container.parentElement;
+    const idTask = task.dataset.id;
 
-    btn.insertAdjacentHTML('beforebegin' , `
-    <div class="task__item-point task__item-add">
-        <div class="task__item-left">
-            <input type="checkbox" class="task__item-checkbox" id="point6">
-            <label for="point6" class="task__item-flag"></label>
-            <label for="point2" class="task__item-label hide"></label>
-            <input type="text" class="task__item-addinput">
-        </div>
-
-        <button class="task__item-right">
-            <svg class="task__item-delete">
-                <use xlink:href="#delete"></use>
-            </svg>
-        </button>
-    </div>
-    `)
+    addPointRequest(idTask, task, btn);
 
     container.scrollTop = container.scrollHeight;
 }
@@ -558,6 +597,8 @@ const deleteTask = (btn) => {
     setTimeout(() => {
         taskItem.classList.add('hide');
     }, 200)
+
+    deleteTaskRequest(taskItem.dataset.id);
 }
 
 const deletePoint = (btn) => {
@@ -567,6 +608,8 @@ const deletePoint = (btn) => {
     setTimeout(() => {
         point.classList.add('hide');
     }, 200)
+
+    deletePointRequest(point.dataset.id);
 }
 
 const editMode = (btnEdit) => {
