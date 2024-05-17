@@ -13,20 +13,6 @@ import (
 	"time"
 )
 
-// func TokenGet(usr entity.User) entity.Token {
-// 	var lastToken entity.Token
-// 	db.DB().Table("token").Order("tokid DESC").Last(&lastToken)
-
-// 	lastTokenID := lastToken.Tokid
-// 	token := entity.Token{
-// 		Tokid:   lastTokenID + 1,
-// 		Iid:     usr.Iid,
-// 		Token:   uuid.NewString(),
-// 		Expired: time.Now().Add(1 * time.Hour),
-// 	}
-// 	return token
-// }
-
 func IsAuth(ctx *context.Context, method string) {
 	// получаем токен
 	token, ok := ctx.Request.Header["Authorization"]
