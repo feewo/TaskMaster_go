@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"fmt"
 	"taskmaster/db"
 
 	"gorm.io/gorm"
@@ -22,9 +23,7 @@ func (i User) TableName() string {
 }
 
 func MigrateUser() {
+	fmt.Println("User migrate")
 	db.DB().AutoMigrate(&User{})
-}
-
-func init() {
-	db.Add(MigrateUser)
+	// db.DB().Exec("CREATE UNIQUE INDEX idx_user_id ON users (id)")
 }

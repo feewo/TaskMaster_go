@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"fmt"
 	"taskmaster/db"
 
 	"gorm.io/gorm"
@@ -19,9 +20,6 @@ func (i TaskPoint) TableName() string {
 }
 
 func MigrateTaskPoint() {
+	fmt.Println("TaskPoint migrate")
 	db.DB().AutoMigrate(&TaskPoint{})
-}
-
-func init() {
-	db.Add(MigrateTaskPoint)
 }

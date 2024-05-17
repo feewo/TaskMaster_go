@@ -1,6 +1,7 @@
 package entity
 
 import (
+	"fmt"
 	"taskmaster/db"
 	"time"
 
@@ -20,9 +21,6 @@ func (i Token) TableName() string {
 }
 
 func MigrateToken() {
+	fmt.Println("Token migrate")
 	db.DB().AutoMigrate(&Token{})
-}
-
-func init() {
-	db.Add(MigrateToken)
 }

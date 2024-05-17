@@ -3,6 +3,7 @@ version: '3.8'
 services:
   taskmaster_go:
     build: ./
+    command: bash -c "go run ./main"
     ports:
       - "8080:8080"
     volumes:
