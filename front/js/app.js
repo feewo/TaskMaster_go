@@ -1,12 +1,18 @@
 // API
 const rootUrl = '/api';
 var idUser = 0;
+var cookieLogin = document.cookie.match(/login=(.+?)(;|$)/);
+var token;
+
+if (cookieLogin) {
+    token = document.cookie.match(/login=(.+?)(;|$)/)[1];
+}
 
 async function postData(url, data) {
     const response = await fetch(url, {
         headers: {
             'X-API-KEY': 'FC52783F63184532B379EECD56DFC009E0131854354C4FA293EC5581CC6547F7',
-            'Authorization': document.cookie.match(/login=(.+?)(;|$)/)[1]
+            'Authorization': token
         },
         method: 'POST',
         body: data,
@@ -23,7 +29,7 @@ async function deleteData(url) {
     const response = await fetch(url, {
         headers: {
             'X-API-KEY': 'FC52783F63184532B379EECD56DFC009E0131854354C4FA293EC5581CC6547F7',
-            'Authorization': document.cookie.match(/login=(.+?)(;|$)/)[1]
+            'Authorization': token
         },
         method: 'DELETE',
     });
@@ -38,7 +44,7 @@ async function putData(url, data) {
     const response = await fetch(url, {
         headers: {
             'X-API-KEY': 'FC52783F63184532B379EECD56DFC009E0131854354C4FA293EC5581CC6547F7',
-            'Authorization': document.cookie.match(/login=(.+?)(;|$)/)[1]
+            'Authorization': token
         },
         method: 'PUT',
         body: data,
@@ -55,7 +61,7 @@ async function getData(url) {
     const response = await fetch(url, {
         headers: {
             'X-API-KEY': 'FC52783F63184532B379EECD56DFC009E0131854354C4FA293EC5581CC6547F7',
-            'Authorization': document.cookie.match(/login=(.+?)(;|$)/)[1]
+            'Authorization': token
         },
         method: 'GET',
     });
@@ -216,6 +222,7 @@ const submitFormReg = (formData) => {
         window.location.replace("login.html");
     })
     .catch (error => {
+        console.log(error);
         const err = document.querySelector('#regError');
         notice(err);
     })
