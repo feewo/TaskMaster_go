@@ -23,7 +23,7 @@ func TestTaskCreate(t *testing.T) {
 	api := api.Api{}
 	newTask := entity.Task{
 		Title:  "Test Task",
-		UserID: 1,
+		UserID: IdUser,
 	}
 	jsonBody, err := json.Marshal(newTask)
 	if err != nil {
@@ -106,7 +106,7 @@ func TestTaskUpdate(t *testing.T) {
 	api := api.Api{}
 	newTask := entity.Task{
 		Title:  "Test Task",
-		UserID: 1,
+		UserID: IdUser,
 	}
 	jsonBody, err := json.Marshal(newTask)
 	if err != nil {

@@ -12,13 +12,16 @@ import (
 
 	"taskmaster/api"
 	"taskmaster/context"
+	"taskmaster/db"
 	"taskmaster/entity"
 	"taskmaster/storage"
 )
 
 var IdUser uint = 1
+var TokenUser string
 
 func TestUsertCreate(t *testing.T) {
+	db.Migrate()
 	// подготовка запроса
 	api := api.Api{}
 	newUser := entity.User{

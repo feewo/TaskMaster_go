@@ -21,5 +21,4 @@ func (i Task) TableName() string {
 func MigrateTask() {
 	fmt.Println("Task migrate")
 	db.DB().AutoMigrate(&Task{})
-	// db.DB().Exec("CREATE UNIQUE INDEX idx_task_id ON tasks (id)")
 }

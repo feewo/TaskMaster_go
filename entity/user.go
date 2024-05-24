@@ -25,5 +25,4 @@ func (i User) TableName() string {
 func MigrateUser() {
 	fmt.Println("User migrate")
 	db.DB().AutoMigrate(&User{})
-	// db.DB().Exec("CREATE UNIQUE INDEX idx_user_id ON users (id)")
 }
