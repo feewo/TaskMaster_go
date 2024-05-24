@@ -80,5 +80,8 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		in[0] = reflect.ValueOf(&ctx)
 		fun.Call(in)
 		return
+	} else {
+		w.Write([]byte("Нет метода"))
+		return
 	}
 }

@@ -21,19 +21,12 @@ func IsAuth(ctx *context.Context, method string) {
 		return
 	}
 	var tokenDb entity.Token
-	var userDb entity.User
 	// проверка токена
 	db.DB().Table(tokenDb.TableName()).Where("token = ? and expired > ?", token, time.Now()).Find(&tokenDb)
 	if tokenDb.UserID == 0 {
 		ctx.Error(401, "Bad")
 		return
 	}
-	// разделение на пользовательские роли
-	db.DB().Table(userDb.TableName()).Where("ID = ?", tokenDb.UserID).Find(&userDb)
-	// if (method == "POST" || method == "DELETE" || method == "PUT") && userDb.Role != "admin" {
-	// 	ctx.Error(403, "Forbidden")
-	// 	return
-	// }
 }
 
 func (a *Api) UserCreate(ctx *context.Context) {
