@@ -4,7 +4,7 @@
 
 Простой REST API проект с авторизацией, написанный на языке Golang, использующий библиотеку GORM для взаимодействия с базой данных. API предоставляет набор ресурсов для управления данными, таких как создание, чтение, обновление и удаление.
 
-![изображение](https://github.com/feewo/TaskMaster_go/assets/57757873/dd033959-0ebd-4bbd-bc18-beb898a2f5f3)
+![logo](https://github.com/feewo/TaskMaster_go/assets/57757873/8e8956c0-2c24-485c-8984-6ea65cc025ec)
 
 ## Технологический стек
 
@@ -184,6 +184,11 @@ DELETE /token
 GET /user_token
 ```
 
+## Разработчики
++ https://github.com/feewo - backend-разработчик
++ https://github.com/EkaterinaKopenkina - frontend-разработчик
+
 ## Контакты
 
-[capi62@yandex.ru](mailto:capi62@yandex.ru)
++ Почта: [capi62@yandex.ru](mailto:capi62@yandex.ru)
++ Telegram: https://t.me/feewo
