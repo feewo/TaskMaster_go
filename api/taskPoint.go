@@ -15,7 +15,6 @@ func (a *Api) TaskPointCreate(ctx *context.Context) {
 	decoder := json.NewDecoder(ctx.Request.Body)
 	var item entity.TaskPoint
 	err := decoder.Decode(&item)
-	// проверка на ошибки
 	if err != nil {
 		ctx.Error(http.StatusBadRequest, err.Error())
 		return
@@ -75,6 +74,5 @@ func (a *Api) TaskPointUpdate(ctx *context.Context) {
 		fmt.Println("Ошибка при образовании строки в int", err)
 	}
 	idUint := uint(idUint64)
-	// ctx.Print(storage.TaskPointUpdate(taskPointMap, idUint))
 	ctx.Print(storage.TaskPointUpdate(taskPoint, idUint))
 }
