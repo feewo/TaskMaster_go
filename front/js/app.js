@@ -151,7 +151,7 @@ const interactionAfterAdd = (pointId, taskItem, clickDeletePoint) => {
             changePointRequest(taskId, pointId, pointValue, pointReady);
         }
 
-        if (clickDeletePoint) {
+        if (event.target == clickDeletePoint) {
             deletePoint(clickDeletePoint);
         }
     })
